@@ -32,4 +32,10 @@ export interface IGene {
   expression: Array<any>;
   expressionEN: string;
   expressionChange: any;
+  functions?: {
+    proteinActivity: string,
+    proteinActivityObject: string,
+    processLocalization?: string,
+    comment?: string
+  }[];
 }

@@ -178,10 +178,32 @@
             </article>
           </ng-container>
 
-          <ng-container *ngIf="gene.commentFunction">
+          <ng-container *ngIf="(gene.commentFunction && !gene.functions) || gene.functions.length === 0">
             <h3>{{ 'gene_page_title_function' | translate }}</h3>
             <article id="function">
               {{gene.commentFunction}}
+            </article>
+          </ng-container>
+
+          <ng-container *ngIf="gene.functions && gene.functions.length > 0">
+            <h3>{{ 'gene_page_title_function' | translate }}</h3>
+            <article>
+              <table>
+                <thead>
+                <tr>
+                  <th>Что делает</th>
+                  <th>Где</th>
+                  <th>Комментарий</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let func of gene.functions">
+                  <td>{{func.proteinActivity + ', ' + func.proteinActivityObject}}</td>
+                  <td>{{func.processLocalization}}</td>
+                  <td>{{func.comment}}</td>
+                </tr>
+                </tbody>
+              </table>
             </article>
           </ng-container>
 
