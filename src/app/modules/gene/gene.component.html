@@ -189,18 +189,11 @@
             <h3>{{ 'gene_page_title_function' | translate }}</h3>
             <article>
               <table>
-                <thead>
-                <tr>
-                  <th>Что делает</th>
-                  <th>Где</th>
-                  <th>Комментарий</th>
-                </tr>
-                </thead>
                 <tbody>
                 <tr *ngFor="let func of gene.functions">
                   <td>{{func.proteinActivity + ', ' + func.proteinActivityObject}}</td>
                   <td>{{func.processLocalization}}</td>
-                  <td>{{func.comment}}</td>
+                  <td *ngIf="func.comment">{{func.comment}}</td>
                 </tr>
                 </tbody>
               </table>
