@@ -1,4 +1,6 @@
 <button class="language-switcher js_language-switcher"
-        (click)="changeLanguage()">
+        (click)="changeLanguage()"
+        [appPopupMenuId]="'test-menu'">
   {{translate.currentLang}}
 </button>
+<app-popup-menu [id]="'test-menu'"></app-popup-menu>

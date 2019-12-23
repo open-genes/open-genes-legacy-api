@@ -14,6 +14,7 @@ import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { LanguageComponent } from './common/language/language.component';
 import { MenuComponent } from './common/menu/menu.component';
+import { PopupMenuModule } from './shared/popup-menu/popup-menu.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MenuComponent } from './common/menu/menu.component';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    PopupMenuModule
   ],
   providers: [TranslateService],
   bootstrap: [AppComponent]
