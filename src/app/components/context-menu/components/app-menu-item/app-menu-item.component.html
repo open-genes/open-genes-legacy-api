@@ -1,0 +1,10 @@
+<ng-container>
+  <button
+          class="menu__item"
+          [ngClass]="{'__disabled': isDisabled}"
+          [disabled]="isDisabled"
+          (click)="selectItem($event)">
+    <ng-content></ng-content>
+    {{ text }}
+  </button>
+</ng-container>

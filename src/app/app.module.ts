@@ -14,6 +14,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LanguageComponent } from './components/language/language.component';
 import { BurgerMenuComponent } from './components/burger-menu/burger-menu.component';
+import {MenuModule} from './components/context-menu/app-menu.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { BurgerMenuComponent } from './components/burger-menu/burger-menu.compon
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    MenuModule
   ],
   providers: [TranslateService],
   exports: [

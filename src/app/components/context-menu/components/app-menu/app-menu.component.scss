@@ -1,0 +1,20 @@
+@import "../../../styles";
+
+:host {
+  position: absolute;
+  display: block;
+  visibility: hidden;
+  box-sizing: border-box;
+  min-width: 126px;
+  border-radius: 5px;
+  text-transform: none;
+  padding: 6px 0;
+  background-color: #fff;
+  box-shadow: $box-shadow;
+  transform: translateX(-50%);
+  z-index: 110; // TODO: добавить мапу с z-index'ами
+
+  &.__visible {
+    visibility: visible;
+  }
+}

@@ -1,4 +1,17 @@
-<button class="language-switcher js_language-switcher"
-        (click)="changeLanguage()">
+<button class="language-switcher menu-trigger-button"
+        Menu
+        [menuTemplate]="ticketMenu"
+        [fitByTriggerElement]="false"
+        menuRelative = "{{relative}}"
+        >
   {{translate.currentLang}}
 </button>
+
+<ng-template #ticketMenu>
+  <app-menu-item text="{{ 'language_ru' | translate }}"
+                 (click)="changeLanguage('ru')"
+  ></app-menu-item>
+  <app-menu-item text="{{ 'language_en' | translate }}"
+                 (click)="changeLanguage('en')"
+  ></app-menu-item>
+</ng-template>
