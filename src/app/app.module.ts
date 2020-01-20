@@ -12,7 +12,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { LanguageComponent } from './components/language/language.component';
+import { LanguageComponent } from './modules/language/language.component';
 import { BurgerMenuComponent } from './components/burger-menu/burger-menu.component';
 import {MenuModule} from './components/context-menu/app-menu.module';
 
