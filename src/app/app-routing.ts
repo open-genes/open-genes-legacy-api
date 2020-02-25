@@ -10,6 +10,10 @@ export const APP_ROUTES: Routes = [
     loadChildren: () => import('./pages/gene/gene.module').then(m => m.GeneModule)
   },
   {
+    path: 'favorites',
+    loadChildren: () => import('./pages/favorites/favorites.module').then(m => m.FavoritesModule)
+  },
+  {
     path: 'about',
     loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule)
   },
@@ -18,11 +22,11 @@ export const APP_ROUTES: Routes = [
     loadChildren: () => import('./pages/api-reference/api-reference.module').then(m => m.ApiReferenceModule)
   },
   {
-    path: '404',
+    path: '**',
     loadChildren: () => import('./pages/404/404.module').then(m => m.Error404Module)
   },
   {
-    path: '**', redirectTo: '/404'
+    path: '**/**', redirectTo: '**'
   }
 ];
 

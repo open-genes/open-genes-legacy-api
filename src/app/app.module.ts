@@ -23,7 +23,7 @@ import {VendorsModule} from './modules/vendors/vendors.module';
     HeaderComponent,
     FooterComponent,
     LanguageComponent,
-    BurgerMenuComponent
+    BurgerMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +38,7 @@ import {VendorsModule} from './modules/vendors/vendors.module';
       }
     }),
     BrowserAnimationsModule,
-    VendorsModule
+    VendorsModule,
   ],
   providers: [TranslateService],
   exports: [

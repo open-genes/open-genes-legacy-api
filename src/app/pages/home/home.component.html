@@ -37,18 +37,15 @@
           </div>
 
           <div class="per content">
-            <app-genes-list
+            <app-genes-section
               [dataSource]="genes"
-              (filterCluster)="filterByFuncClusters($event)"
-              (filterExpression)="filterByExpressionChange($event)"
-              (filtersCleared)="filtersCleared()"
               *ngIf="genes">
-            </app-genes-list>
+            </app-genes-section>
           </div>
         </div>
       </div>
 
-      <section class="no-content" *ngIf="error">
+      <section class="no-content" *ngIf="!genes">
         <div class="no-content__icon no-content__icon-standard"></div>
         <div class="no-content__title">
           <div class="title__center">

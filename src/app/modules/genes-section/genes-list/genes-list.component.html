@@ -1,5 +1,6 @@
-<app-search [dataSource]="dataSource" (dataSourceChange)="getSearchedData($event)"></app-search>
-<ng-container *ngIf="searchedData?.length !== 0 && !isLoading">
+<ng-container *ngIf="searchedData?.length !== 0 && !isLoading; then genesListContainer; else notFound"></ng-container>
+
+<ng-template #genesListContainer>
   <div class="view-panel">
     <div class="filters-group view-panel__filters">
       <button class="filter name-filter"
@@ -128,19 +129,26 @@
               <span class="fa far fa-ellipsis-v"></span>
             </mat-icon>
           </button>
+
           <mat-menu #geneListItemMenu>
+            <button mat-menu-item
+                    (click)="addToFavsList(data.id)"
+            >
+              Добавить в избранное
+            </button>
+
             <a mat-menu-item
                href="http://disgenet.org/browser/1/1/0/{{data.entrezGene}}/"
                target="_blank">
               <span class="legend __brand-color-disgenet"></span>
-              DisGenet
+              Ген на DisGenet
             </a>
 
             <a mat-menu-item
                href="https://thebiogrid.org/search.php?search={{data.symbol}}&organism=9606/"
                target="_blank">
               <span class="legend __brand-color-biogrid"></span>
-              BioGrid
+              Ген на BioGrid
             </a>
           </mat-menu>
         </div>
@@ -154,12 +162,9 @@
       class="btn show-more__button"
     >{{ 'show_more' | translate }}</button>
   </div>
-</ng-container>
+</ng-template>
 
-<app-loader-placeholder *ngIf="isLoading">
-</app-loader-placeholder>
-
-<ng-container *ngIf="searchedData?.length == 0">
+<ng-template #notFound>
   <section class="no-content">
     <div class="no-content__icon no-content__icon-standard"></div>
     <div class="no-content__title">
@@ -168,5 +173,5 @@
       </div>
     </div>
   </section>
-</ng-container>
+</ng-template>
 

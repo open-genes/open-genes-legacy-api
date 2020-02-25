@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GenesListService } from '../../modules/genes-list/genes-list.service';
+import { GenesListService } from '../../modules/genes-section/genes-list/genes-list.service';
 
 @Component({
   selector: 'app-header',

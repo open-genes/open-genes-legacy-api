@@ -1,0 +1,32 @@
+<div class="page">
+  <div class="page__inner">
+    <div class="main-page__header wrapper">
+      <div class="container">
+        <div class="col col-16">
+          <div class="page__title">
+            <h1>Избранное</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+
+      <div class="col col-16 cart-item">
+        <app-genes-section
+          [dataSource]="favsItems"
+          *ngIf="genes"
+        >
+        </app-genes-section>
+      </div>
+
+      <section class="no-content hidden">
+        <div class="no-content__icon no-content__icon-standard"></div>
+        <div class="no-content__title">
+          <div class="title__center">
+            В избранном ничего нет
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

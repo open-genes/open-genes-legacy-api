@@ -6,42 +6,21 @@ import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
   genes: Genes[];
   lastGenes: Genes[];
-  filters: Filter;
   error: number;
-
-  private expressionTranslates = { // TODO: убрать хардкод
-    уменьшается: 'decreased',
-    увеличивается: 'increased',
-    неоднозначно: 'mixed'
-  };
 
   constructor(
     private readonly apiService: ApiService,
     private readonly translate: TranslateService
-  ) {
-    this.filters = {
-      byName: false,
-      byAge: false,
-      byClasses: [],
-      byExpressionChange: null
-    };
-  }
+  ) { }
 
   ngOnInit() {
     this.getGenes();
     this.getLastEditedGenes();
-  }
-
-  private getGenes() {
-    this.apiService.getGenes().subscribe((genes) => {
-      this.genes = genes;
-    }, error => this.error = error);
   }
 
   private getLastEditedGenes() {
@@ -50,33 +29,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public filterByFuncClusters(fc: number[]) {
-    if (fc.length > 0) {
-      this.apiService.getGenesByFunctionalClusters(fc).subscribe((genes) => {
-        this.genes = genes;
-      });
-    } else {
-      this.getGenes();
-    }
-  }
-
-  public filterByExpressionChange(expression: string) {
-    if (expression) {
-      if (this.translate.currentLang === 'ru') {
-        expression = this.expressionTranslates[expression];
-      }
-      this.apiService.getGenesByExpressionChange(expression).subscribe(genes => {
-        this.genes = genes;
-      });
-    } else {
-      this.getGenes();
-    }
-  }
-
-  /**
-   * Сброс фильтров таблицы генов
-   */
-  public filtersCleared() {
-    this.getGenes();
+  private getGenes() {
+    this.apiService.getGenes().subscribe((genes) => {
+      this.genes = genes;
+    }, error => this.error = error);
   }
 }

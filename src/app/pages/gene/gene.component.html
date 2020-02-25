@@ -156,11 +156,11 @@
         </div>
 
         <div class="col col-16 articles__content"
-             *ngIf="gene.commentEvolution ||
-                    gene.commentFunction ||
-                    gene.commentCause ||
-                    gene.commentAging ||
-                    gene.commentsReferenceLinks; else noContent">
+             *ngIf="gene.commentEvolution.length ||
+                    gene.commentFunction.length ||
+                    gene.commentCause.length > 1 ||
+                    gene.commentAging.length ||
+                    gene.commentsReferenceLinks.length; else noContent">
 
           <mat-expansion-panel class="contents-list  __mt-10">
             <mat-expansion-panel-header>
@@ -169,31 +169,31 @@
 
             <mat-nav-list>
               <a mat-list-item
-                 *ngIf="gene.commentEvolution"
+                 *ngIf="gene.commentEvolution.length"
                  [routerLink]="['/gene', id]" fragment="evolution">
                 {{ 'gene_page_title_evolution' | translate }}
               </a>
 
               <a mat-list-item
-                 *ngIf="gene.commentFunction"
+                 *ngIf="gene.commentFunction.length"
                  [routerLink]="['/gene', id]" fragment="function">
                 {{ 'gene_page_title_function' | translate }}
               </a>
 
               <a mat-list-item
-                 *ngIf="gene.commentCause"
+                 *ngIf="gene.commentCause.length > 1"
                  [routerLink]="['/gene', id]" fragment="cause">
                 {{ 'gene_page_title_criteria' | translate }}
               </a>
 
               <a mat-list-item
-                 *ngIf="gene.commentAging"
+                 *ngIf="gene.commentAging.length"
                  [routerLink]="['/gene', id]" fragment="aging">
                 {{ 'gene_page_title_aging' | translate }}
               </a>
 
               <a mat-list-item
-                 *ngIf="gene.commentsReferenceLinks"
+                 *ngIf="gene.commentsReferenceLinks.length"
                  [routerLink]="['/gene', id]" fragment="reference">
                 {{ 'gene_page_title_reference' | translate }}
               </a>
@@ -202,21 +202,21 @@
           </mat-expansion-panel>
 
 
-          <ng-container *ngIf="gene.commentEvolution">
+          <ng-container *ngIf="gene.commentEvolution.length">
             <h3>{{ 'gene_page_title_evolution' | translate }}</h3>
             <article id="evolution">
               {{gene.commentEvolution}}
             </article>
           </ng-container>
 
-          <ng-container *ngIf="gene.commentFunction">
+          <ng-container *ngIf="gene.commentFunction.length">
             <h3>{{ 'gene_page_title_function' | translate }}</h3>
             <article id="function">
               {{gene.commentFunction}}
             </article>
           </ng-container>
 
-          <ng-container *ngIf="gene.commentCause">
+          <ng-container *ngIf="gene.commentCause.length > 1">
             <h3>{{ 'gene_page_title_criteria' | translate }}</h3>
             <article id="cause">
               <ul class="list list--bulletted">
@@ -225,14 +225,14 @@
             </article>
           </ng-container>
 
-          <ng-container *ngIf="gene.commentAging">
+          <ng-container *ngIf="gene.commentAging.length">
             <h3>{{ 'gene_page_title_aging' | translate }}</h3>
             <article id="aging">
               {{gene.commentAging}}
             </article>
           </ng-container>
 
-          <ng-container *ngIf="gene.commentsReferenceLinks">
+          <ng-container *ngIf="gene.commentsReferenceLinks.length">
             <article id="reference" class="js_article-reference">
               <ul class="list reference-list">
                 <li *ngFor="let item of gene.commentsReferenceLinks | keyvalue">
@@ -260,7 +260,7 @@
       </div>
     </div>
 
-    <section class="wrapper gene-page__expression" *ngIf="gene.expression.length !== 0">
+    <section class="wrapper gene-page__expression" *ngIf="gene.expression.length">
       <div class="container">
         <div class="col col-16">
           <mat-expansion-panel>

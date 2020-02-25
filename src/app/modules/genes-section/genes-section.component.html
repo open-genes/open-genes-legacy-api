@@ -1,0 +1,8 @@
+<app-search [dataSource]="dataSource" (dataSourceChange)="getSearchedData($event)"></app-search>
+
+<app-genes-list
+  [dataSource]="dataSource"
+  (filterCluster)="filterByFuncClusters($event)"
+  (filterExpression)="filterByExpressionChange($event)"
+  (filtersCleared)="filtersCleared()">
+</app-genes-list>

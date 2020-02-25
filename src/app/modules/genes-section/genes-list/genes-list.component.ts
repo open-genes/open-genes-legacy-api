@@ -2,8 +2,10 @@ import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} fr
 
 import {Subject} from 'rxjs';
 
-import {Filter, Genes} from '../../core/models';
+import {Filter, Genes} from '../../../core/models';
 import {GenesListService} from './genes-list.service';
+import {FavoritesService} from '../../../pages/favorites/favorites.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-genes-list',
@@ -12,7 +14,7 @@ import {GenesListService} from './genes-list.service';
 })
 export class GenesListComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() dataSource: Genes[];
+  @Input() dataSource: any;
   @Output() filterCluster = new EventEmitter<number[]>();
   @Output() filterExpression = new EventEmitter<string>();
   @Output() filtersCleared = new EventEmitter();
@@ -24,7 +26,11 @@ export class GenesListComponent implements OnInit, OnChanges, OnDestroy {
   private subscription$ = new Subject();
   public filters: Filter;
 
-  constructor(private readonly genesListService: GenesListService) {
+  constructor(
+    private readonly genesListService: GenesListService,
+    private route: ActivatedRoute,
+    private favsService: FavoritesService
+  ) {
     this.filters = {
       byName: false,
       byAge: false,
@@ -48,6 +54,11 @@ export class GenesListComponent implements OnInit, OnChanges, OnDestroy {
 
   geneView() {
     this.asCards = !this.asCards;
+  }
+
+  public addToFavsList(geneId: number) {
+    this.favsService.addToFavorites(geneId);
+    window.alert('Your product has been added to the cart!');
   }
 
   getGenes(sortBy) {
@@ -88,7 +99,6 @@ export class GenesListComponent implements OnInit, OnChanges, OnDestroy {
     this.subscription$.unsubscribe();
   }
 
-  // TODO: перенести в отдельный модуль
   filterByFuncClusters(id: number) {
     if (!this.filters.byClasses.includes(id)) {
       this.filters.byClasses.push(id);
