@@ -8,7 +8,6 @@ import {MatIconModule} from '@angular/material/icon';
   declarations: [],
   imports: [
     CommonModule,
-    PipesModule,
     MatButtonModule,
     MatMenuModule,
     MatIconModule

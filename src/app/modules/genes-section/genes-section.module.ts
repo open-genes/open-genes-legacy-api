@@ -9,10 +9,10 @@ import { SearchComponent } from './search/search.component';
 import { SearchModule } from './search/search.module';
 import {GenesSectionComponent} from './genes-section.component';
 import {GenesListComponent} from './genes-list/genes-list.component';
-import {MatMenuModule} from "@angular/material/menu";
-import {MatIconModule} from "@angular/material/icon";
-import {ReactiveFormsModule} from "@angular/forms";
-import {DirectivesModule} from "../../directives/directives.module";
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {ReactiveFormsModule} from '@angular/forms';
+import {DirectivesModule} from '../../directives/directives.module';
 
 // import { GenesListService } from './genes-list.service';
 
