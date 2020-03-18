@@ -8,6 +8,8 @@ class GeneFullViewDto
     /** @var PhylumDto */
     public $origin;
     /** @var string */
+    public $homologueTaxon;
+    /** @var string */
     public $symbol;
     /** @var array */
     public $aliases;
@@ -31,6 +33,8 @@ class GeneFullViewDto
     public $rating;
     /** @var FunctionalClusterDto[] */
     public $functionalClusters;
+    /** @var ResearchDto[] */
+    public $researches;
     /** @var array [$geneName => $geneExpression[]] */
     public $expression;
     /** @var array */
@@ -54,6 +58,10 @@ class GeneFullViewDto
     /** @var string */
     public $accCds;
 //    /** @var array */
+    /** @var @var array */
+    public $terms;
+
+//    public $isHidden;
 //    public $references;
     /** @var array */
     public $orthologs;
@@ -64,5 +72,13 @@ class GeneFullViewDto
 //    public $dateAdded;
 //    public $userEdited;
 //    public $hylo;
+//    public $why;
+//    public $band;
+//    public $locationStart;
+//    public $locationEnd;
+//    public $orientation;
+//    public $accPromoter;
+//    public $accOrf;
+//    public $accCds;
 }
 
