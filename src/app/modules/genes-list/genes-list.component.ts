@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {FilterService} from '../../core/services/filter.service';
 
 import {Subject} from 'rxjs';
 
@@ -22,9 +23,12 @@ export class GenesListComponent implements OnInit, OnChanges, OnDestroy {
   isLoading = true;
   asCards = true;
   private subscription$ = new Subject();
-  public filters: Filter;
+  private filters: Filter;
 
-  constructor(private readonly genesListService: GenesListService) {
+  constructor(
+    private readonly genesListService: GenesListService,
+    private readonly filterService: FilterService
+  ) {
     this.filters = {
       byName: false,
       byAge: false,
@@ -88,13 +92,8 @@ export class GenesListComponent implements OnInit, OnChanges, OnDestroy {
     this.subscription$.unsubscribe();
   }
 
-  // TODO: перенести в отдельный модуль
-  filterByFuncClusters(id: number) {
-    if (!this.filters.byClasses.includes(id)) {
-      this.filters.byClasses.push(id);
-    } else {
-      this.filters.byClasses = this.filters.byClasses.filter(item => item !== id);
-    }
+  filterByFuncClusters(id) {
+    this.filterService.clustersFilter(id, this.filters);
     this.isLoading = true;
     this.filterCluster.emit(this.filters.byClasses);
   }

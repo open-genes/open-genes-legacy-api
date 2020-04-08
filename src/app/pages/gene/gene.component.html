@@ -36,7 +36,9 @@
         <div class="col col-16 header__functional-clusters">
           <ng-container *ngIf="gene.functionalClusters; else tagSkeletal">
             <ng-container *ngFor="let item of gene.functionalClusters">
-              <a routerLink="/" class="alias">{{item.name}}</a>
+              <a routerLink="/"
+                 (activate)="filterByFuncClusters(item.id)"
+                 class="alias">{{item.name}}</a>
             </ng-container>
           </ng-container>
           <ng-template #tagSkeletal>
