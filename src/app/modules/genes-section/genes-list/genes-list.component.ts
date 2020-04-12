@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
-import {FilterService} from '../../core/services/filter.service';
+import {FilterService} from 'src/app/core/services/filter.service';
 
 import {Subject} from 'rxjs';
 
-import {Filter, Genes} from '../../../core/models';
+import {Filter, Genes} from 'src/app/core/models';
 import {GenesListService} from './genes-list.service';
-import {FavoritesService} from '../../../pages/favorites/favorites.service';
+import {FavoritesService} from 'src/app/pages/favorites/favorites.service';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({

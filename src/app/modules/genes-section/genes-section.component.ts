@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Filter, Genes} from '../../core/models';
-import {ApiService} from '../../core/services/api.service';
+import {Filter, Genes} from 'src/app/core/models';
+import {ApiService} from 'src/app/core/services/api.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({

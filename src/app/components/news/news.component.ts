@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PubmedApiService} from '../../core/services/pubmed.api.service';
-import {INews} from '../../core/models/news.model';
-import {Genes} from '../../core/models';
+import {PubmedApiService} from 'src/app/core/services/pubmed.api.service';
+import {INews} from 'src/app/core/models/news.model';
+import {Genes} from 'src/app/core/models';
 import {finalize, switchMap} from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-news',

@@ -8,8 +8,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {PipesModule} from '../../modules/pipes/pipes.module';
-import {VendorsModule} from '../../modules/vendors/vendors.module';
+import {PipesModule} from 'src/app/modules/pipes/pipes.module';
+import {VendorsModule} from 'src/app/modules/vendors/vendors.module';
 import {
   NgToArrayPipeModule
 } from 'angular-pipes';

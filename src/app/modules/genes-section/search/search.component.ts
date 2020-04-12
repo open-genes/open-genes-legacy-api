@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, Renderer2, Input, OnInit, Output } from '@angular/core';
-import { Genes } from '../../../core/models';
+import { Genes } from 'src/app/core/models';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 

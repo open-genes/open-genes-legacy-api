@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Genes} from '../../core/models';
+import {Genes} from 'src/app/core/models';
 
 @Component({
   selector: 'app-mini-cards',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {FavoritesService} from './favorites.service';
-import {Genes} from '../../core/models';
-import {ApiService} from '../../core/services/api.service';
+import {Genes} from 'src/app/core/models';
+import {ApiService} from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-favorites',

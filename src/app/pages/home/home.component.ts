@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnChanges, OnInit} from '@angular/core';
 
-import {ApiService} from '../../core/services/api.service';
-import {Genes, Filter} from '../../core/models';
+import {ApiService} from 'src/app/core/services/api.service';
+import {Genes, Filter} from 'src/app/core/models';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({

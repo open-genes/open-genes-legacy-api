@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {FavoritesComponent} from './favorites.component';
 import {RouterModule, Routes} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
-import {GenesSectionModule} from '../../modules/genes-section/genes-section.module';
+import {GenesSectionModule} from 'src/app/modules/genes-section/genes-section.module';
 
 const routes: Routes = [
   {path: '', component: FavoritesComponent}

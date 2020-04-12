@@ -5,13 +5,13 @@ import {RouterModule} from '@angular/router';
 import {HOME_ROUTES} from './home-routing';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgStripTagsPipeModule} from 'angular-pipes';
-import {PipesModule} from '../../modules/pipes/pipes.module';
+import {PipesModule} from 'src/app/modules/pipes/pipes.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {NewsComponent} from '../../components/news/news.component';
-import {MiniCardsComponent} from '../../components/mini-cards/mini-cards.component';
-import {NewsModule} from '../../components/news/news.module';
-import {GenesSectionModule} from '../../modules/genes-section/genes-section.module';
+import {MiniCardsComponent} from 'src/app/components/mini-cards/mini-cards.component';
+import {NewsModule} from 'src/app/components/news/news.module';
+import {GenesSectionModule} from 'src/app/modules/genes-section/genes-section.module';
 
 @NgModule({
   declarations: [
