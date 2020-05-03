@@ -29,6 +29,8 @@ class GeneDataProvider implements GeneDataProviderInterface
         'gene.orthologs',
         'gene.commentsReferenceLinks',
         'gene.expressionChange',
+        'gene.created_at',
+        'gene.updated_at',
     ];
 
     private $fieldsEn = [
@@ -93,7 +95,6 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         return Gene::find()
             ->select($this->fields)
-            ->where(['in', 'symbol', ['CISD2', 'EMD', 'ADCY5', 'AGTR1']]) // todo хардкод, пока нет реальных изменяемых данных
             ->withAge()
             ->andWhere('isHidden != 1')
             ->orderBy('gene.updated_at desc')
@@ -142,7 +143,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     }
 
     /** @inheritDoc */
-    public function getByExpressionChange(string $expressionChange): array
+    public function getByExpressionChange(int $expressionChange): array
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
