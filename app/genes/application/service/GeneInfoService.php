@@ -52,7 +52,7 @@ class GeneInfoService implements GeneInfoServiceInterface
      */
     public function getGeneViewInfo(string $geneSymbol, string $lang = 'en-US'): GeneFullViewDto
     {
-        if(is_numeric($geneSymbol)) { // todo временно для обратной совместимости 
+        if(is_numeric($geneSymbol)) { // todo временно для обратной совместимости
             $geneArray = $this->geneDataProvider->getGene($geneSymbol);
         } else {
             $geneArray = $this->geneDataProvider->getGeneBySymbol($geneSymbol);
@@ -114,6 +114,17 @@ class GeneInfoService implements GeneInfoServiceInterface
         $geneDtos = [];
         foreach ($genesArray as $gene) {
             $geneDtos[] = $this->geneDtoAssembler->mapListViewDto($gene, $lang);
+        }
+
+        return $geneDtos;
+    }
+
+    public function getByGoTerm(string $term, string $lang = 'en-US'): array
+    {
+        $genesArray = $this->geneDataProvider->getByGoTerm($term);
+        $geneDtos = [];
+        foreach ($genesArray as $gene) {
+            $geneDtos[] = $this->geneDtoAssembler->mapListViewWithTermsDto($gene, $lang);
         }
 
         return $geneDtos;
