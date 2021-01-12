@@ -1,7 +1,7 @@
 <?php
 namespace genes\infrastructure\dataProvider;
 
-use cms\models\GeneInterventionToVitalProcess;
+use common\models\GeneInterventionToVitalProcess;
 use common\models\AgeRelatedChange;
 use common\models\GeneToLongevityEffect;
 use common\models\GeneToProgeria;

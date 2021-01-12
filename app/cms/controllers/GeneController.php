@@ -9,7 +9,7 @@ use cms\models\Phylum;
 use cms\models\CommentCause;
 use cms\models\Gene;
 use cms\models\FunctionalCluster;
-use cms\models\GeneInterventionToVitalProcess;
+use common\models\GeneInterventionToVitalProcess;
 use cms\models\GeneToProteinActivity;
 use cms\models\LifespanExperiment;
 use cms\models\ProteinClass;

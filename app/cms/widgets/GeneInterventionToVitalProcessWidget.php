@@ -2,12 +2,12 @@
 
 namespace cms\widgets;
 
-use cms\models\GeneInterventionToVitalProcess;
+use common\models\GeneInterventionToVitalProcess;
 use yii\base\Widget;
 
 class GeneInterventionToVitalProcessWidget extends Widget
 {
-    /** @var GeneInterventionToVitalProcess */
+    /** @var \common\models\GeneInterventionToVitalProcess */
     public $model;
 
     public function init()

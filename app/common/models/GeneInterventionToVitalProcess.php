@@ -1,8 +1,12 @@
 <?php
 
-namespace cms\models;
+namespace common\models;
 
 use cms\models\behaviors\ChangelogBehavior;
+use cms\models\GeneIntervention;
+use cms\models\ModelOrganism;
+use cms\models\OrganismLine;
+use cms\models\VitalProcess;
 use common\models\CommonGeneInterventionToVitalProcess;
 use yii\helpers\ArrayHelper;
 
