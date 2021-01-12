@@ -3,14 +3,14 @@
 namespace cms\models;
 
 use cms\models\behaviors\ChangelogBehavior;
-use yii\behaviors\TimestampBehavior;
+use common\models\CommonGeneInterventionToVitalProcess;
 use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "age".
  *
  */
-class GeneInterventionToVitalProcess extends \common\models\GeneInterventionToVitalProcess
+class GeneInterventionToVitalProcess extends CommonGeneInterventionToVitalProcess
 {
     public $delete = false;
 

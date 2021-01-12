@@ -5,7 +5,7 @@ namespace common\models;
 /**
  * This is the ActiveQuery class for [[GeneInterventionToVitalProcess]].
  *
- * @see GeneInterventionToVitalProcess
+ * @see CommonGeneInterventionToVitalProcess
  */
 class GeneInterventionToVitalProcessQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class GeneInterventionToVitalProcessQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return GeneInterventionToVitalProcess[]|array
+     * @return CommonGeneInterventionToVitalProcess[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class GeneInterventionToVitalProcessQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return GeneInterventionToVitalProcess|array|null
+     * @return CommonGeneInterventionToVitalProcess|array|null
      */
     public function one($db = null)
     {

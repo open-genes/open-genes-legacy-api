@@ -13,7 +13,7 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  *
- * @property GeneInterventionToVitalProcess[] $geneInterventionToVitalProcesses
+ * @property CommonGeneInterventionToVitalProcess[] $geneInterventionToVitalProcesses
  */
 class VitalProcess extends \yii\db\ActiveRecord
 {
@@ -55,7 +55,7 @@ class VitalProcess extends \yii\db\ActiveRecord
      */
     public function getGeneInterventionToVitalProcesses()
     {
-        return $this->hasMany(GeneInterventionToVitalProcess::className(), ['vital_process_id' => 'id']);
+        return $this->hasMany(CommonGeneInterventionToVitalProcess::className(), ['vital_process_id' => 'id']);
     }
 
     /**
