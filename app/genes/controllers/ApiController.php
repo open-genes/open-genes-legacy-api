@@ -5,6 +5,7 @@ use common\components\CrossService;
 use common\models\Gene;
 use common\models\GeneOntology;
 use common\models\GeneToOntology;
+use genes\application\dto\GeneFullViewDto;
 use genes\application\service\GeneInfoServiceInterface;
 use genes\application\service\PhylumInfoServiceInterface;
 use genes\application\service\GeneOntologyServiceInterface;
@@ -67,7 +68,7 @@ class ApiController extends Controller
 
     /**
      * @param string $symbol
-     * @return \genes\application\dto\GeneFullViewDto
+     * @return GeneFullViewDto
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\di\NotInstantiableException
      */
@@ -75,8 +76,7 @@ class ApiController extends Controller
     {
         /** @var GeneInfoServiceInterface $geneInfoService */
         $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
-        $geneDto = $geneInfoService->getGeneViewInfo($symbol, $this->language);
-        return $geneDto;
+        return $geneInfoService->getGeneViewInfo($symbol, $this->language);
     }
 
     public function actionLatest()

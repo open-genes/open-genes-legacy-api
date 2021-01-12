@@ -17,7 +17,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect('/api');
+        $this->redirect('/api');
+
+        return '';
     }
 
 
