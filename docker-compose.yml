@@ -30,9 +30,7 @@ services:
     volumes:
       - ./app/cms:/var/www/cms
       - ./app/common:/var/www/common
-      - ./app/composer.json:/var/www/composer.json
-      - ./app/composer.lock:/var/www/composer.lock
-    command: bash -c "composer install && php-fpm"
+    command: bash -c "cd ./common && composer install && php-fpm"
   api:
     # path to our PHP image that will be built
     build: ./docker/php
@@ -41,12 +39,11 @@ services:
       - mysql
     # mount project's dir
     user: ${OPEN_GENES_UID}
+    depends_on:
+      - cms
     volumes:
       - ./app/genes:/var/www/genes
       - ./app/common:/var/www/common
-      - ./app/composer.json:/var/www/composer.json
-      - ./app/composer.lock:/var/www/composer.lock
-    command: bash -c "composer install && php-fpm"
   mysql:
     image: mysql:5.7
     ports:
