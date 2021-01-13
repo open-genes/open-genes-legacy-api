@@ -22,7 +22,7 @@ build:
   services:
     - docker:dind
   script:
-    - docker run --rm -v $PWD/app:/app composer install
+    - docker run --rm -v $PWD/app/common:/app/common composer install
   artifacts:
     paths:
       - app/common/vendor/
