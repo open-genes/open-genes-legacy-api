@@ -30,6 +30,8 @@ services:
     volumes:
       - ./app/cms:/var/www/cms
       - ./app/common:/var/www/common
+    environment:
+      XDEBUG_CONFIG: client_host=${CLIENT_HOST} client_port=9003
     command: bash -c "cd ./common && XDEBUG_CONFIG= composer install && php-fpm"
   api:
     # path to our PHP image that will be built
