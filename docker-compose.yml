@@ -21,7 +21,7 @@ services:
       - api
   cms:
     # path to our PHP image that will be built
-    build: ./docker/php
+    build: ./docker/php${PHP_IMAGE_ALTER}
     # link it to mysql
     links:
       - mysql
@@ -30,10 +30,10 @@ services:
     volumes:
       - ./app/cms:/var/www/cms
       - ./app/common:/var/www/common
-    command: bash -c "cd ./common && composer install && php-fpm"
+    command: bash -c "cd ./common && XDEBUG_CONFIG= composer install && php-fpm"
   api:
     # path to our PHP image that will be built
-    build: ./docker/php
+    build: ./docker/php${PHP_IMAGE_ALTER}
     # link it to mysql
     links:
       - mysql
@@ -44,6 +44,8 @@ services:
     volumes:
       - ./app/genes:/var/www/genes
       - ./app/common:/var/www/common
+    environment:
+      XDEBUG_CONFIG: client_host=${CLIENT_HOST} client_port=9003
   mysql:
     image: mysql:5.7
     ports:
