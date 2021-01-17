@@ -5,7 +5,6 @@ namespace cms\models;
 use cms\models\behaviors\ChangelogBehavior;
 use cms\models\traits\ConditionActiveRecordTrait;
 use cms\models\traits\RuEnActiveRecordTrait;
-use common\models\GeneInterventionToVitalProcess;
 use common\models\GeneToProteinClass;
 use Yii;
 use yii\behaviors\TimestampBehavior;

@@ -1,5 +1,5 @@
 <?php
-/** @var $geneInterventionToVitalProcess \common\models\GeneInterventionToVitalProcess */
+/** @var $geneInterventionToVitalProcess \cms\models\GeneInterventionToVitalProcess */
 ?>
 <div class="form-split protein-activity green js-intervention-to-vital-process js-gene-link-section">
     <div class="js-intervention-to-vital-process-block js-gene-link-block">
