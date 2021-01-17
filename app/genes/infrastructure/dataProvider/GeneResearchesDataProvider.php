@@ -1,8 +1,8 @@
 <?php
 namespace genes\infrastructure\dataProvider;
 
-use common\models\GeneInterventionToVitalProcess;
 use common\models\AgeRelatedChange;
+use common\models\CommonGeneInterventionToVitalProcess;
 use common\models\GeneToLongevityEffect;
 use common\models\GeneToProgeria;
 use common\models\LifespanExperiment;
@@ -81,7 +81,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
     {
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         $commentField = $lang == 'en-US' ? 'comment_en' : 'comment_ru';
-        return GeneInterventionToVitalProcess::find()
+        return CommonGeneInterventionToVitalProcess::find()
             ->select([
                 "gene_intervention.{$nameField} as geneIntervention",
                 "vital_process.{$nameField} as vitalProcess",
