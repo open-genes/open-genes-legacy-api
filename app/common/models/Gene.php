@@ -47,7 +47,7 @@ use Yii;
  * @property Phylum $age
  * @property AgeRelatedChange[] $ageRelatedChanges
  * @property GeneExpressionInSample[] $geneExpressionInSamples
- * @property CommonGeneInterventionToVitalProcess[] $geneInterventionToVitalProcesses
+ * @property GeneInterventionToVitalProcess[] $geneInterventionToVitalProcesses
  * @property GeneToCommentCause[] $geneToCommentCauses
  * @property GeneToLongevityEffect[] $geneToLongevityEffects
  * @property GeneToOntology[] $geneToOntologies
@@ -158,7 +158,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneInterventionToVitalProcesses()
     {
-        return $this->hasMany(CommonGeneInterventionToVitalProcess::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneInterventionToVitalProcess::className(), ['gene_id' => 'id']);
     }
 
     /**

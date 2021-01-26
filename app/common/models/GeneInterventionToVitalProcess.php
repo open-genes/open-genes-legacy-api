@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "gene_intervention_to_vital_process".
@@ -30,7 +29,7 @@ use yii\db\ActiveRecord;
  * @property OrganismLine $organismLine
  * @property VitalProcess $vitalProcess
  */
-class CommonGeneInterventionToVitalProcess extends ActiveRecord
+class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
