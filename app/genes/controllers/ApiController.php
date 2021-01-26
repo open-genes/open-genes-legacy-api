@@ -58,12 +58,11 @@ class ApiController extends Controller
         return $this->render('reference');
     }
 
-    public function actionIndex()
+    public function actionIndex(): array
     {
         /** @var GeneInfoServiceInterface $geneInfoService */
         $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
-        $geneDtos = $geneInfoService->getAllGenes(null, $this->language);
-        return $geneDtos;
+        return $geneInfoService->getAllGenes(null, $this->language);
     }
 
     /**
