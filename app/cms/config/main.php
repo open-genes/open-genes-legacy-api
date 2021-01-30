@@ -68,12 +68,6 @@ $config = [
             ],
         ]
     ],
-    'container' => [
-        'definitions' => [
-            \genes\application\service\GeneInfoServiceInterface::class => \genes\application\service\GeneInfoService::class,
-            \genes\infrastructure\dataProvider\GeneDataProviderInterface::class => \genes\infrastructure\dataProvider\GeneDataProvider::class
-        ]
-    ],
     'defaultRoute' => 'cms/index',
     'params' => $params,
     'runtimePath' => __DIR__ . '/../runtime',

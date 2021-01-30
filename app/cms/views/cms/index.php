@@ -1,8 +1,9 @@
 <?php
 
-use genes\application\dto\GeneFullViewDto;
+use yii\data\ActiveDataProvider;
+
 /**
- * @var $dataProvider \yii\data\ActiveDataProvider
+ * @var $dataProvider ActiveDataProvider
  */
 ?>
 <!--<meta http-equiv="refresh" content="0;URL=/redirect.php">-->
