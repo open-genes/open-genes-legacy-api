@@ -3,13 +3,14 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use cms\assets\CmsAsset;
+use cms\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use common\widgets\Alert;
 
-\cms\assets\CmsAsset::register($this);
+CmsAsset::register($this);
 $this->registerCssFile('/assets/css/main.css');
 ?>
 <?php $this->beginPage() ?>
