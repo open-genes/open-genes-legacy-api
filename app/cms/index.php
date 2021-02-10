@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../common/vendor/autoload.php';
 require __DIR__ . '/../common/vendor/yiisoft/yii2/Yii.php';
-require __DIR__ . '/../common/config/bootstrap.php';
+require __DIR__ . '/../genes/config/bootstrap.php';
 
 $dotenv = Dotenv\Dotenv::create(Yii::getAlias('@common'));
 $dotenv->load();

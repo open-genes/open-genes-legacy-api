@@ -1,5 +1,5 @@
 <?php
-namespace common\console\controllers;
+namespace genes\console\controllers;
 
 use common\models\User;
 use yii\console\Controller;
