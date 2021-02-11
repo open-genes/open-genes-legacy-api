@@ -55,7 +55,7 @@ class Sample extends \yii\db\ActiveRecord
      */
     public function getGeneExpressionInSamples()
     {
-        return $this->hasMany(GeneExpressionInSample::className(), ['sample_id' => 'id']);
+        return $this->hasMany(GeneExpressionInSample::class, ['sample_id' => 'id']);
     }
 
     /**

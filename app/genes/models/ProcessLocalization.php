@@ -55,7 +55,7 @@ class ProcessLocalization extends \yii\db\ActiveRecord
      */
     public function getGeneToProteinActivities()
     {
-        return $this->hasMany(GeneToProteinActivity::className(), ['process_localization_id' => 'id']);
+        return $this->hasMany(GeneToProteinActivity::class, ['process_localization_id' => 'id']);
     }
 
     /**

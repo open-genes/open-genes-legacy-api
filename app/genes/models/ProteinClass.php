@@ -57,7 +57,7 @@ class ProteinClass extends \yii\db\ActiveRecord
      */
     public function getGenes()
     {
-        return $this->hasMany(Gene::className(), ['protein_class_id' => 'id']);
+        return $this->hasMany(Gene::class, ['protein_class_id' => 'id']);
     }
 
     /**

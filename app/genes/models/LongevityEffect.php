@@ -55,7 +55,7 @@ class LongevityEffect extends \yii\db\ActiveRecord
      */
     public function getGeneToLongevityEffects()
     {
-        return $this->hasMany(GeneToLongevityEffect::className(), ['longevity_effect_id' => 'id']);
+        return $this->hasMany(GeneToLongevityEffect::class, ['longevity_effect_id' => 'id']);
     }
 
     /**

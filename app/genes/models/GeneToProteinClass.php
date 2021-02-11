@@ -31,8 +31,8 @@ class GeneToProteinClass extends \yii\db\ActiveRecord
     {
         return [
             [['gene_id', 'protein_class_id'], 'integer'],
-            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
-            [['protein_class_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProteinClass::className(), 'targetAttribute' => ['protein_class_id' => 'id']],
+            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
+            [['protein_class_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProteinClass::class, 'targetAttribute' => ['protein_class_id' => 'id']],
         ];
     }
 
@@ -53,7 +53,7 @@ class GeneToProteinClass extends \yii\db\ActiveRecord
      */
     public function getGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'gene_id']);
     }
 
     /**
@@ -61,7 +61,7 @@ class GeneToProteinClass extends \yii\db\ActiveRecord
      */
     public function getProteinClass()
     {
-        return $this->hasOne(ProteinClass::className(), ['id' => 'protein_class_id']);
+        return $this->hasOne(ProteinClass::class, ['id' => 'protein_class_id']);
     }
 
     /**

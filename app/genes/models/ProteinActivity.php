@@ -55,7 +55,7 @@ class ProteinActivity extends \yii\db\ActiveRecord
      */
     public function getGeneToProteinActivities()
     {
-        return $this->hasMany(GeneToProteinActivity::className(), ['protein_activity_id' => 'id']);
+        return $this->hasMany(GeneToProteinActivity::class, ['protein_activity_id' => 'id']);
     }
 
     /**

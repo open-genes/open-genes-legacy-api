@@ -31,7 +31,7 @@ class GeneToCommentCause extends \yii\db\ActiveRecord
     {
         return [
             [['gene_id', 'comment_cause_id'], 'integer'],
-            [['comment_cause_id'], 'exist', 'skipOnError' => true, 'targetClass' => CommentCause::className(), 'targetAttribute' => ['comment_cause_id' => 'id']],
+            [['comment_cause_id'], 'exist', 'skipOnError' => true, 'targetClass' => CommentCause::class, 'targetAttribute' => ['comment_cause_id' => 'id']],
             [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
         ];
     }

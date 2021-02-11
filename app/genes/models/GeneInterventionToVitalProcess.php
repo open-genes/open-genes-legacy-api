@@ -49,12 +49,12 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
             [['age'], 'number'],
             [['comment_en', 'comment_ru'], 'string'],
             [['reference'], 'string', 'max' => 255],
-            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
-            [['intervention_result_for_vital_process_id'], 'exist', 'skipOnError' => true, 'targetClass' => InterventionResultForVitalProcess::className(), 'targetAttribute' => ['intervention_result_for_vital_process_id' => 'id']],
-            [['gene_intervention_id'], 'exist', 'skipOnError' => true, 'targetClass' => GeneIntervention::className(), 'targetAttribute' => ['gene_intervention_id' => 'id']],
-            [['model_organism_id'], 'exist', 'skipOnError' => true, 'targetClass' => ModelOrganism::className(), 'targetAttribute' => ['model_organism_id' => 'id']],
-            [['organism_line_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganismLine::className(), 'targetAttribute' => ['organism_line_id' => 'id']],
-            [['vital_process_id'], 'exist', 'skipOnError' => true, 'targetClass' => VitalProcess::className(), 'targetAttribute' => ['vital_process_id' => 'id']],
+            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
+            [['intervention_result_for_vital_process_id'], 'exist', 'skipOnError' => true, 'targetClass' => InterventionResultForVitalProcess::class, 'targetAttribute' => ['intervention_result_for_vital_process_id' => 'id']],
+            [['gene_intervention_id'], 'exist', 'skipOnError' => true, 'targetClass' => GeneIntervention::class, 'targetAttribute' => ['gene_intervention_id' => 'id']],
+            [['model_organism_id'], 'exist', 'skipOnError' => true, 'targetClass' => ModelOrganism::class, 'targetAttribute' => ['model_organism_id' => 'id']],
+            [['organism_line_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganismLine::class, 'targetAttribute' => ['organism_line_id' => 'id']],
+            [['vital_process_id'], 'exist', 'skipOnError' => true, 'targetClass' => VitalProcess::class, 'targetAttribute' => ['vital_process_id' => 'id']],
         ];
     }
 
@@ -85,7 +85,7 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
      */
     public function getGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'gene_id']);
     }
 
     /**
@@ -93,7 +93,7 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
      */
     public function getInterventionResultForVitalProcess()
     {
-        return $this->hasOne(InterventionResultForVitalProcess::className(), ['id' => 'intervention_result_for_vital_process_id']);
+        return $this->hasOne(InterventionResultForVitalProcess::class, ['id' => 'intervention_result_for_vital_process_id']);
     }
 
     /**
@@ -101,7 +101,7 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
      */
     public function getGeneIntervention()
     {
-        return $this->hasOne(GeneIntervention::className(), ['id' => 'gene_intervention_id']);
+        return $this->hasOne(GeneIntervention::class, ['id' => 'gene_intervention_id']);
     }
 
     /**
@@ -109,7 +109,7 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
      */
     public function getModelOrganism()
     {
-        return $this->hasOne(ModelOrganism::className(), ['id' => 'model_organism_id']);
+        return $this->hasOne(ModelOrganism::class, ['id' => 'model_organism_id']);
     }
 
     /**
@@ -117,7 +117,7 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
      */
     public function getOrganismLine()
     {
-        return $this->hasOne(OrganismLine::className(), ['id' => 'organism_line_id']);
+        return $this->hasOne(OrganismLine::class, ['id' => 'organism_line_id']);
     }
 
     /**
@@ -125,7 +125,7 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
      */
     public function getVitalProcess()
     {
-        return $this->hasOne(VitalProcess::className(), ['id' => 'vital_process_id']);
+        return $this->hasOne(VitalProcess::class, ['id' => 'vital_process_id']);
     }
 
     /**

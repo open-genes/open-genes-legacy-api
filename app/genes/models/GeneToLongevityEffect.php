@@ -41,9 +41,9 @@ class GeneToLongevityEffect extends \yii\db\ActiveRecord
             [['gene_id', 'longevity_effect_id', 'genotype_id', 'sex_of_organism', 'model_organism_id'], 'integer'],
             [['comment_en', 'comment_ru'], 'string'],
             [['reference', 'allele_variant'], 'string', 'max' => 255],
-            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
-            [['genotype_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genotype::className(), 'targetAttribute' => ['genotype_id' => 'id']],
-            [['longevity_effect_id'], 'exist', 'skipOnError' => true, 'targetClass' => LongevityEffect::className(), 'targetAttribute' => ['longevity_effect_id' => 'id']],
+            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
+            [['genotype_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genotype::class, 'targetAttribute' => ['genotype_id' => 'id']],
+            [['longevity_effect_id'], 'exist', 'skipOnError' => true, 'targetClass' => LongevityEffect::class, 'targetAttribute' => ['longevity_effect_id' => 'id']],
         ];
     }
 
@@ -71,7 +71,7 @@ class GeneToLongevityEffect extends \yii\db\ActiveRecord
      */
     public function getGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'gene_id']);
     }
 
     /**
@@ -79,7 +79,7 @@ class GeneToLongevityEffect extends \yii\db\ActiveRecord
      */
     public function getGenotype()
     {
-        return $this->hasOne(Genotype::className(), ['id' => 'genotype_id']);
+        return $this->hasOne(Genotype::class, ['id' => 'genotype_id']);
     }
 
     /**
@@ -87,7 +87,7 @@ class GeneToLongevityEffect extends \yii\db\ActiveRecord
      */
     public function getLongevityEffect()
     {
-        return $this->hasOne(LongevityEffect::className(), ['id' => 'longevity_effect_id']);
+        return $this->hasOne(LongevityEffect::class, ['id' => 'longevity_effect_id']);
     }
 
     /**

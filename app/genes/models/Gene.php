@@ -80,7 +80,7 @@ class Gene extends \yii\db\ActiveRecord
             [['why', 'references', 'orthologs'], 'string', 'max' => 1000],
             [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN'], 'string', 'max' => 1500],
             [['commentsReferenceLinks'], 'string', 'max' => 2000],
-            [['age_id'], 'exist', 'skipOnError' => true, 'targetClass' => Phylum::className(), 'targetAttribute' => ['age_id' => 'id']],
+            [['age_id'], 'exist', 'skipOnError' => true, 'targetClass' => Phylum::class, 'targetAttribute' => ['age_id' => 'id']],
         ];
     }
 
@@ -134,7 +134,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getAgeRelatedChanges()
     {
-        return $this->hasMany(AgeRelatedChange::className(), ['gene_id' => 'id']);
+        return $this->hasMany(AgeRelatedChange::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -142,7 +142,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getAge()
     {
-        return $this->hasOne(Phylum::className(), ['id' => 'age_id']);
+        return $this->hasOne(Phylum::class, ['id' => 'age_id']);
     }
 
     /**
@@ -150,7 +150,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneExpressionInSamples()
     {
-        return $this->hasMany(GeneExpressionInSample::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneExpressionInSample::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -158,7 +158,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneInterventionToVitalProcesses()
     {
-        return $this->hasMany(GeneInterventionToVitalProcess::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneInterventionToVitalProcess::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -166,7 +166,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneToCommentCauses()
     {
-        return $this->hasMany(GeneToCommentCause::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToCommentCause::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -174,7 +174,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneToLongevityEffects()
     {
-        return $this->hasMany(GeneToLongevityEffect::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToLongevityEffect::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -182,7 +182,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneToOntologies()
     {
-        return $this->hasMany(GeneToOntology::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToOntology::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -190,7 +190,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneToProgerias()
     {
-        return $this->hasMany(GeneToProgeria::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToProgeria::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -198,7 +198,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneToProteinActivities()
     {
-        return $this->hasMany(GeneToProteinActivity::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToProteinActivity::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -206,7 +206,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getGeneToProteinClasses()
     {
-        return $this->hasMany(GeneToProteinClass::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToProteinClass::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -214,7 +214,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getLifespanExperiments()
     {
-        return $this->hasMany(LifespanExperiment::className(), ['gene_id' => 'id']);
+        return $this->hasMany(LifespanExperiment::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -222,7 +222,7 @@ class Gene extends \yii\db\ActiveRecord
      */
     public function getProteinToGenes()
     {
-        return $this->hasMany(ProteinToGene::className(), ['gene_id' => 'id']);
+        return $this->hasMany(ProteinToGene::class, ['gene_id' => 'id']);
     }
 
     /**

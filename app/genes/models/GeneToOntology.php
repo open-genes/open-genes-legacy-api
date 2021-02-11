@@ -31,8 +31,8 @@ class GeneToOntology extends \yii\db\ActiveRecord
     {
         return [
             [['gene_id', 'gene_ontology_id'], 'integer'],
-            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
-            [['gene_ontology_id'], 'exist', 'skipOnError' => true, 'targetClass' => GeneOntology::className(), 'targetAttribute' => ['gene_ontology_id' => 'id']],
+            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
+            [['gene_ontology_id'], 'exist', 'skipOnError' => true, 'targetClass' => GeneOntology::class, 'targetAttribute' => ['gene_ontology_id' => 'id']],
         ];
     }
 
@@ -53,7 +53,7 @@ class GeneToOntology extends \yii\db\ActiveRecord
      */
     public function getGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'gene_id']);
     }
 
     /**
@@ -61,7 +61,7 @@ class GeneToOntology extends \yii\db\ActiveRecord
      */
     public function getGeneOntology()
     {
-        return $this->hasOne(GeneOntology::className(), ['id' => 'gene_ontology_id']);
+        return $this->hasOne(GeneOntology::class, ['id' => 'gene_ontology_id']);
     }
 
     /**

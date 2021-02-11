@@ -34,8 +34,8 @@ class GeneExpressionInSample extends \yii\db\ActiveRecord
             [['expression_value'], 'required'],
             [['expression_value'], 'number'],
             [['gene_id', 'sample_id'], 'integer'],
-            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
-            [['sample_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sample::className(), 'targetAttribute' => ['sample_id' => 'id']],
+            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
+            [['sample_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sample::class, 'targetAttribute' => ['sample_id' => 'id']],
         ];
     }
 
@@ -57,7 +57,7 @@ class GeneExpressionInSample extends \yii\db\ActiveRecord
      */
     public function getGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'gene_id']);
     }
 
     /**
@@ -65,7 +65,7 @@ class GeneExpressionInSample extends \yii\db\ActiveRecord
      */
     public function getSample()
     {
-        return $this->hasOne(Sample::className(), ['id' => 'sample_id']);
+        return $this->hasOne(Sample::class, ['id' => 'sample_id']);
     }
 
     /**

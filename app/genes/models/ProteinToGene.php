@@ -39,9 +39,9 @@ class ProteinToGene extends \yii\db\ActiveRecord
             [['gene_id', 'regulated_gene_id', 'protein_activity_id', 'regulation_type'], 'integer'],
             [['comment_en', 'comment_ru'], 'string'],
             [['reference'], 'string', 'max' => 255],
-            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
-            [['protein_activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProteinActivity::className(), 'targetAttribute' => ['protein_activity_id' => 'id']],
-            [['regulated_gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['regulated_gene_id' => 'id']],
+            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
+            [['protein_activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProteinActivity::class, 'targetAttribute' => ['protein_activity_id' => 'id']],
+            [['regulated_gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['regulated_gene_id' => 'id']],
         ];
     }
 
@@ -67,7 +67,7 @@ class ProteinToGene extends \yii\db\ActiveRecord
      */
     public function getGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'gene_id']);
     }
 
     /**
@@ -75,7 +75,7 @@ class ProteinToGene extends \yii\db\ActiveRecord
      */
     public function getProteinActivity()
     {
-        return $this->hasOne(ProteinActivity::className(), ['id' => 'protein_activity_id']);
+        return $this->hasOne(ProteinActivity::class, ['id' => 'protein_activity_id']);
     }
 
     /**
@@ -83,7 +83,7 @@ class ProteinToGene extends \yii\db\ActiveRecord
      */
     public function getRegulatedGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'regulated_gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'regulated_gene_id']);
     }
 
     /**

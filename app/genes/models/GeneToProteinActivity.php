@@ -40,10 +40,10 @@ class GeneToProteinActivity extends \yii\db\ActiveRecord
         return [
             [['gene_id', 'protein_activity_id', 'protein_activity_object_id', 'process_localization_id', 'created_at', 'updated_at'], 'integer'],
             [['reference', 'comment_en', 'comment_ru'], 'string'],
-            [['protein_activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProteinActivity::className(), 'targetAttribute' => ['protein_activity_id' => 'id']],
-            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
-            [['process_localization_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProcessLocalization::className(), 'targetAttribute' => ['process_localization_id' => 'id']],
-            [['protein_activity_object_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProteinActivityObject::className(), 'targetAttribute' => ['protein_activity_object_id' => 'id']],
+            [['protein_activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProteinActivity::class, 'targetAttribute' => ['protein_activity_id' => 'id']],
+            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
+            [['process_localization_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProcessLocalization::class, 'targetAttribute' => ['process_localization_id' => 'id']],
+            [['protein_activity_object_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProteinActivityObject::class, 'targetAttribute' => ['protein_activity_object_id' => 'id']],
         ];
     }
 
@@ -70,7 +70,7 @@ class GeneToProteinActivity extends \yii\db\ActiveRecord
      */
     public function getProteinActivity()
     {
-        return $this->hasOne(ProteinActivity::className(), ['id' => 'protein_activity_id']);
+        return $this->hasOne(ProteinActivity::class, ['id' => 'protein_activity_id']);
     }
 
     /**
@@ -78,7 +78,7 @@ class GeneToProteinActivity extends \yii\db\ActiveRecord
      */
     public function getGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'gene_id']);
     }
 
     /**
@@ -86,7 +86,7 @@ class GeneToProteinActivity extends \yii\db\ActiveRecord
      */
     public function getProcessLocalization()
     {
-        return $this->hasOne(ProcessLocalization::className(), ['id' => 'process_localization_id']);
+        return $this->hasOne(ProcessLocalization::class, ['id' => 'process_localization_id']);
     }
 
     /**
@@ -94,7 +94,7 @@ class GeneToProteinActivity extends \yii\db\ActiveRecord
      */
     public function getProteinActivityObject()
     {
-        return $this->hasOne(ProteinActivityObject::className(), ['id' => 'protein_activity_object_id']);
+        return $this->hasOne(ProteinActivityObject::class, ['id' => 'protein_activity_object_id']);
     }
 
     /**

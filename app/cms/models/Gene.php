@@ -256,7 +256,7 @@ class Gene extends \genes\models\Gene
      */
     public function getGeneToProteinActivities()
     {
-        return $this->hasMany(GeneToProteinActivity::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToProteinActivity::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -264,7 +264,7 @@ class Gene extends \genes\models\Gene
      */
     public function getLifespanExperiments()
     {
-        return $this->hasMany(LifespanExperiment::className(), ['gene_id' => 'id']);
+        return $this->hasMany(LifespanExperiment::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -272,7 +272,7 @@ class Gene extends \genes\models\Gene
      */
     public function getProteinToGenes()
     {
-        return $this->hasMany(ProteinToGene::className(), ['gene_id' => 'id']);
+        return $this->hasMany(ProteinToGene::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -280,7 +280,7 @@ class Gene extends \genes\models\Gene
      */
     public function getAgeRelatedChanges()
     {
-        return $this->hasMany(AgeRelatedChange::className(), ['gene_id' => 'id']);
+        return $this->hasMany(AgeRelatedChange::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -288,7 +288,7 @@ class Gene extends \genes\models\Gene
      */
     public function getGeneToLongevityEffects()
     {
-        return $this->hasMany(GeneToLongevityEffect::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToLongevityEffect::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -296,7 +296,7 @@ class Gene extends \genes\models\Gene
      */
     public function getGeneInterventionToVitalProcesses()
     {
-        return $this->hasMany(GeneInterventionToVitalProcess::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneInterventionToVitalProcess::class, ['gene_id' => 'id']);
     }
 
     /**
@@ -304,7 +304,7 @@ class Gene extends \genes\models\Gene
      */
     public function getGeneToProgerias()
     {
-        return $this->hasMany(GeneToProgeria::className(), ['gene_id' => 'id']);
+        return $this->hasMany(GeneToProgeria::class, ['gene_id' => 'id']);
     }
 
 }

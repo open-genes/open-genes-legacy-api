@@ -36,8 +36,8 @@ class GeneToProgeria extends \yii\db\ActiveRecord
             [['gene_id', 'progeria_syndrome_id'], 'integer'],
             [['comment_en', 'comment_ru'], 'string'],
             [['reference'], 'string', 'max' => 255],
-            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::className(), 'targetAttribute' => ['gene_id' => 'id']],
-            [['progeria_syndrome_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProgeriaSyndrome::className(), 'targetAttribute' => ['progeria_syndrome_id' => 'id']],
+            [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
+            [['progeria_syndrome_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProgeriaSyndrome::class, 'targetAttribute' => ['progeria_syndrome_id' => 'id']],
         ];
     }
 
@@ -61,7 +61,7 @@ class GeneToProgeria extends \yii\db\ActiveRecord
      */
     public function getGene()
     {
-        return $this->hasOne(Gene::className(), ['id' => 'gene_id']);
+        return $this->hasOne(Gene::class, ['id' => 'gene_id']);
     }
 
     /**
@@ -69,7 +69,7 @@ class GeneToProgeria extends \yii\db\ActiveRecord
      */
     public function getProgeriaSyndrome()
     {
-        return $this->hasOne(ProgeriaSyndrome::className(), ['id' => 'progeria_syndrome_id']);
+        return $this->hasOne(ProgeriaSyndrome::class, ['id' => 'progeria_syndrome_id']);
     }
 
     /**

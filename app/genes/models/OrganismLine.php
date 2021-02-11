@@ -55,7 +55,7 @@ class OrganismLine extends \yii\db\ActiveRecord
      */
     public function getLifespanExperiments()
     {
-        return $this->hasMany(LifespanExperiment::className(), ['organism_line_id' => 'id']);
+        return $this->hasMany(LifespanExperiment::class, ['organism_line_id' => 'id']);
     }
 
     /**
