@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "age".
  *
  */
-class GeneToProteinActivity extends \common\models\GeneToProteinActivity
+class GeneToProteinActivity extends \genes\models\GeneToProteinActivity
 {
     public $delete = false;
 

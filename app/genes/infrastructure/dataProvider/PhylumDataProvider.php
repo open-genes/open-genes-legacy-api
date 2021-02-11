@@ -2,7 +2,7 @@
 namespace genes\infrastructure\dataProvider;
 
 
-use common\models\Phylum;
+use genes\models\Phylum;
 
 class PhylumDataProvider implements PhylumDataProviderInterface
 {

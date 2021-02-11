@@ -1,12 +1,12 @@
 <?php
 namespace genes\infrastructure\dataProvider;
 
-use common\models\AgeRelatedChange;
-use common\models\GeneInterventionToVitalProcess;
-use common\models\GeneToLongevityEffect;
-use common\models\GeneToProgeria;
-use common\models\LifespanExperiment;
-use common\models\ProteinToGene;
+use genes\models\AgeRelatedChange;
+use genes\models\GeneInterventionToVitalProcess;
+use genes\models\GeneToLongevityEffect;
+use genes\models\GeneToProgeria;
+use genes\models\LifespanExperiment;
+use genes\models\ProteinToGene;
 
 class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
 {

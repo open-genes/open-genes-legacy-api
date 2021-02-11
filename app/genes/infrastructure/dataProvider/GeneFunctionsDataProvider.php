@@ -1,7 +1,7 @@
 <?php
 namespace genes\infrastructure\dataProvider;
 
-use common\models\GeneToProteinActivity;
+use genes\models\GeneToProteinActivity;
 
 class GeneFunctionsDataProvider implements GeneFunctionsDataProviderInterface
 {

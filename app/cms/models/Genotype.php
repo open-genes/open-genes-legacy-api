@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "age".
  *
  */
-class Genotype extends \common\models\Genotype
+class Genotype extends \genes\models\Genotype
 {
     use RuEnActiveRecordTrait;
 

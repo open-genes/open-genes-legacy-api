@@ -1,7 +1,7 @@
 <?php
 namespace genes\controllers;
 
-use common\models\Gene;
+use genes\models\Gene;
 use genes\application\dto\GeneFullViewDto;
 use genes\application\service\GeneInfoServiceInterface;
 use genes\application\service\GeneOntologyServiceInterface;

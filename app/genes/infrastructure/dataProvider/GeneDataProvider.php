@@ -1,8 +1,8 @@
 <?php
 namespace genes\infrastructure\dataProvider;
 
-use common\models\Gene;
-use common\models\GeneQuery;
+use genes\models\Gene;
+use genes\models\GeneQuery;
 use yii\web\NotFoundHttpException;
 
 class GeneDataProvider implements GeneDataProviderInterface

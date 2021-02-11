@@ -12,7 +12,7 @@ use yii\data\ActiveDataProvider;
  * This is the model class for table "age".
  *
  */
-class ProteinClass extends \common\models\ProteinClass
+class ProteinClass extends \genes\models\ProteinClass
 {
     use ConditionActiveRecordTrait;
 

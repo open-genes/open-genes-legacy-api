@@ -10,7 +10,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "age".
  *
  */
-class ModelOrganism extends \common\models\ModelOrganism
+class ModelOrganism extends \genes\models\ModelOrganism
 {
     use RuEnActiveRecordTrait;
 

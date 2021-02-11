@@ -1,10 +1,10 @@
 <?php
 namespace cms\controllers;
 
-use common\models\LoginForm;
-use common\models\PasswordResetRequestForm;
-use common\models\ResetPasswordForm;
-use common\models\SignupForm;
+use genes\models\LoginForm;
+use genes\models\PasswordResetRequestForm;
+use genes\models\ResetPasswordForm;
+use genes\models\SignupForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\filters\VerbFilter;

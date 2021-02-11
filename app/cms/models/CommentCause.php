@@ -10,7 +10,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "age".
  *
  */
-class CommentCause extends \common\models\CommentCause
+class CommentCause extends \genes\models\CommentCause
 {
     public function behaviors()
     {

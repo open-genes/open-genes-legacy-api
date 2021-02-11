@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "age".
  *
  */
-class ProcessLocalization extends \common\models\ProcessLocalization
+class ProcessLocalization extends \genes\models\ProcessLocalization
 {
     use RuEnActiveRecordTrait;
 

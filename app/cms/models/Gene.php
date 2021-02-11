@@ -5,7 +5,7 @@ namespace cms\models;
 use cms\models\behaviors\ChangelogBehavior;
 use cms\models\traits\ConditionActiveRecordTrait;
 use cms\models\traits\RuEnActiveRecordTrait;
-use common\models\GeneToProteinClass;
+use genes\models\GeneToProteinClass;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
  * @property int[] $proteinClassesIdsArray
  * @property array $functionalClustersArray
  */
-class Gene extends \common\models\Gene
+class Gene extends \genes\models\Gene
 {
     use ConditionActiveRecordTrait;
 

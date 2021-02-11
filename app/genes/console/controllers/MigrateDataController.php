@@ -2,15 +2,15 @@
 namespace genes\console\controllers;
 
 use cms\models\CommentCause;
-use common\models\FunctionalCluster;
-use common\models\Gene;
-use common\models\GeneExpressionInSample;
-use common\models\GeneToCommentCause;
-use common\models\GeneToFunctionalCluster;
-use common\models\GeneToProteinClass;
-use common\models\Phylum;
-use common\models\ProteinClass;
-use common\models\Sample;
+use genes\models\FunctionalCluster;
+use genes\models\Gene;
+use genes\models\GeneExpressionInSample;
+use genes\models\GeneToCommentCause;
+use genes\models\GeneToFunctionalCluster;
+use genes\models\GeneToProteinClass;
+use genes\models\Phylum;
+use genes\models\ProteinClass;
+use genes\models\Sample;
 use yii\console\Controller;
 use yii\httpclient\Client;
 

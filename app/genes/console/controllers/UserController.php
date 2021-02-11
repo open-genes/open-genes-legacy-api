@@ -1,7 +1,7 @@
 <?php
 namespace genes\console\controllers;
 
-use common\models\User;
+use genes\models\User;
 use yii\console\Controller;
 
 class UserController extends Controller

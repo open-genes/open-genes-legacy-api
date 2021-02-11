@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "age".
  *
  */
-class GeneToProgeria extends \common\models\GeneToProgeria
+class GeneToProgeria extends \genes\models\GeneToProgeria
 {
     public $delete = false;
 
