@@ -10,7 +10,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "age".
  *
  */
-class ProgeriaSyndrome extends \genes\models\ProgeriaSyndrome
+class ProgeriaSyndrome extends common\ProgeriaSyndrome
 {
     use RuEnActiveRecordTrait;
 

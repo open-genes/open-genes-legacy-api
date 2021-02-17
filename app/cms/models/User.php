@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "User".
  * @todo временные костыли под управление юзерами, пока что все здесь в AR
  */
-class User extends \genes\models\User
+class User extends common\User
 {
 
     public $newPassword;

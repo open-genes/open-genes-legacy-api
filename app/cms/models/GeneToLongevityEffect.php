@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "age".
  *
  */
-class GeneToLongevityEffect extends \genes\models\GeneToLongevityEffect
+class GeneToLongevityEffect extends common\GeneToLongevityEffect
 {
     public $delete = false;
 

@@ -11,7 +11,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "sample".
  *
  */
-class Sample extends \genes\models\Sample
+class Sample extends common\Sample
 {
     use RuEnActiveRecordTrait;
 

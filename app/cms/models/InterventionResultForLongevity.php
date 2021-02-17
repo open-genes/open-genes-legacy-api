@@ -10,7 +10,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "age".
  *
  */
-class InterventionResultForLongevity extends \genes\models\InterventionResultForLongevity
+class InterventionResultForLongevity extends common\InterventionResultForLongevity
 {
     use RuEnActiveRecordTrait;
 

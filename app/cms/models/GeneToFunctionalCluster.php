@@ -14,7 +14,7 @@ use Yii;
  *
  * @property FunctionalCluster $functionalCluster
  */
-class GeneToFunctionalCluster extends \genes\models\GeneToFunctionalCluster
+class GeneToFunctionalCluster extends common\GeneToFunctionalCluster
 {
 
 

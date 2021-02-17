@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "age".
  *
  */
-class LongevityEffect extends \genes\models\LongevityEffect
+class LongevityEffect extends common\LongevityEffect
 {
     use RuEnActiveRecordTrait;
 

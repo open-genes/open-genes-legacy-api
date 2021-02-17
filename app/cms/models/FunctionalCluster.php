@@ -9,7 +9,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "functional_cluster".
  *
  */
-class FunctionalCluster extends \genes\models\FunctionalCluster
+class FunctionalCluster extends common\FunctionalCluster
 {
 
     public function behaviors()

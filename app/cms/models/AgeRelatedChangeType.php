@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "age".
  *
  */
-class AgeRelatedChangeType extends \genes\models\AgeRelatedChangeType
+class AgeRelatedChangeType extends common\AgeRelatedChangeType
 {
     use RuEnActiveRecordTrait;
 
