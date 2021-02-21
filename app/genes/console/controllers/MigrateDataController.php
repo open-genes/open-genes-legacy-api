@@ -1,7 +1,7 @@
 <?php
 namespace genes\console\controllers;
 
-use cms\models\CommentCause;
+use genes\models\CommentCause;
 use genes\models\FunctionalCluster;
 use genes\models\Gene;
 use genes\models\GeneExpressionInSample;
