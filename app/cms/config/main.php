@@ -1,8 +1,8 @@
 <?php
-$params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/params.php'
-);
+
+use cms\models\common\User;
+
+$params = require __DIR__ . '/params.php';
 
 $config = [
     'id' => 'genes',
@@ -12,7 +12,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'homeUrl' => '/',
     'controllerNamespace' => 'cms\controllers',
-    'vendorPath' => '@common/vendor',
+    'vendorPath' => '@app/vendor',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
@@ -51,7 +51,7 @@ $config = [
             'baseUrl' => '/runtime/assets',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => User::class,
             'enableAutoLogin' => true,
             'loginUrl' => ['/cms/login'],
             'identityCookie' => ['name' => '_identity-genes', 'httpOnly' => true],

@@ -1,4 +1,7 @@
 <?php
+
+use genes\models\User;
+
 return [
     'id' => 'app-backend-tests',
     'components' => [
@@ -10,6 +13,10 @@ return [
         ],
         'request' => [
             'cookieValidationKey' => 'test',
+        ],
+        'user' => [
+            'class' => 'yii\web\User',
+            'identityClass' => User::class,
         ],
     ],
 ];

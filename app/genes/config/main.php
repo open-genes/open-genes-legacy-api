@@ -1,10 +1,7 @@
 <?php
 
 
-$params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/params.php'
-);
+$params = require __DIR__ . '/params.php';
 
 $config = [
     'id' => 'genes',
@@ -14,7 +11,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'homeUrl' => '/',
     'controllerNamespace' => 'genes\controllers',
-    'vendorPath' => '@common/vendor',
+    'vendorPath' => '@app/vendor',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [

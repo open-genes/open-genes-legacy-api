@@ -1,10 +1,13 @@
 <?php
+
+use cms\models\common\User;
+
 $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'vendorPath' => dirname(__DIR__) . '/vendor',
+    'vendorPath' => dirname(__DIR__) . '/../../vendor',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -17,7 +20,7 @@ $config = [
             'password' => getenv('DB_PASS'),
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => User::class,
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-genes', 'httpOnly' => true],
         ],

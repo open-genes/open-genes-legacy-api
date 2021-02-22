@@ -1,9 +1,9 @@
 <?php
-require __DIR__ . '/../common/vendor/autoload.php';
-require __DIR__ . '/../common/vendor/yiisoft/yii2/Yii.php';
-require __DIR__ . '/../genes/config/bootstrap.php';
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
+require __DIR__ . '/../cms/config/bootstrap.php';
 
-$dotenv = Dotenv\Dotenv::create(Yii::getAlias('@common'));
+$dotenv = Dotenv\Dotenv::create(Yii::getAlias('@app'));
 $dotenv->load();
 
 defined('YII_DEBUG') or define('YII_DEBUG', getenv('DEBUG'));
@@ -11,7 +11,7 @@ defined('YII_ENV') or define('YII_ENV', getenv('ENV'));
 
 
 $config = yii\helpers\ArrayHelper::merge(
-    require __DIR__ . '/../common/config/main.php',
+    require __DIR__ . '/config/common/main.php',
     require __DIR__ . '/config/main.php'
 );
 

@@ -1,8 +1,5 @@
 <?php
-$params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/params.php'
-);
+$params = require __DIR__ . '/params.php';
 
 $config = [
     'id' => 'genes-console',
@@ -11,7 +8,7 @@ $config = [
     'sourceLanguage' => 'en-GB', // todo костыль на то, что у нас переводы не в yii-формате ['english phrase' => 'русская фраза'], переделаем?
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'common\console\controllers',
-    'vendorPath' => '@common/vendor',
+    'vendorPath' => '@genes/vendor',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
