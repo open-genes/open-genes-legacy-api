@@ -10,11 +10,11 @@
 
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 
-require __DIR__ . '/../../common/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/../app/');
 $dotenv->load();
 
-require __DIR__ . '/../../common/vendor/yiisoft/yii2/Yii.php';
+require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
 
 require __DIR__ . '/../config/bootstrap.php';
 $config = require __DIR__ . '/../config/console.php';

@@ -31,7 +31,7 @@ services:
       - ./app:/var/www
     environment:
       XDEBUG_CONFIG: client_host=${CLIENT_HOST} client_port=9003
-    command: bash -c "XDEBUG_CONFIG= composer install && php-fpm"
+    command: bash -c "cd ./cms && XDEBUG_CONFIG= composer install && php-fpm"
   api:
     # path to our PHP image that will be built
     build: ./docker/php${PHP_IMAGE_ALTER}
@@ -46,6 +46,7 @@ services:
       - ./app:/var/www
     environment:
       XDEBUG_CONFIG: client_host=${CLIENT_HOST} client_port=9003
+    command: bash -c "cd ./genes && XDEBUG_CONFIG= composer install && php-fpm"
   mysql:
     image: mysql:5.7
     ports:

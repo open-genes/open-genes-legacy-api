@@ -1,9 +1,9 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/vendor/yiisoft/yii2/Yii.php';
 require __DIR__ . '/../cms/config/bootstrap.php';
 
-$dotenv = Dotenv\Dotenv::create(Yii::getAlias('@app'));
+$dotenv = Dotenv\Dotenv::create(Yii::getAlias('@cms'));
 $dotenv->load();
 
 defined('YII_DEBUG') or define('YII_DEBUG', getenv('DEBUG'));
