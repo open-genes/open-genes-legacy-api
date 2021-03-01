@@ -69,18 +69,18 @@ $config = [
     ],
     'container' => [
         'definitions' => [
-            \genes\application\service\GeneInfoServiceInterface::class => \genes\application\service\GeneInfoService::class,
-            \genes\application\service\PhylumInfoServiceInterface::class => \genes\application\service\PhylumInfoService::class,
-            \genes\application\dto\GeneDtoAssemblerInterface::class => \genes\application\dto\GeneDtoAssembler::class,
-            \genes\application\dto\ResearchDtoAssemblerInterface::class => \genes\application\dto\ResearchDtoAssembler::class,
-            \genes\infrastructure\dataProvider\GeneDataProviderInterface::class => function(\yii\di\Container $container){
-                return new \genes\infrastructure\dataProvider\GeneDataProvider(Yii::$app->language);
+            \application\service\GeneInfoServiceInterface::class => \application\service\GeneInfoService::class,
+            \application\service\PhylumInfoServiceInterface::class => \application\service\PhylumInfoService::class,
+            \application\dto\GeneDtoAssemblerInterface::class => \application\dto\GeneDtoAssembler::class,
+            \application\dto\ResearchDtoAssemblerInterface::class => \application\dto\ResearchDtoAssembler::class,
+            \infrastructure\dataProvider\GeneDataProviderInterface::class => function(\yii\di\Container $container){
+                return new \infrastructure\dataProvider\GeneDataProvider(Yii::$app->language);
             },
-            \genes\infrastructure\dataProvider\GeneExpressionDataProviderInterface::class => \genes\infrastructure\dataProvider\GeneExpressionDataProvider::class,
-            \genes\infrastructure\dataProvider\GeneFunctionsDataProviderInterface::class => \genes\infrastructure\dataProvider\GeneFunctionsDataProvider::class,
-            \genes\infrastructure\dataProvider\GeneResearchesDataProviderInterface::class => \genes\infrastructure\dataProvider\GeneResearchesDataProvider::class,
-            \genes\infrastructure\dataProvider\PhylumDataProviderInterface::class => \genes\infrastructure\dataProvider\PhylumDataProvider::class,
-            \genes\application\service\GeneOntologyServiceInterface::class => \genes\application\service\GeneOntologyService::class
+            \infrastructure\dataProvider\GeneExpressionDataProviderInterface::class => \infrastructure\dataProvider\GeneExpressionDataProvider::class,
+            \infrastructure\dataProvider\GeneFunctionsDataProviderInterface::class => \infrastructure\dataProvider\GeneFunctionsDataProvider::class,
+            \infrastructure\dataProvider\GeneResearchesDataProviderInterface::class => \infrastructure\dataProvider\GeneResearchesDataProvider::class,
+            \infrastructure\dataProvider\PhylumDataProviderInterface::class => \infrastructure\dataProvider\PhylumDataProvider::class,
+            \application\service\GeneOntologyServiceInterface::class => \application\service\GeneOntologyService::class
 
         ]
     ],
@@ -89,7 +89,7 @@ $config = [
     'runtimePath' => __DIR__ . '/../runtime',
     'on beforeAction' => function ($event) { // todo привести язык на фронте к стандарту ln-LN
         $language = $_GET['lang'] ?? $_COOKIE['lang'] ?? Yii::$app->language;
-        $language = (new \genes\helpers\LanguageMapHelper())->getMappedLanguage($language);
+        $language = (new \helpers\LanguageMapHelper())->getMappedLanguage($language);
         if(Yii::$app->language != $language) {
             Yii::$app->language = $language;
         }

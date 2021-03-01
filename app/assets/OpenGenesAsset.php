@@ -1,6 +1,6 @@
 <?php
 
-namespace genes\assets;
+namespace assets;
 
 use yii\web\AssetBundle;
 

@@ -1,12 +1,12 @@
 <?php
-namespace genes\controllers;
+namespace controllers;
 
-use genes\models\Gene;
-use genes\application\dto\GeneFullViewDto;
-use genes\application\service\GeneInfoServiceInterface;
-use genes\application\service\GeneOntologyServiceInterface;
-use genes\application\service\PhylumInfoServiceInterface;
-use genes\helpers\LanguageMapHelper;
+use models\Gene;
+use application\dto\GeneFullViewDto;
+use application\service\GeneInfoServiceInterface;
+use application\service\GeneOntologyServiceInterface;
+use application\service\PhylumInfoServiceInterface;
+use helpers\LanguageMapHelper;
 use Yii;
 use yii\filters\Cors;
 use yii\web\Controller;

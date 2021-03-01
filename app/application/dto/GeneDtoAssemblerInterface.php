@@ -1,7 +1,7 @@
 <?php
 
 
-namespace genes\application\dto;
+namespace application\dto;
 
 
 interface GeneDtoAssemblerInterface

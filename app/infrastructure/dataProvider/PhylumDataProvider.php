@@ -1,8 +1,8 @@
 <?php
-namespace genes\infrastructure\dataProvider;
+namespace infrastructure\dataProvider;
 
 
-use genes\models\Phylum;
+use models\Phylum;
 
 class PhylumDataProvider implements PhylumDataProviderInterface
 {

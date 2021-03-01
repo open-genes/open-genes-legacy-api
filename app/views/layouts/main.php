@@ -3,8 +3,8 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use genes\assets\OpenGenesAsset;
-use genes\widgets\Alert;
+use assets\OpenGenesAsset;
+use widgets\Alert;
 use yii\helpers\Html;
 
 OpenGenesAsset::register($this);

@@ -1,8 +1,8 @@
 <?php
-namespace genes\application\service;
+namespace application\service;
 
 
-use genes\application\dto\PhylumDto;
+use application\dto\PhylumDto;
 
 interface PhylumInfoServiceInterface
 {

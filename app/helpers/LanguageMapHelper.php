@@ -1,5 +1,5 @@
 <?php
-namespace genes\helpers;
+namespace helpers;
 
 class LanguageMapHelper
 {

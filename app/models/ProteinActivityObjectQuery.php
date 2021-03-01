@@ -1,6 +1,6 @@
 <?php
 
-namespace genes\models;
+namespace models;
 
 /**
  * This is the ActiveQuery class for [[ProteinActivityObject]].

@@ -28,7 +28,7 @@ $config = [
             'translations' => [
                 'main' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => __DIR__ . '/../../genes/assets/translations',
+                    'basePath' => __DIR__ . '/../../assets/translations',
                     'sourceLanguage' => 'en-GB',
                     'fileMap' => [
                         'main' => 'main.php',
@@ -39,8 +39,8 @@ $config = [
     ],
     'container' => [
         'definitions' => [
-            \genes\application\service\GeneInfoServiceInterface::class => \genes\application\service\GeneInfoService::class,
-            \genes\infrastructure\dataProvider\GeneDataProviderInterface::class => \genes\infrastructure\dataProvider\GeneDataProvider::class
+            \application\service\GeneInfoServiceInterface::class => \application\service\GeneInfoService::class,
+            \infrastructure\dataProvider\GeneDataProviderInterface::class => \infrastructure\dataProvider\GeneDataProvider::class
         ]
     ],
     'params' => $params,

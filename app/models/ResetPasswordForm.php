@@ -1,10 +1,10 @@
 <?php
-namespace genes\models;
+namespace models;
 
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\Model;
-use genes\models\User;
+use models\User;
 
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace genes\application\dto;
+namespace application\dto;
 
 class GeneDtoAssembler implements GeneDtoAssemblerInterface
 {

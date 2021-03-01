@@ -1,5 +1,5 @@
 <?php
-namespace genes\controllers;
+namespace controllers;
 
 use Yii;
 use yii\web\Controller;

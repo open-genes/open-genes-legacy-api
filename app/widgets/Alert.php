@@ -1,6 +1,6 @@
 <?php
 
-namespace genes\widgets;
+namespace widgets;
 
 use Yii;
 

@@ -1,16 +1,16 @@
 <?php
-namespace genes\console\controllers;
+namespace console\controllers;
 
-use genes\models\CommentCause;
-use genes\models\FunctionalCluster;
-use genes\models\Gene;
-use genes\models\GeneExpressionInSample;
-use genes\models\GeneToCommentCause;
-use genes\models\GeneToFunctionalCluster;
-use genes\models\GeneToProteinClass;
-use genes\models\Phylum;
-use genes\models\ProteinClass;
-use genes\models\Sample;
+use models\CommentCause;
+use models\FunctionalCluster;
+use models\Gene;
+use models\GeneExpressionInSample;
+use models\GeneToCommentCause;
+use models\GeneToFunctionalCluster;
+use models\GeneToProteinClass;
+use models\Phylum;
+use models\ProteinClass;
+use models\Sample;
 use yii\console\Controller;
 use yii\httpclient\Client;
 

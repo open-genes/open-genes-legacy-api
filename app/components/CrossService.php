@@ -5,7 +5,7 @@
  * Time: 19:34
  */
 
-namespace genes\components;
+namespace components;
 
 use Exception;
 use Yii;

@@ -1,11 +1,11 @@
 <?php
-namespace genes\application\service;
+namespace application\service;
 
-use genes\models\Gene;
-use genes\models\GeneOntology;
-use genes\models\GeneToOntology;
+use models\Gene;
+use models\GeneOntology;
+use models\GeneToOntology;
 use Exception;
-use genes\components\CrossService;
+use components\CrossService;
 use Yii;
 
 /**

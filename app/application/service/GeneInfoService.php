@@ -1,13 +1,13 @@
 <?php
-namespace genes\application\service;
+namespace application\service;
 
-use genes\application\dto\GeneDtoAssemblerInterface;
-use genes\application\dto\GeneFullViewDto;
-use genes\application\dto\ResearchDtoAssemblerInterface;
-use genes\infrastructure\dataProvider\GeneDataProviderInterface;
-use genes\infrastructure\dataProvider\GeneExpressionDataProviderInterface;
-use genes\infrastructure\dataProvider\GeneFunctionsDataProviderInterface;
-use genes\infrastructure\dataProvider\GeneResearchesDataProviderInterface;
+use application\dto\GeneDtoAssemblerInterface;
+use application\dto\GeneFullViewDto;
+use application\dto\ResearchDtoAssemblerInterface;
+use infrastructure\dataProvider\GeneDataProviderInterface;
+use infrastructure\dataProvider\GeneExpressionDataProviderInterface;
+use infrastructure\dataProvider\GeneFunctionsDataProviderInterface;
+use infrastructure\dataProvider\GeneResearchesDataProviderInterface;
 use yii\base\Exception;
 
 class GeneInfoService implements GeneInfoServiceInterface

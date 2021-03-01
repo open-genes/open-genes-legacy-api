@@ -1,6 +1,6 @@
 <?php
 
-use genes\models\User;
+use models\User;
 
 return [
     'id' => 'app-backend-tests',

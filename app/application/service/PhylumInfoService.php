@@ -1,7 +1,7 @@
 <?php
-namespace genes\application\service;
+namespace application\service;
 
-use genes\infrastructure\dataProvider\PhylumDataProviderInterface;
+use infrastructure\dataProvider\PhylumDataProviderInterface;
 
 class PhylumInfoService implements PhylumInfoServiceInterface
 {

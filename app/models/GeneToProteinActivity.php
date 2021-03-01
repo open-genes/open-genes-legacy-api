@@ -1,6 +1,6 @@
 <?php
 
-namespace genes\models;
+namespace models;
 
 use Yii;
 

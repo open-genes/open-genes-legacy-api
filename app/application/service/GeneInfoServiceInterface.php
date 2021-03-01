@@ -1,9 +1,9 @@
 <?php
-namespace genes\application\service;
+namespace application\service;
 
-use genes\application\dto\GeneFullViewDto;
-use genes\application\dto\GeneListViewDto;
-use genes\application\dto\LatestGeneViewDto;
+use application\dto\GeneFullViewDto;
+use application\dto\GeneListViewDto;
+use application\dto\LatestGeneViewDto;
 
 interface GeneInfoServiceInterface
 {

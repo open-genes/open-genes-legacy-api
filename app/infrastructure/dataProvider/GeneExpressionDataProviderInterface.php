@@ -1,5 +1,5 @@
 <?php
-namespace genes\infrastructure\dataProvider;
+namespace infrastructure\dataProvider;
 
 interface GeneExpressionDataProviderInterface
 {
