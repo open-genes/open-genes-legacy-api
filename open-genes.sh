@@ -34,4 +34,5 @@ echo "COMPOSE_ARGS '$COMPOSE_ARGS'"
 OPEN_GENES_UID=$UID:$GID 
 export OPEN_GENES_UID PHP_IMAGE_ALTER CLIENT_HOST
 
+docker network create db_net || true
 docker-compose $COMPOSE_ARGS

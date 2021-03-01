@@ -7,8 +7,8 @@ $config = [
     'language' => 'ru-RU',
     'sourceLanguage' => 'en-GB', // todo костыль на то, что у нас переводы не в yii-формате ['english phrase' => 'русская фраза'], переделаем?
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'common\console\controllers',
-    'vendorPath' => '@genes/vendor',
+    'controllerNamespace' => 'console\controllers',
+    'vendorPath' => '@app/vendor',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
