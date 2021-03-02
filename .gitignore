@@ -37,8 +37,8 @@ phpunit.phar
 logs/
 
 node_modules
-app/genes/runtime/
+app/runtime/
 app/.env
 
-app/genes/assets/css/style.css
-app/genes/assets/css/style.css.map
+app/assets/css/style.css
+app/assets/css/style.css.map
