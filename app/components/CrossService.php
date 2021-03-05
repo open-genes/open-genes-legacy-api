@@ -5,7 +5,7 @@
  * Time: 19:34
  */
 
-namespace components;
+namespace app\components;
 
 use Exception;
 use Yii;

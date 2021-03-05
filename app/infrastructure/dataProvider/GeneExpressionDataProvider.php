@@ -1,7 +1,7 @@
 <?php
-namespace infrastructure\dataProvider;
+namespace app\infrastructure\dataProvider;
 
-use models\GeneExpressionInSample;
+use app\models\GeneExpressionInSample;
 
 class GeneExpressionDataProvider implements GeneExpressionDataProviderInterface
 {

@@ -4,7 +4,7 @@ namespace models;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\Model;
-use models\User;
+use app\models\User;
 
 
 /**

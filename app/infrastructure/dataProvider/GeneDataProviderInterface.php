@@ -1,5 +1,5 @@
 <?php
-namespace infrastructure\dataProvider;
+namespace app\infrastructure\dataProvider;
 
 use yii\web\NotFoundHttpException;
 

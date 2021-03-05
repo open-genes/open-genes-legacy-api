@@ -10,7 +10,7 @@ $config = [
     'sourceLanguage' => 'en-GB', // todo костыль на то, что у нас переводы не в yii-формате ['english phrase' => 'русская фраза'], переделаем?
     'basePath' => dirname(__DIR__),
     'homeUrl' => '/',
-    'controllerNamespace' => 'controllers',
+    'controllerNamespace' => 'app\controllers',
     'vendorPath' => '@app/vendor',
     'bootstrap' => ['log'],
     'modules' => [],
@@ -69,18 +69,18 @@ $config = [
     ],
     'container' => [
         'definitions' => [
-            \application\service\GeneInfoServiceInterface::class => \application\service\GeneInfoService::class,
-            \application\service\PhylumInfoServiceInterface::class => \application\service\PhylumInfoService::class,
-            \application\dto\GeneDtoAssemblerInterface::class => \application\dto\GeneDtoAssembler::class,
-            \application\dto\ResearchDtoAssemblerInterface::class => \application\dto\ResearchDtoAssembler::class,
-            \infrastructure\dataProvider\GeneDataProviderInterface::class => function(\yii\di\Container $container){
-                return new \infrastructure\dataProvider\GeneDataProvider(Yii::$app->language);
+            app\application\service\GeneInfoServiceInterface::class => app\application\service\GeneInfoService::class,
+            app\application\service\PhylumInfoServiceInterface::class => app\application\service\PhylumInfoService::class,
+            app\application\dto\GeneDtoAssemblerInterface::class => app\application\dto\GeneDtoAssembler::class,
+            app\application\dto\ResearchDtoAssemblerInterface::class => app\application\dto\ResearchDtoAssembler::class,
+            app\infrastructure\dataProvider\GeneDataProviderInterface::class => function(\yii\di\Container $container){
+                return new app\infrastructure\dataProvider\GeneDataProvider(Yii::$app->language);
             },
-            \infrastructure\dataProvider\GeneExpressionDataProviderInterface::class => \infrastructure\dataProvider\GeneExpressionDataProvider::class,
-            \infrastructure\dataProvider\GeneFunctionsDataProviderInterface::class => \infrastructure\dataProvider\GeneFunctionsDataProvider::class,
-            \infrastructure\dataProvider\GeneResearchesDataProviderInterface::class => \infrastructure\dataProvider\GeneResearchesDataProvider::class,
-            \infrastructure\dataProvider\PhylumDataProviderInterface::class => \infrastructure\dataProvider\PhylumDataProvider::class,
-            \application\service\GeneOntologyServiceInterface::class => \application\service\GeneOntologyService::class
+            app\infrastructure\dataProvider\GeneExpressionDataProviderInterface::class => app\infrastructure\dataProvider\GeneExpressionDataProvider::class,
+            app\infrastructure\dataProvider\GeneFunctionsDataProviderInterface::class => app\infrastructure\dataProvider\GeneFunctionsDataProvider::class,
+            app\infrastructure\dataProvider\GeneResearchesDataProviderInterface::class => app\infrastructure\dataProvider\GeneResearchesDataProvider::class,
+            app\infrastructure\dataProvider\PhylumDataProviderInterface::class => app\infrastructure\dataProvider\PhylumDataProvider::class,
+            app\application\service\GeneOntologyServiceInterface::class => app\application\service\GeneOntologyService::class
 
         ]
     ],
@@ -89,7 +89,7 @@ $config = [
     'runtimePath' => __DIR__ . '/../runtime',
     'on beforeAction' => function ($event) { // todo привести язык на фронте к стандарту ln-LN
         $language = $_GET['lang'] ?? $_COOKIE['lang'] ?? Yii::$app->language;
-        $language = (new \helpers\LanguageMapHelper())->getMappedLanguage($language);
+        $language = (new app\helpers\LanguageMapHelper())->getMappedLanguage($language);
         if(Yii::$app->language != $language) {
             Yii::$app->language = $language;
         }

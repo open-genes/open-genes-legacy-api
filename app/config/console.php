@@ -7,7 +7,7 @@ $config = [
     'language' => 'ru-RU',
     'sourceLanguage' => 'en-GB', // todo костыль на то, что у нас переводы не в yii-формате ['english phrase' => 'русская фраза'], переделаем?
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'console\controllers',
+    'controllerNamespace' => 'app\console\controllers',
     'vendorPath' => '@app/vendor',
     'bootstrap' => ['log'],
     'modules' => [],
@@ -28,7 +28,7 @@ $config = [
             'translations' => [
                 'main' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => __DIR__ . '/../../assets/translations',
+                    'basePath' => __DIR__ . '/../assets/translations',
                     'sourceLanguage' => 'en-GB',
                     'fileMap' => [
                         'main' => 'main.php',
@@ -39,8 +39,8 @@ $config = [
     ],
     'container' => [
         'definitions' => [
-            \application\service\GeneInfoServiceInterface::class => \application\service\GeneInfoService::class,
-            \infrastructure\dataProvider\GeneDataProviderInterface::class => \infrastructure\dataProvider\GeneDataProvider::class
+            app\application\service\GeneInfoServiceInterface::class => app\application\service\GeneInfoService::class,
+            app\infrastructure\dataProvider\GeneDataProviderInterface::class => app\infrastructure\dataProvider\GeneDataProvider::class
         ]
     ],
     'params' => $params,

@@ -1,5 +1,5 @@
 <?php
-namespace application\dto;
+namespace app\application\dto;
 
 class PhylumDto
 {

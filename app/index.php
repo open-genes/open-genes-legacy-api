@@ -5,10 +5,9 @@ require __DIR__ . '/config/bootstrap.php';
 
 $dotenv = Dotenv\Dotenv::create(Yii::getAlias('@app'));
 $dotenv->load();
-$a = Yii::$app->controller;
+
 defined('YII_DEBUG') or define('YII_DEBUG', getenv('DEBUG'));
 defined('YII_ENV') or define('YII_ENV', getenv('ENV'));
-
 
 $config = yii\helpers\ArrayHelper::merge(
     require __DIR__ . '/config/common/main.php',

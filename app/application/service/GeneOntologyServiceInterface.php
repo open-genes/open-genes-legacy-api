@@ -1,6 +1,6 @@
 <?php
 
-namespace application\service;
+namespace app\application\service;
 
 interface GeneOntologyServiceInterface
 {

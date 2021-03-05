@@ -1,7 +1,7 @@
 <?php
-namespace console\controllers;
+namespace app\console\controllers;
 
-use models\User;
+use app\models\User;
 use yii\console\Controller;
 
 class UserController extends Controller

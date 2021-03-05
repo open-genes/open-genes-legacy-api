@@ -1,6 +1,6 @@
 <?php
 
-use models\User;
+use app\models\User;
 
 return [
     'id' => 'app-backend-tests',
