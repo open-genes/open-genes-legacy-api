@@ -11,7 +11,7 @@
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 
 require __DIR__ . '/../../common/vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::create(__DIR__ . '/../../');
+$dotenv = Dotenv\Dotenv::create(__DIR__ . '/../');
 $dotenv->load();
 
 //foreach ($composerAutoload as $autoload) {
