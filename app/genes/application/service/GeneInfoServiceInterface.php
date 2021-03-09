@@ -35,6 +35,13 @@ interface GeneInfoServiceInterface
     public function getByFunctionalClustersIds(array $functionalClustersIds, string $lang = 'en-US'): array;
 
     /**
+     * @param array $selectionCriteriaIds
+     * @param string $lang
+     * @return GeneListViewDto[]
+     */
+    public function getBySelectionCriteriaIds(array $selectionCriteriaIds, string $lang = 'en-US'): array;
+
+    /**
      * @param int $expressionChange
      * @param string $lang
      * @return GeneListViewDto[]

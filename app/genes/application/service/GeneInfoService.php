@@ -108,6 +108,17 @@ class GeneInfoService implements GeneInfoServiceInterface
         return $geneDtos;
     }
 
+    public function getBySelectionCriteriaIds(array $selectionCriteriaIds, string $lang = 'en-US'): array
+    {
+        $genesArray = $this->geneDataProvider->getBySelectionCriteriaIds($selectionCriteriaIds);
+        $geneDtos = [];
+        foreach ($genesArray as $gene) {
+            $geneDtos[] = $this->geneDtoAssembler->mapListViewDto($gene, $lang);
+        }
+
+        return $geneDtos;
+    }
+
     public function getByExpressionChange(int $expressionChange, string $lang = 'en-US'): array
     {
         $genesArray = $this->geneDataProvider->getByExpressionChange($expressionChange);
@@ -149,5 +160,4 @@ class GeneInfoService implements GeneInfoServiceInterface
             $lang
         );
     }
-
 }

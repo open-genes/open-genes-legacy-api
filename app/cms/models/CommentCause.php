@@ -7,7 +7,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "age".
+ * This is the model class for table "comment_cause".
  *
  */
 class CommentCause extends \common\models\CommentCause
@@ -23,9 +23,9 @@ class CommentCause extends \common\models\CommentCause
     public static function findAllAsArray()
     {
         $result = [];
-        $functionalClusters = self::find()->all();
-        foreach ($functionalClusters as $functionalCluster) {
-            $result[$functionalCluster->id] = $functionalCluster->name_ru;
+        $commentCauses = self::find()->all();
+        foreach ($commentCauses as $commentCause) {
+            $result[$commentCause->id] = $commentCause->name_ru;
         }
 
         return $result;
