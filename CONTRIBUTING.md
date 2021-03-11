@@ -31,14 +31,13 @@ Add to your /etc/hosts:
 ```
 127.0.0.1 open-genes.develop cms.open-genes.develop
 ```
-if you haven't local .env file yet, copy it from .env.sample
+if you haven't local .env file yet, copy it from .env.sample file from ``
 ```
-cp app/.env.sample app/.env
+cp app/common/.env.sample app/common/.env
 ```
 Open http://open-genes.develop:8080/api, http://cms.open-genes.develop:8080/
 
 DB will be available at localhost:3307 with root-secret credentials. Please ask the team for the db dump for development.  
-
 
 For the first time local deployment you may need to create  `app/cms/runtime/assets` dir and make it writable for container user.
 

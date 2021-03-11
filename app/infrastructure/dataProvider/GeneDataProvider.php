@@ -3,6 +3,8 @@ namespace app\infrastructure\dataProvider;
 
 use app\models\Gene;
 use app\models\GeneQuery;
+use app\models\GeneToCommentCause;
+use app\models\GeneToFunctionalCluster;
 use yii\web\NotFoundHttpException;
 
 class GeneDataProvider implements GeneDataProviderInterface
@@ -129,21 +131,48 @@ class GeneDataProvider implements GeneDataProviderInterface
     /** @inheritDoc */
     public function getByFunctionalClustersIds(array $functionalClustersIds): array
     {
+        $genesIdsByFunctionalClusters = GeneToFunctionalCluster::find()
+            ->select('gene_id')
+            ->groupBy('gene_id')
+            ->where(['functional_cluster_id' => $functionalClustersIds])
+            ->having('count(functional_cluster_id) = ' . count($functionalClustersIds))
+            ->asArray()->column();
+
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
             ->withAge()
             ->withFunctionalClusters($this->lang)
+            ->withCommentCause($this->lang)
+            ->where(['gene.id' => ($genesIdsByFunctionalClusters)])
             ->andWhere('isHidden != 1')
             ->orderBy('age.order DESC')
             ->groupBy('gene.id')
             ->asArray();
-        $joinCounter = 0;
-        foreach($functionalClustersIds as $functionalClustersId) {
-            $genesArrayQuery->innerJoin(
-                "gene_to_functional_cluster filter_cluster_{$joinCounter}",
-                ['and', "filter_cluster_{$joinCounter}.gene_id = gene.id", ["filter_cluster_{$joinCounter}.functional_cluster_id" => $functionalClustersId]]);
-            $joinCounter++;
-        }
+        
+        return $genesArrayQuery->all();
+    }
+
+    /** @inheritDoc */
+    public function getBySelectionCriteriaIds(array $selectionCriteriaIds): array
+    {
+        $genesIdsBySelectionCriteria = GeneToCommentCause::find()
+            ->select('gene_id')
+            ->groupBy('gene_id')
+            ->where(['comment_cause_id' => $selectionCriteriaIds])
+            ->having('count(comment_cause_id) = ' . count($selectionCriteriaIds))
+            ->asArray()->column();
+
+        $genesArrayQuery = Gene::find()
+            ->select($this->fields)
+            ->withAge()
+            ->withFunctionalClusters($this->lang)
+            ->withCommentCause($this->lang)
+            ->andWhere('isHidden != 1')
+            ->andWhere(['gene.id' => $genesIdsBySelectionCriteria])
+            ->orderBy('age.order DESC')
+            ->groupBy('gene.id')
+            ->asArray();
+
         return $genesArrayQuery->all();
     }
 

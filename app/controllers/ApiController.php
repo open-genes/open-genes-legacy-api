@@ -88,6 +88,14 @@ class ApiController extends Controller
         return $geneInfoService->getByFunctionalClustersIds($functionalClusterIds, $this->language);
     }
 
+    public function actionBySelectionCriteria($ids)
+    {
+        $selectionCriteriaIds = explode(',', $ids);
+        /** @var GeneInfoServiceInterface $geneInfoService */
+        $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
+        return $geneInfoService->getBySelectionCriteriaIds($selectionCriteriaIds, $this->language);
+    }
+
     public function actionByExpressionChange($expressionChange)
     {
         /** @var GeneInfoServiceInterface $geneInfoService */

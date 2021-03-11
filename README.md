@@ -1,38 +1,34 @@
-# Open Longevity Genes
+# Open Longevity Genes Yii2 web app
 
 API and CMS for open-genes.com
-Мануальный деплой:
 
-Создать базу данных
-Установить композер
-Создать файл .env на основе примера и записать в него доступы
-ВАЖНО: установить локальный адрес 127.0.0.1 вместо localhost
-
-
-
-Yii2 web app
+## Manual deployment
+- Create a database
+- Install Composer
+- Create an .env file based on an example file in `app/common.env.sample` and write credits there
+- Important notice: set local address to `127.0.0.1` instead of `localhost`
 
 ## Dev environment
 
-### Build backend
+```
+docker-compose up -d --build
+```
+
+## Build backend
 ```
 sh open-genes.sh up
 ```
-Open http://127.0.0.1:8080/
+Open [http://127.0.0.1:8080/](http://127.0.0.1:8080/)
 
-DB wil be available at localhost:3307 root-secret
-
-To watch changes:
-```$xslt
-$ npm run sass-watch
-```
----
+DB wil be available at [localhost:3307](localhost:3307) root-secret
 
 If you haven't got local .env file yet, copy it from .env.sample.
 
 ```
 cp app/.env.sample app/.env
 ```
+
+## Other
 
 ### Build styles
 ```

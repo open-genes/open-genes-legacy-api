@@ -25,6 +25,12 @@ interface GeneDataProviderInterface
     public function getByFunctionalClustersIds(array $functionalClustersIds): array;
 
     /**
+     * @param int[] $selectionCriteriaIds
+     * @return array
+     */
+    public function getBySelectionCriteriaIds(array $selectionCriteriaIds): array;
+
+    /**
      * @param int $expressionChange
      * @return array
      */
