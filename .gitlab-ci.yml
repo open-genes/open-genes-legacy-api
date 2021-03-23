@@ -6,7 +6,7 @@ stages:
 variables:
   PROJECT_TEST_DOMAIN: test.open-genes.com
   PROJECT_DEMO_DOMAIN: demo.open-genes.com
-  PROJECT_DOMAIN: open-genes
+  PROJECT_NAME: open-genes
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}-${CI_JOB_NAME}
@@ -43,16 +43,16 @@ deploy-demo:
     PROJECT_DIR: /var/www/${PROJECT_DEMO_DOMAIN}/api
     PROJECT_DOTENV: ${DROPLET_DEMO_DOTENV}
 
-#deploy-prod:
-#  extends: .deploy
-#  stage: release
-#  environment:
-#    name: production
-#  variables:
-#    PROJECT_DIR: /var/www/${PROJECT_NAME}
-#    PROJECT_DOTENV: ${DROPLET_PROD_DOTENV}
-#  only:
-#    - master
+deploy-prod:
+  extends: .deploy
+  stage: release
+  environment:
+    name: production
+  variables:
+    PROJECT_DIR: /var/www/${PROJECT_NAME}/api
+    PROJECT_DOTENV: ${DROPLET_PROD_DOTENV}
+  only:
+    - master
 
 .deploy:
   stage: staging
