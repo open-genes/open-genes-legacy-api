@@ -107,6 +107,9 @@ deploy-prod:
   stage: test-stand
   image: instrumentisto/rsync-ssh
   script:
+    - echo ${PROJECT_DEMO_DOMAIN}
+    - echo ${PROJECT_TEST_DOMAIN}
+    - echo ${PROJECT_DIR}
     - rsync -zhrl -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' dist/frontend/ ${DROPLET_USER}@${DROPLET_IP}:${PROJECT_DIR}/frontend/
   before_script:
     - mkdir ~/.ssh
