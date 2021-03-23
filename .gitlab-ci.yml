@@ -35,14 +35,14 @@ deploy-test:
     PROJECT_DIR: /var/www/${PROJECT_TEST_DOMAIN}/api
     PROJECT_DOTENV: ${DROPLET_TEST_DOTENV}
 
-#deploy-stage:
-#  extends: .deploy
-#  environment:
-#    name: stage
-#  variables:
-#    PROJECT_DIR: /var/www/${PROJECT_DEMO_DOMAIN}/api
-#    PROJECT_DOTENV: ${DROPLET_DEMO_DOTENV}
-#
+deploy-demo:
+  extends: .deploy
+  environment:
+    name: stage
+  variables:
+    PROJECT_DIR: /var/www/${PROJECT_DEMO_DOMAIN}/api
+    PROJECT_DOTENV: ${DROPLET_DEMO_DOTENV}
+
 #deploy-prod:
 #  extends: .deploy
 #  stage: release
