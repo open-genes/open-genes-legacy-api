@@ -53,6 +53,25 @@ class GeneQuery extends \yii\db\ActiveQuery
                 'gene_to_functional_cluster.functional_cluster_id = functional_cluster.id'
             );
     }
+    
+    public function withDiseases($lang)
+    {
+        $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
+        return $this
+            ->addSelect([
+                'group_concat(distinct concat(disease.id,\'|\',disease.omim_id,\'|\',(IF(disease.'. $nameField . ' IS NULL or disease.'. $nameField . ' = "", disease.name_en, disease.'. $nameField . ')))) as diseases'
+            ])
+            ->join(
+                'LEFT JOIN',
+                'gene_to_disease',
+                'gene_to_disease.gene_id = gene.id'
+            )
+            ->join(
+                'LEFT JOIN',
+                'disease',
+                'gene_to_disease.disease_id = disease.id'
+            );
+    }
 
     public function withExpression()
     {
