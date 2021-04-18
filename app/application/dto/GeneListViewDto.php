@@ -13,6 +13,8 @@ class GeneListViewDto
     public $symbol;
     /** @var array */
     public $aliases;
+    /** @var array */
+    public $diseases;
     /** @var string */
     public $name;
     /** @var string */

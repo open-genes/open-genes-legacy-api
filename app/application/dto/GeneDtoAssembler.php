@@ -15,6 +15,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->symbol = (string)$geneArray['symbol'];
         $geneDto->aliases = $geneArray['aliases'] ? explode(' ', $geneArray['aliases']) : [];
         $geneDto->name = (string)$geneArray['name'];
+        $geneDto->diseases = $this->mapDiseases($geneArray['diseases']);
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->commentCause =  $this->prepareCommentCauses($geneArray);
@@ -63,6 +64,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->origin = $this->prepareOrigin($geneArray);
         $geneDto->homologueTaxon = (string)$geneArray['taxon_name'];
         $geneDto->symbol = (string)$geneArray['symbol'];
+        $geneDto->diseases = $this->mapDiseases($geneArray['diseases']);
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->expressionChange = (int)$geneArray['expressionChange'];
@@ -114,6 +116,23 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         }
 
         return $functionalClusterDtos;
+    }
+    
+    private function mapDiseases($diseasesString): array
+    {
+        $diseases = [];
+        if($diseasesString) {
+            $diseasesArray = explode(',', $diseasesString);
+            foreach ($diseasesArray as $diseaseString) {
+                list($id, $omimId, $name) = explode('|', $diseaseString);
+                $diseases[$id] = [
+                    'omim_id' => $omimId,
+                    'name' => $name
+                ];
+            }
+        }
+        
+        return $diseases;
     }
 
     private function prepareOrthologs($orthologsString): array
