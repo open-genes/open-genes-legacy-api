@@ -59,7 +59,7 @@ class GeneQuery extends \yii\db\ActiveQuery
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         return $this
             ->addSelect([
-                'group_concat(distinct concat(disease.id,\'|\',disease.omim_id,\'|\',(IF(disease.'. $nameField . ' IS NULL or disease.'. $nameField . ' = "", disease.name_en, disease.'. $nameField . ')))) as diseases'
+                'group_concat(distinct concat(disease.id,\'|\',disease.omim_id,\'|\',(IF(disease.'. $nameField . ' IS NULL or disease.'. $nameField . ' = "", disease.name_en, disease.'. $nameField . ')))  separator "||") as diseases'
             ])
             ->join(
                 'LEFT JOIN',

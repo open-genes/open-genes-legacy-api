@@ -122,7 +122,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
     {
         $diseases = [];
         if($diseasesString) {
-            $diseasesArray = explode(',', $diseasesString);
+            $diseasesArray = explode('||', $diseasesString);
             foreach ($diseasesArray as $diseaseString) {
                 list($id, $omimId, $name) = explode('|', $diseaseString);
                 $diseases[$id] = [
