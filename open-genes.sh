@@ -20,11 +20,15 @@ fi
 PHP_IMAGE_ALTER=""
 [ "$XDEBUG" != "" ] && PHP_IMAGE_ALTER="-xdebug" && echo "Using alternative PHP container image php$PHP_IMAGE_ALTER"
 
-
 if [ "$COMPOSE_ARGS" = "up " ]
 then 
 	COMPOSE_ARGS="up -d"
-	mkdir -p ../open-genes-logs ../open-genes-mysql
+fi
+
+mkdir -p ../open-genes-logs ./app/runtime/assets
+if [ ! -e app/.env ]
+then
+    cp app/.env.sample app/.env
 fi
 
 [ "$COMPOSE_ARGS" = "up --no-detach " ] && echo here
@@ -34,5 +38,4 @@ echo "COMPOSE_ARGS '$COMPOSE_ARGS'"
 OPEN_GENES_UID=$UID:$GID 
 export OPEN_GENES_UID PHP_IMAGE_ALTER CLIENT_HOST
 
-docker network create db_net || true
 docker-compose $COMPOSE_ARGS
