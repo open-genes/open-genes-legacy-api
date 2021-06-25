@@ -105,7 +105,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
     {
         $functionalClusterDtos = [];
         if ($geneFunctionalClustersString) {
-            $functionalClustersArray = explode(',', $geneFunctionalClustersString);
+            $functionalClustersArray = explode('||', $geneFunctionalClustersString);
             foreach ($functionalClustersArray as $functionalCluster) {
                 list($id, $name) = explode('|', $functionalCluster);
                 $functionalClusterDto = new FunctionalClusterDto();
@@ -185,7 +185,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
     private function prepareCommentCauses($geneArray): array
     {
         $commentCauses = [];
-        $geneCommentCausesStrings = $geneArray['comment_cause'] ? explode(',', $geneArray['comment_cause']) : [];
+        $geneCommentCausesStrings = $geneArray['comment_cause'] ? explode('||', $geneArray['comment_cause']) : [];
         foreach ($geneCommentCausesStrings as $geneCommentCausesString) {
             list($id, $name) = explode('|', $geneCommentCausesString);
             $commentCauses[$id] = $name;

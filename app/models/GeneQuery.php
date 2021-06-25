@@ -40,7 +40,7 @@ class GeneQuery extends \yii\db\ActiveQuery
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         return $this
             ->addSelect([
-                'group_concat(distinct concat(functional_cluster.id,\'|\',functional_cluster.'. $nameField . ')) as functional_clusters'
+                'group_concat(distinct concat(functional_cluster.id,\'|\',functional_cluster.'. $nameField . ') separator \'||\') as functional_clusters'
             ])
             ->join(
                 'LEFT JOIN',
@@ -93,7 +93,7 @@ class GeneQuery extends \yii\db\ActiveQuery
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         return $this
             ->addSelect([
-                'group_concat(distinct concat(comment_cause.id,\'|\',comment_cause.'. $nameField . ')) as comment_cause'
+                'group_concat(distinct concat(comment_cause.id,\'|\',comment_cause.'. $nameField . ') separator \'||\') as comment_cause'
             ])
             ->join(
                 'LEFT JOIN',
