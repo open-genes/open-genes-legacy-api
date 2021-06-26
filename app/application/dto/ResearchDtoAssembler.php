@@ -12,6 +12,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $ageRelatedChanges,
         $interventionResultForVitalProcesses,
         $proteinToGenes,
+        $additionalEvidences,
         $lang
     ): ResearchDto
     {
@@ -22,6 +23,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->ageRelatedChangesOfGene = [];
         $researchesDto->interventionToGeneImprovesVitalProcesses = [];
         $researchesDto->proteinRegulatesOtherGenes = [];
+        $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
             $this->preparePercentChange($lifespanExperiment);
             $this->prepareAge($lifespanExperiment, $lang);
@@ -36,6 +38,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         foreach ($geneToLongevityEffects as $geneToLongevityEffect) {
             $this->prepareSex($geneToLongevityEffect, $lang);
             $this->prepareEmpty($geneToLongevityEffect);
+            $this->prepareDataType($geneToLongevityEffect, $lang);
             $researchesDto->geneAssociatedWithLongevityEffects[] = $geneToLongevityEffect;
         }
         foreach ($ageRelatedChanges as $ageRelatedChange) {
@@ -58,6 +61,8 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
             $this->prepareEmpty($proteinToGene);
             $researchesDto->proteinRegulatesOtherGenes[] = $proteinToGene;
         }
+
+        $researchesDto->additionalEvidences = $additionalEvidences;
 
         return $researchesDto;
     }
@@ -170,6 +175,22 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         ];
         if (isset($data['regulationType']) && isset($types[$data['regulationType']])) {
             $data['regulationType'] = $types[$data['regulationType']];
+        }
+    }
+
+    private function prepareDataType(&$data, $lang)
+    {
+        $types = $lang == 'en-US' ? [
+            1 => 'genomic',
+            2 => 'transcriptomic',
+            3 => 'proteomic',
+        ] : [
+            1 => 'геномные',
+            2 => 'транскриптомные',
+            3 => 'протеомные',
+        ];
+        if (isset($data['dataType']) && isset($types[$data['dataType']])) {
+            $data['dataType'] = $types[$data['dataType']];
         }
     }
 }

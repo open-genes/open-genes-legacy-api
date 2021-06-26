@@ -3,6 +3,7 @@ namespace app\infrastructure\dataProvider;
 
 use app\models\AgeRelatedChange;
 use app\models\GeneInterventionToVitalProcess;
+use app\models\GeneToAdditionalEvidence;
 use app\models\GeneToLongevityEffect;
 use app\models\GeneToProgeria;
 use app\models\LifespanExperiment;
@@ -25,7 +26,6 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         return LifespanExperiment::find()
             ->select([
                 "gene_intervention.{$nameField} as interventionType",
-                "intervention_result_for_longevity.{$nameField} as interventionResult",
                 "model_organism.{$nameField} as modelOrganism",
                 "organism_line.{$nameField} as organismLine",
                 "lifespan_experiment.age",
@@ -39,7 +39,6 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ])
             ->distinct()
             ->innerJoin('gene_intervention', 'lifespan_experiment.gene_intervention_id=gene_intervention.id')
-            ->innerJoin('intervention_result_for_longevity', 'lifespan_experiment.intervention_result_id=intervention_result_for_longevity.id')
             ->leftJoin('model_organism', 'lifespan_experiment.model_organism_id=model_organism.id')
             ->leftJoin('organism_line', 'lifespan_experiment.organism_line_id=organism_line.id')
             ->where(['gene_id' => $geneId])
@@ -155,13 +154,30 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "gene_to_longevity_effect.sex_of_organism as sex",
                 "gene_to_longevity_effect.allele_variant as allelicVariant",
                 "model_organism.{$nameField} as modelOrganism",
+                "age_related_change_type.{$nameField} as changeType",
+                "gene_to_longevity_effect.data_type as dataType",
                 "gene_to_longevity_effect.reference",
                 "gene_to_longevity_effect.{$commentField} as comment",
             ])
             ->distinct()
             ->innerJoin('longevity_effect', 'gene_to_longevity_effect.longevity_effect_id=longevity_effect.id')
             ->innerJoin('genotype', 'gene_to_longevity_effect.genotype_id=genotype.id')
+            ->leftJoin('age_related_change_type', 'gene_to_longevity_effect.age_related_change_type_id=age_related_change_type.id')
             ->leftJoin('model_organism', 'gene_to_longevity_effect.model_organism_id=model_organism.id')
+            ->where(['gene_id' => $geneId])
+            ->asArray()
+            ->all();
+    }
+
+    public function getGeneToAdditionalEvidencesByGeneId(int $geneId, string $lang): array
+    {
+        $commentField = $lang == 'en-US' ? 'comment_en' : 'comment_ru';
+        return GeneToAdditionalEvidence::find()
+            ->select([
+                "gene_to_additional_evidence.reference",
+                "gene_to_additional_evidence.{$commentField} as comment",
+            ])
+            ->distinct()
             ->where(['gene_id' => $geneId])
             ->asArray()
             ->all();
