@@ -26,6 +26,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         return LifespanExperiment::find()
             ->select([
                 "gene_intervention.{$nameField} as interventionType",
+                "intervention_result_for_longevity.{$nameField} as interventionResult",
                 "model_organism.{$nameField} as modelOrganism",
                 "organism_line.{$nameField} as organismLine",
                 "lifespan_experiment.age",
@@ -39,6 +40,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ])
             ->distinct()
             ->innerJoin('gene_intervention', 'lifespan_experiment.gene_intervention_id=gene_intervention.id')
+            ->innerJoin('intervention_result_for_longevity', 'lifespan_experiment.intervention_result_id=intervention_result_for_longevity.id')
             ->leftJoin('model_organism', 'lifespan_experiment.model_organism_id=model_organism.id')
             ->leftJoin('organism_line', 'lifespan_experiment.organism_line_id=organism_line.id')
             ->where(['gene_id' => $geneId])
@@ -86,6 +88,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "vital_process.{$nameField} as vitalProcess",
                 "model_organism.{$nameField} as modelOrganism",
                 "organism_line.{$nameField} as organismLine",
+                "intervention_result_for_vital_process.{$nameField} as interventionResult",
                 "gene_intervention_to_vital_process.age",
                 "gene_intervention_to_vital_process.genotype",
                 "gene_intervention_to_vital_process.age_unit as ageUnit",
@@ -98,6 +101,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->innerJoin('vital_process', 'gene_intervention_to_vital_process.vital_process_id=vital_process.id')
             ->leftJoin('model_organism', 'gene_intervention_to_vital_process.model_organism_id=model_organism.id')
             ->leftJoin('organism_line', 'gene_intervention_to_vital_process.organism_line_id=organism_line.id')
+            ->leftJoin('intervention_result_for_vital_process', 'gene_intervention_to_vital_process.intervention_result_for_vital_process_id=intervention_result_for_vital_process.id')
             ->where(['gene_id' => $geneId])
             ->asArray()
             ->all();
@@ -114,13 +118,14 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "regulated_gene.name as regulatedGeneName",
                 "regulated_gene.ncbi_id as regulatedGeneNcbiId",
                 "protein_activity.{$nameField} as proteinActivity",
-                "protein_to_gene.regulation_type as regulationType",
+                "gene_regulation_type.{$nameField} as regulationType",
                 "protein_to_gene.reference",
                 "protein_to_gene.{$commentField} as comment",
             ])
             ->distinct()
             ->innerJoin('gene as regulated_gene', 'protein_to_gene.regulated_gene_id=regulated_gene.id')
             ->innerJoin('protein_activity', 'protein_to_gene.protein_activity_id=protein_activity.id')
+            ->innerJoin('gene_regulation_type', 'protein_to_gene.regulation_type_id=gene_regulation_type.id')
             ->where(['gene_id' => $geneId])
             ->asArray()
             ->all();
