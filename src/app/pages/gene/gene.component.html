@@ -208,7 +208,8 @@
                   <h3>{{ 'gene_page_title_criteria' | translate }}</h3>
                   <article id="cause">
                     <ul class="list list--bulletted">
-                      <li *ngFor="let item of gene.commentCause">{{item}}</li>
+                      <!-- TODO: backend: return array of objects instead of object with objects -->
+                      <li *ngFor="let item of gene.commentCause | toArray">{{item}}</li>
                     </ul>
                   </article>
                 </section>
