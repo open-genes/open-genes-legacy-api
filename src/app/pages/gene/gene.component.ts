@@ -22,6 +22,7 @@ export class GeneComponent extends PageClass implements OnInit, OnDestroy {
   public expressionMaxValue: number;
   public isAnyContent: boolean;
   public isAnyResearchFilled: boolean;
+  public isAnyOrtholog: boolean;
 
   private ngUnsubscribe = new Subject();
   private routeSubscribe: Subscription;
@@ -67,6 +68,9 @@ export class GeneComponent extends PageClass implements OnInit, OnDestroy {
         this.commentsReferenceLinksMap = this.toMap(
           this.gene.commentsReferenceLinks
         );
+
+        this.isAnyOrtholog =
+          Object.values(this.gene.orthologs).toString() !== ''; // TODO: backend: instead of {"":""} should be an empty array of objects
       });
 
     this.isContent();
