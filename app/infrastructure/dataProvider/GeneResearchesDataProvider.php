@@ -35,7 +35,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "lifespan_experiment.lifespan_change_percent_male as valueForMale",
                 "lifespan_experiment.lifespan_change_percent_female as valueForFemale",
                 "lifespan_experiment.lifespan_change_percent_common as valueForAll",
-                "lifespan_experiment.reference",
+                "lifespan_experiment.reference as doi",
                 "lifespan_experiment.pmid",
                 "lifespan_experiment.{$commentField} as comment",
             ])
@@ -66,7 +66,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "age_related_change.change_value_female as valueForFemale",
                 "age_related_change.change_value_common as valueForAll",
                 "age_related_change.measurement_type as measurementType",
-                "age_related_change.reference",
+                "age_related_change.reference as doi",
                 "age_related_change.pmid",
                 "age_related_change.{$commentField} as comment",
             ])
@@ -95,7 +95,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "gene_intervention_to_vital_process.genotype",
                 "gene_intervention_to_vital_process.age_unit as ageUnit",
                 "gene_intervention_to_vital_process.sex_of_organism as sex",
-                "gene_intervention_to_vital_process.reference",
+                "gene_intervention_to_vital_process.reference as doi",
                 "gene_intervention_to_vital_process.pmid",
                 "gene_intervention_to_vital_process.{$commentField} as comment",
             ])
@@ -122,7 +122,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "regulated_gene.ncbi_id as regulatedGeneNcbiId",
                 "protein_activity.{$nameField} as proteinActivity",
                 "gene_regulation_type.{$nameField} as regulationType",
-                "protein_to_gene.reference",
+                "protein_to_gene.reference as doi",
                 "protein_to_gene.pmid",
                 "protein_to_gene.{$commentField} as comment",
             ])
@@ -142,7 +142,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         return GeneToProgeria::find()
             ->select([
                 "progeria_syndrome.{$nameField} as progeriaSyndrome",
-                "gene_to_progeria.reference",
+                "gene_to_progeria.reference as doi",
                 "gene_to_progeria.pmid",
                 "gene_to_progeria.{$commentField} as comment",
             ])
@@ -166,7 +166,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "model_organism.{$nameField} as modelOrganism",
                 "age_related_change_type.{$nameField} as changeType",
                 "gene_to_longevity_effect.data_type as dataType",
-                "gene_to_longevity_effect.reference",
+                "gene_to_longevity_effect.reference as doi",
                 "gene_to_longevity_effect.pmid",
                 "gene_to_longevity_effect.{$commentField} as comment",
             ])
@@ -185,7 +185,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         $commentField = $lang == 'en-US' ? 'comment_en' : 'comment_ru';
         return GeneToAdditionalEvidence::find()
             ->select([
-                "gene_to_additional_evidence.reference",
+                "gene_to_additional_evidence.reference as doi",
                 "gene_to_additional_evidence.pmid",
                 "gene_to_additional_evidence.{$commentField} as comment",
             ])
