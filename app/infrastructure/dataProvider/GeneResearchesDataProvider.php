@@ -36,6 +36,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "lifespan_experiment.lifespan_change_percent_female as valueForFemale",
                 "lifespan_experiment.lifespan_change_percent_common as valueForAll",
                 "lifespan_experiment.reference",
+                "lifespan_experiment.pmid",
                 "lifespan_experiment.{$commentField} as comment",
             ])
             ->distinct()
@@ -66,11 +67,12 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "age_related_change.change_value_common as valueForAll",
                 "age_related_change.measurement_type as measurementType",
                 "age_related_change.reference",
+                "age_related_change.pmid",
                 "age_related_change.{$commentField} as comment",
             ])
             ->distinct()
             ->innerJoin('age_related_change_type', 'age_related_change.age_related_change_type_id=age_related_change_type.id')
-            ->innerJoin('sample', 'age_related_change.sample_id=sample.id')
+            ->leftJoin('sample', 'age_related_change.sample_id=sample.id')
             ->leftJoin('model_organism', 'age_related_change.model_organism_id=model_organism.id')
             ->leftJoin('organism_line', 'age_related_change.organism_line_id=organism_line.id')
             ->where(['gene_id' => $geneId])
@@ -94,6 +96,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "gene_intervention_to_vital_process.age_unit as ageUnit",
                 "gene_intervention_to_vital_process.sex_of_organism as sex",
                 "gene_intervention_to_vital_process.reference",
+                "gene_intervention_to_vital_process.pmid",
                 "gene_intervention_to_vital_process.{$commentField} as comment",
             ])
             ->distinct()
@@ -120,6 +123,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "protein_activity.{$nameField} as proteinActivity",
                 "gene_regulation_type.{$nameField} as regulationType",
                 "protein_to_gene.reference",
+                "protein_to_gene.pmid",
                 "protein_to_gene.{$commentField} as comment",
             ])
             ->distinct()
@@ -139,6 +143,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->select([
                 "progeria_syndrome.{$nameField} as progeriaSyndrome",
                 "gene_to_progeria.reference",
+                "gene_to_progeria.pmid",
                 "gene_to_progeria.{$commentField} as comment",
             ])
             ->distinct()
@@ -162,11 +167,12 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "age_related_change_type.{$nameField} as changeType",
                 "gene_to_longevity_effect.data_type as dataType",
                 "gene_to_longevity_effect.reference",
+                "gene_to_longevity_effect.pmid",
                 "gene_to_longevity_effect.{$commentField} as comment",
             ])
             ->distinct()
             ->innerJoin('longevity_effect', 'gene_to_longevity_effect.longevity_effect_id=longevity_effect.id')
-            ->innerJoin('genotype', 'gene_to_longevity_effect.genotype_id=genotype.id')
+            ->leftJoin('genotype', 'gene_to_longevity_effect.genotype_id=genotype.id')
             ->leftJoin('age_related_change_type', 'gene_to_longevity_effect.age_related_change_type_id=age_related_change_type.id')
             ->leftJoin('model_organism', 'gene_to_longevity_effect.model_organism_id=model_organism.id')
             ->where(['gene_id' => $geneId])
@@ -180,6 +186,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         return GeneToAdditionalEvidence::find()
             ->select([
                 "gene_to_additional_evidence.reference",
+                "gene_to_additional_evidence.pmid",
                 "gene_to_additional_evidence.{$commentField} as comment",
             ])
             ->distinct()
