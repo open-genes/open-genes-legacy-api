@@ -40,4 +40,11 @@ interface GeneResearchesDataProviderInterface
      * @return array
      */
     public function getGeneToLongevityEffectsByGeneId(int $geneId, string $lang): array;
+    /**
+     * @param int $geneId
+     * @param string $lang
+     * @return array
+     */
+    public function getGeneToAdditionalEvidencesByGeneId(int $geneId, string $lang): array;
+
 }

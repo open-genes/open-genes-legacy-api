@@ -21,5 +21,8 @@ class ResearchDto
     /** @var array */
     public $proteinRegulatesOtherGenes;
 
+    /** @var array */
+    public $additionalEvidences;
+
 }
 

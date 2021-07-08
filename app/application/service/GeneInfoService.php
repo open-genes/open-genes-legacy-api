@@ -149,6 +149,7 @@ class GeneInfoService implements GeneInfoServiceInterface
         $ageRelatedChanges = $this->geneResearchesDataProvider->getAgeRelatedChangesByGeneId($geneId, $lang);
         $interventionResultForVitalProcesses = $this->geneResearchesDataProvider->getGeneInterventionToVitalProcessByGeneId($geneId, $lang);
         $proteinToGenes = $this->geneResearchesDataProvider->getProteinToGenesByGeneId($geneId, $lang);
+        $additionalEvidences = $this->geneResearchesDataProvider->getGeneToAdditionalEvidencesByGeneId($geneId, $lang);
 
         return  $this->researchDtoAssembler->mapResearchDto(
             $lifespanExperiments,
@@ -157,6 +158,7 @@ class GeneInfoService implements GeneInfoServiceInterface
             $ageRelatedChanges,
             $interventionResultForVitalProcesses,
             $proteinToGenes,
+            $additionalEvidences,
             $lang
         );
     }

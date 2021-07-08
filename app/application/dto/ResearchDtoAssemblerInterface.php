@@ -11,6 +11,7 @@ interface ResearchDtoAssemblerInterface
      * @param array $ageRelatedChanges
      * @param array $interventionResultForVitalProcesses
      * @param array $proteinToGenes
+     * @param array $additionalEvidences
      * @param string $lang
      * @return ResearchDto
      */
@@ -21,6 +22,7 @@ interface ResearchDtoAssemblerInterface
         $ageRelatedChanges,
         $interventionResultForVitalProcesses,
         $proteinToGenes,
+        $additionalEvidences,
         $lang
     ): ResearchDto;
 }
