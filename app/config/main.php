@@ -65,6 +65,7 @@ $config = [
                 'api/gene/by-go-term/<term>' => 'api/by-go-term',
                 'api/gene/by-latest' => 'api/latest',
                 'api/gene/<symbol:[\w-]+>' => 'api/gene',
+                'api/disease/?' => 'api/disease',
             ],
         ],
     ],
@@ -72,12 +73,14 @@ $config = [
         'definitions' => [
             app\application\service\GeneInfoServiceInterface::class => app\application\service\GeneInfoService::class,
             app\application\service\PhylumInfoServiceInterface::class => app\application\service\PhylumInfoService::class,
+            app\application\service\DiseaseInfoServiceInterface::class => \app\application\service\DiseaseInfoService::class,
             app\application\dto\GeneDtoAssemblerInterface::class => app\application\dto\GeneDtoAssembler::class,
             app\application\dto\ResearchDtoAssemblerInterface::class => app\application\dto\ResearchDtoAssembler::class,
             app\infrastructure\dataProvider\GeneDataProviderInterface::class => function(\yii\di\Container $container){
                 return new app\infrastructure\dataProvider\GeneDataProvider(Yii::$app->language);
             },
             app\infrastructure\dataProvider\GeneExpressionDataProviderInterface::class => app\infrastructure\dataProvider\GeneExpressionDataProvider::class,
+            app\infrastructure\dataProvider\DiseaseDataProviderInterface::class => app\infrastructure\dataProvider\DiseaseDataProvider::class,
             app\infrastructure\dataProvider\GeneFunctionsDataProviderInterface::class => app\infrastructure\dataProvider\GeneFunctionsDataProvider::class,
             app\infrastructure\dataProvider\GeneResearchesDataProviderInterface::class => app\infrastructure\dataProvider\GeneResearchesDataProvider::class,
             app\infrastructure\dataProvider\PhylumDataProviderInterface::class => app\infrastructure\dataProvider\PhylumDataProvider::class,

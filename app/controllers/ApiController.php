@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\application\service\DiseaseInfoServiceInterface;
 use app\models\Gene;
 use app\application\dto\GeneFullViewDto;
 use app\application\service\GeneInfoServiceInterface;
@@ -120,6 +121,13 @@ class ApiController extends Controller
         }
         $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
         return $geneInfoService->getByGoTerm($term, $this->language);
+    }
+
+    public function actionDisease()
+    {
+        /** @var DiseaseInfoServiceInterface $diseaseInfoService */
+        $diseaseInfoService = Yii::$container->get(DiseaseInfoServiceInterface::class);
+        return $diseaseInfoService->getAllDiseases($this->language);
     }
 
 }
