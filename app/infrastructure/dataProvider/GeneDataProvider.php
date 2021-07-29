@@ -42,14 +42,16 @@ class GeneDataProvider implements GeneDataProviderInterface
         'gene.commentEvolutionEN comment_evolution',
         'gene.commentFunctionEN comment_function',
         'gene.commentAgingEN comment_aging',
-        'gene.summary_en description_ncbi',
+        'gene.ncbi_summary_en description_ncbi',
+        'gene.og_summary_en description_og',
     ];
 
     private $fieldsRu = [
         'gene.commentEvolution comment_evolution',
         'gene.commentFunction comment_function',
         'gene.commentAging comment_aging',
-        'gene.summary_ru description_ncbi',
+        'gene.ncbi_summary_ru description_ncbi',
+        'gene.og_summary_ru description_og',
     ];
 
     public function __construct($lang = 'en-US')
