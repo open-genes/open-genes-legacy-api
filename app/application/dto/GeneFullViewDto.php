@@ -27,6 +27,8 @@ class GeneFullViewDto
     public $commentFunction;
     /** @var string */
     public $descriptionNCBI;
+    /** @var string */
+    public $descriptionOG;
     /** @var array */
     public $commentCause;
     /** @var string */

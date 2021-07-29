@@ -23,6 +23,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->commentEvolution = $geneArray['comment_evolution'];
         $geneDto->commentFunction = (string)$geneArray['comment_function'];
         $geneDto->descriptionNCBI = (string)$geneArray['description_ncbi'];
+        $geneDto->descriptionOG = (string)$geneArray['description_og'];
         $geneDto->commentAging = (string)$geneArray['comment_aging'];
         $geneDto->commentsReferenceLinks = $this->prepareLinks($geneArray);
         $geneDto->rating = $geneArray['rating'];
