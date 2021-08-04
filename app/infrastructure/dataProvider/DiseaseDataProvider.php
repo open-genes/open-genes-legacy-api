@@ -11,7 +11,8 @@ class DiseaseDataProvider implements DiseaseDataProviderInterface
     {
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         return Disease::find()
-            ->select(['id', 'omim_id', $nameField . ' name'])
+            ->select(['id', 'omim_id', 'icd_code', 'icd_name_en', $nameField . ' name'])
+            ->where('name_en is not null')
             ->asArray()->all();
     }
 }
