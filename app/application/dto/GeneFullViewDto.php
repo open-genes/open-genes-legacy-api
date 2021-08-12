@@ -17,6 +17,8 @@ class GeneFullViewDto
     public $name;
     /** @var array */
     public $diseases;
+    /** @var array */
+    public $diseaseCategories;
     /** @var string */
     public $ncbiId;
     /** @var string */

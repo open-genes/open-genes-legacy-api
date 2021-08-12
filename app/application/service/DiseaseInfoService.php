@@ -20,4 +20,10 @@ class DiseaseInfoService implements DiseaseInfoServiceInterface
     {
         return $this->diseaseDataProvider->getAllDiseases($lang);
     }
+
+    /** @inheritDoc */
+    public function getDiseaseCategories($lang): array
+    {
+        return $this->diseaseDataProvider->getDiseasesCategories($lang);
+    }
 }
