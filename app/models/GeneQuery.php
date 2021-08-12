@@ -57,9 +57,13 @@ class GeneQuery extends \yii\db\ActiveQuery
     public function withDiseases($lang)
     {
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
+        $icdNameField = $lang == 'en-US' ? 'icd_name_en' : 'icd_name_ru';
         return $this
             ->addSelect([
-                'group_concat(distinct concat(disease.id,\'|\',disease.omim_id,\'|\',(IF(disease.'. $nameField . ' IS NULL or disease.'. $nameField . ' = "", disease.name_en, disease.'. $nameField . ')))  separator "||") as diseases'
+                'group_concat(distinct concat(disease.id,\'|\',disease.icd_code,\'|\',(IF(disease.'. $nameField . ' IS NULL or disease.'. $nameField . ' = "", disease.name_en, disease.'. $nameField . ')))  separator "||") as diseases'
+            ])
+            ->addSelect([
+                'group_concat(distinct concat(disease_category.icd_code,\'|\',(IF(disease_category.'. $icdNameField . ' IS NULL or disease_category.'. $icdNameField . ' = "", disease_category.icd_name_en, disease_category.'. $icdNameField . ')))  separator "||") as disease_categories'
             ])
             ->join(
                 'LEFT JOIN',
@@ -70,6 +74,11 @@ class GeneQuery extends \yii\db\ActiveQuery
                 'LEFT JOIN',
                 'disease',
                 'gene_to_disease.disease_id = disease.id'
+            )
+            ->join(
+                'LEFT JOIN',
+                'disease disease_category',
+                'disease.icd_code_visible = disease_category.icd_code'
             );
     }
 

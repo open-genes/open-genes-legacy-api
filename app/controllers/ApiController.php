@@ -130,4 +130,11 @@ class ApiController extends Controller
         return $diseaseInfoService->getAllDiseases($this->language);
     }
 
+    public function actionDiseaseCategory()
+    {
+        /** @var DiseaseInfoServiceInterface $diseaseInfoService */
+        $diseaseInfoService = Yii::$container->get(DiseaseInfoServiceInterface::class);
+        return $diseaseInfoService->getDiseaseCategories($this->language);
+    }
+
 }

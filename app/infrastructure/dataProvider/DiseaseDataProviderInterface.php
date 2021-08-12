@@ -10,4 +10,9 @@ interface DiseaseDataProviderInterface
      */
     public function getAllDiseases($lang): array;
 
+    /**
+     * @return array
+     */
+    public function getDiseasesCategories($lang): array;
+
 }
