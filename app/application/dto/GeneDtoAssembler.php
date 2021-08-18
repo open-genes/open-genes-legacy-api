@@ -74,6 +74,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->aliases = $geneArray['aliases'] ? explode(' ', str_replace(',', '', $geneArray['aliases'])) : [];
         $geneDto->functionalClusters = $this->mapFunctionalClusterDtos($geneArray['functional_clusters']);
         $geneDto->timestamp = $this->prepareTimestamp($geneArray);
+        $geneDto->ensembl = (string)$geneArray['ensembl'];
         unset($geneDto->terms);
         return $geneDto;
     }
