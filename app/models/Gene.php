@@ -43,6 +43,7 @@ use Yii;
  * @property string $ncbi_summary_en
  * @property string $ensembl
  * @property string $human_protein_atlas
+ * @property int|null $methylation_horvath
  *
  * @property Phylum $age
  * @property AgeRelatedChange[] $ageRelatedChanges
@@ -75,8 +76,8 @@ class Gene extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ncbi_id', 'locationStart', 'locationEnd', 'orientation', 'rating', 'isHidden', 'created_at', 'updated_at', 'age_id', 'expressionChange'], 'integer'],
-            [['protein_complex_ru', 'protein_complex_en','ncbi_summary_ru','ncbi_summary_en', 'ensembl', 'human_protein_atlas'], 'string'],
+            [['ncbi_id', 'locationStart', 'locationEnd', 'orientation', 'rating', 'isHidden', 'expressionChange', 'created_at', 'updated_at', 'age_id', 'taxon_id', 'methylation_horvath'], 'integer'],
+            [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN', 'commentsReferenceLinks', 'protein_complex_ru', 'protein_complex_en', 'human_protein_atlas', 'ncbi_summary_ru', 'ncbi_summary_en', 'og_summary_en', 'og_summary_ru'], 'string'],
             [['symbol', 'aliases', 'name', 'uniprot', 'band', 'accPromoter', 'accOrf', 'accCds'], 'string', 'max' => 120],
             [['why', 'references', 'orthologs'], 'string', 'max' => 1000],
             [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN'], 'string', 'max' => 1500],

@@ -36,6 +36,7 @@ class GeneDataProvider implements GeneDataProviderInterface
         'gene.rating',
         'gene.ensembl',
         'gene.human_protein_atlas',
+        'gene.methylation_horvath',
     ];
 
     private $fieldsEn = [

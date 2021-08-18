@@ -19,8 +19,8 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->diseaseCategories = $this->mapDiseaseCategories($geneArray['disease_categories']);
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
-        $geneDto->commentCause =  $this->prepareCommentCauses($geneArray);
-        $geneDto->proteinClasses =  $geneArray['protein_class'] ? explode('||', $geneArray['protein_class']) : []; // todo одинаковый сепаратор для всех group_concat
+        $geneDto->commentCause = $this->prepareCommentCauses($geneArray);
+        $geneDto->proteinClasses = $geneArray['protein_class'] ? explode('||', $geneArray['protein_class']) : []; // todo одинаковый сепаратор для всех group_concat
         $geneDto->commentEvolution = $geneArray['comment_evolution'];
         $geneDto->commentFunction = (string)$geneArray['comment_function'];
         $geneDto->descriptionNCBI = (string)$geneArray['description_ncbi'];
@@ -40,6 +40,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->accCds = (string)$geneArray['accCds'];
         $geneDto->orthologs = $this->prepareOrthologs($geneArray['orthologs']);
         $geneDto->timestamp = $this->prepareTimestamp($geneArray);
+        $geneDto->methylationCorrelation = $this->prepareMethylation($geneArray, $lang);
 
         $geneDto->ensembl = $geneArray['ensembl'] ?? '';
         $geneDto->human_protein_atlas = !empty($geneArray['human_protein_atlas']) ? json_decode($geneArray['human_protein_atlas']) : '';
@@ -70,11 +71,12 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->expressionChange = (int)$geneArray['expressionChange'];
-        $geneDto->commentCause =  $this->prepareCommentCauses($geneArray);
+        $geneDto->commentCause = $this->prepareCommentCauses($geneArray);
         $geneDto->aliases = $geneArray['aliases'] ? explode(' ', str_replace(',', '', $geneArray['aliases'])) : [];
         $geneDto->functionalClusters = $this->mapFunctionalClusterDtos($geneArray['functional_clusters']);
         $geneDto->timestamp = $this->prepareTimestamp($geneArray);
         $geneDto->ensembl = (string)$geneArray['ensembl'];
+        $geneDto->methylationCorrelation = $this->prepareMethylation($geneArray, $lang);
         unset($geneDto->terms);
         return $geneDto;
     }
@@ -88,7 +90,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
             'cellular_component' => [],
             'molecular_activity' => [],
         ];
-        if(is_array($termsArray)) {
+        if (is_array($termsArray)) {
             foreach ($termsArray as $term) {
                 list($identifier, $termName, $category) = explode('|', $term);
                 $geneTerms[$category][] = [
@@ -120,11 +122,11 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
 
         return $functionalClusterDtos;
     }
-    
+
     private function mapDiseases($diseasesString): array
     {
         $diseases = [];
-        if($diseasesString) {
+        if ($diseasesString) {
             $diseasesArray = explode('||', $diseasesString);
             foreach ($diseasesArray as $diseaseString) {
                 list($id, $icdId, $name) = explode('|', $diseaseString);
@@ -134,14 +136,14 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
                 ];
             }
         }
-        
+
         return $diseases;
     }
 
     private function mapDiseaseCategories($diseaseCategoriesString): array
     {
         $diseaseCategories = [];
-        if($diseaseCategoriesString) {
+        if ($diseaseCategoriesString) {
             $diseaseCategoriesArray = explode('||', $diseaseCategoriesString);
             foreach ($diseaseCategoriesArray as $diseaseCategoryString) {
                 list($icdId, $categoryName) = explode('|', $diseaseCategoryString);
@@ -159,7 +161,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $result = [];
         $orthologs = explode(';', $orthologsString);
         foreach ($orthologs as $orthologString) {
-            if(strpos($orthologString, ',')) {
+            if (strpos($orthologString, ',')) {
                 list($organism, $ortholog) = explode(',', $orthologString);
                 $result[$organism] = $ortholog;
             } else {
@@ -178,12 +180,25 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $phylum->order = (int)$geneArray['phylum_order'];
         return $phylum;
     }
-    
-    private function prepareTimestamp($geneArray): int 
+
+    private function prepareTimestamp($geneArray): int
     {
         return (int)($geneArray['updated_at'] ?? $geneArray['created_at']);
     }
-    
+
+    private function prepareMethylation($geneArray, $lang): string
+    {
+        $methylationCorrelation = $lang == 'en-US' ? [
+            0 => 'negative',
+            1 => 'positive',
+        ] : [
+            0 => 'отрицательная',
+            1 => 'положительная',
+        ];
+        return isset($geneArray['methylation_horvath']) && isset($methylationCorrelation[$geneArray['methylation_horvath']])
+            ? $methylationCorrelation[$geneArray['methylation_horvath']] : '';
+    }
+
     private function prepareLinks($geneArray): array
     {
         $geneCommentsReferenceLinks = [];
@@ -197,10 +212,10 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
                 $geneCommentsReferenceLinks[1] = $commentsRef;
             }
         }
-        
+
         return $geneCommentsReferenceLinks;
     }
-    
+
     private function prepareCommentCauses($geneArray): array
     {
         $commentCauses = [];
@@ -209,7 +224,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
             list($id, $name) = explode('|', $geneCommentCausesString);
             $commentCauses[$id] = $name;
         }
-        
+
         return $commentCauses;
     }
 }
