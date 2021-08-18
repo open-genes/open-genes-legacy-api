@@ -31,6 +31,8 @@ class GeneListViewDto
     public $terms;
     /** @var string */
     public $ensembl;
+    /** @var string */
+    public $methylationCorrelation;
 
 }
 

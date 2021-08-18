@@ -81,6 +81,8 @@ class GeneFullViewDto
     public $human_protein_atlas;
     /** @var string */
     public $ensembl;
+    /** @var string */
+    public $methylationCorrelation;
 
 //    public $isHidden;
 //    public $userEdited;
