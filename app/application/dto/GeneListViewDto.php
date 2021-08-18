@@ -29,6 +29,8 @@ class GeneListViewDto
     public $timestamp;
     /** @var array */
     public $terms;
+    /** @var string */
+    public $ensembl;
 
 }
 
