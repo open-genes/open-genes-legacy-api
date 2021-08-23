@@ -61,6 +61,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
 
     public function mapListViewDto(array $geneArray, string $lang): GeneListViewDto
     {
+//        var_dump($geneArray); die;
         $geneDto = new GeneListViewDto();
         $geneDto->id = (int)$geneArray['id'];
         $geneDto->name = (string)$geneArray['name'];
@@ -68,6 +69,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->homologueTaxon = (string)$geneArray['taxon_name'];
         $geneDto->symbol = (string)$geneArray['symbol'];
         $geneDto->diseases = $this->mapDiseases($geneArray['diseases']);
+        $geneDto->diseaseCategories = $this->mapDiseaseCategories($geneArray['disease_categories']);
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->expressionChange = (int)$geneArray['expressionChange'];
@@ -127,7 +129,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
     {
         $diseases = [];
         if ($diseasesString) {
-            $diseasesArray = explode('||', $diseasesString);
+            $diseasesArray = explode('##', $diseasesString);
             foreach ($diseasesArray as $diseaseString) {
                 list($id, $icdId, $name) = explode('|', $diseaseString);
                 $diseases[$id] = [
@@ -144,12 +146,14 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
     {
         $diseaseCategories = [];
         if ($diseaseCategoriesString) {
-            $diseaseCategoriesArray = explode('||', $diseaseCategoriesString);
+            $diseaseCategoriesArray = explode('##', $diseaseCategoriesString);
             foreach ($diseaseCategoriesArray as $diseaseCategoryString) {
                 list($icdId, $categoryName) = explode('|', $diseaseCategoryString);
-                $diseaseCategories[$icdId] = [
-                    'icd_category_name' => $categoryName
-                ];
+                if ($icdId) {
+                    $diseaseCategories[$icdId] = [
+                        'icd_category_name' => $categoryName
+                    ];
+                }
             }
         }
 

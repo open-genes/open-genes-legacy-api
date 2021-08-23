@@ -40,7 +40,7 @@ class GeneQuery extends \yii\db\ActiveQuery
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         return $this
             ->addSelect([
-                'group_concat(distinct concat(functional_cluster.id,\'|\',functional_cluster.'. $nameField . ') separator \'||\') as functional_clusters'
+                'group_concat(distinct concat(functional_cluster.id,"|",functional_cluster.'. $nameField . ') separator "||") as functional_clusters'
             ])
             ->join(
                 'LEFT JOIN',
@@ -60,10 +60,17 @@ class GeneQuery extends \yii\db\ActiveQuery
         $icdNameField = $lang == 'en-US' ? 'icd_name_en' : 'icd_name_ru';
         return $this
             ->addSelect([
-                'group_concat(distinct concat(disease.id,\'|\',disease.icd_code,\'|\',(IF(disease.'. $nameField . ' IS NULL or disease.'. $nameField . ' = "", disease.name_en, disease.'. $nameField . ')))  separator "||") as diseases'
+                "group_concat(distinct concat(
+                disease.id,'|',
+                coalesce(disease.icd_code, ''),'|',
+                coalesce(nullif(disease.{$nameField}, ''), nullif(disease.name_en, ''), '')
+                )  separator '##') as diseases"
             ])
             ->addSelect([
-                'group_concat(distinct concat(disease_category.icd_code,\'|\',(IF(disease_category.'. $icdNameField . ' IS NULL or disease_category.'. $icdNameField . ' = "", disease_category.icd_name_en, disease_category.'. $icdNameField . ')))  separator "||") as disease_categories'
+                "group_concat(distinct concat(
+                coalesce(disease_category.icd_code, ''),'|',
+                coalesce(nullif(disease_category.{$icdNameField}, ''), nullif(disease_category.icd_name_en, ''), '')
+                )  separator '##') as disease_categories"
             ])
             ->join(
                 'LEFT JOIN',
@@ -102,7 +109,7 @@ class GeneQuery extends \yii\db\ActiveQuery
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         return $this
             ->addSelect([
-                'group_concat(distinct concat(comment_cause.id,\'|\',comment_cause.'. $nameField . ') separator \'||\') as comment_cause'
+                'group_concat(distinct concat(comment_cause.id,"|",comment_cause.'. $nameField . ') separator "||") as comment_cause'
             ])
             ->join(
                 'LEFT JOIN',
@@ -121,7 +128,7 @@ class GeneQuery extends \yii\db\ActiveQuery
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         return $this
             ->addSelect([
-                'group_concat(distinct protein_class.'. $nameField . ' separator \'||\') as protein_class'
+                'group_concat(distinct protein_class.'. $nameField . ' separator "||") as protein_class'
             ])
             ->join(
                 'LEFT JOIN',
