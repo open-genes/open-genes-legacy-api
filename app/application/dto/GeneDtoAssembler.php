@@ -11,6 +11,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
 
         $geneDto->id = (int)$geneArray['id'];
         $geneDto->origin = $this->prepareOrigin($geneArray);
+        $geneDto->familyOrigin = $this->prepareFamilyOrigin($geneArray);
         $geneDto->homologueTaxon = (string)$geneArray['taxon_name'];
         $geneDto->symbol = (string)$geneArray['symbol'];
         $geneDto->aliases = $geneArray['aliases'] ? explode(' ', str_replace(',', '', $geneArray['aliases'])) : [];
@@ -53,6 +54,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto = new LatestGeneViewDto();
         $geneDto->id = (int)$geneArray['id'];
         $geneDto->origin = $this->prepareOrigin($geneArray);
+        $geneDto->familyOrigin = $this->prepareFamilyOrigin($geneArray);
         $geneDto->homologueTaxon = $geneArray['taxon_name'];
         $geneDto->symbol = $geneArray['symbol'];
         $geneDto->timestamp = $this->prepareTimestamp($geneArray);
@@ -66,6 +68,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->id = (int)$geneArray['id'];
         $geneDto->name = (string)$geneArray['name'];
         $geneDto->origin = $this->prepareOrigin($geneArray);
+        $geneDto->familyOrigin = $this->prepareFamilyOrigin($geneArray);
         $geneDto->homologueTaxon = (string)$geneArray['taxon_name'];
         $geneDto->symbol = (string)$geneArray['symbol'];
         $geneDto->diseases = $this->mapDiseases($geneArray['diseases']);
@@ -177,11 +180,27 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
 
     private function prepareOrigin($geneArray)
     {
+        if (!$geneArray['phylum_id']) {
+            return null;
+        }
         $phylum = new PhylumDto();
         $phylum->id = (int)$geneArray['phylum_id'];
-        $phylum->age = $geneArray['phylum_age'];
-        $phylum->phylum = $geneArray['phylum_name'];
+        $phylum->age = (string)$geneArray['phylum_age'];
+        $phylum->phylum = (string)$geneArray['phylum_name'];
         $phylum->order = (int)$geneArray['phylum_order'];
+        return $phylum;
+    }
+
+    private function prepareFamilyOrigin($geneArray)
+    {
+        if (!$geneArray['family_phylum_id']) {
+            return null;
+        }
+        $phylum = new PhylumDto();
+        $phylum->id = (int)$geneArray['family_phylum_id'];
+        $phylum->age = (string)$geneArray['family_phylum_age'];
+        $phylum->phylum = (string)$geneArray['family_phylum_name'];
+        $phylum->order = (int)$geneArray['family_phylum_order'];
         return $phylum;
     }
 

@@ -109,18 +109,18 @@ class MigrateDataController extends Controller
                 if ($arGene->agePhylo == 'Procaryota') {
                     $arGene->agePhylo = 'Prokaryota';
                 }
-                $arAge = Phylum::find()->where(
+                $arPhylum = Phylum::find()->where(
                     ['name_phylo' => $arGene->agePhylo]
                 )->one();
             } elseif ($arGene->ageMya) {
-                $arAge = $arAge = Phylum::find()->where(
+                $arPhylum = $arPhylum = Phylum::find()->where(
                     ['name_mya' => $arGene->ageMya]
                 );
             }
-            if (isset($arAge) && $arAge instanceof Phylum) {
-                $arGene->age_id = $arAge->id;
+            if (isset($arPhylum) && $arPhylum instanceof Phylum) {
+                $arGene->phylum_id = $arPhylum->id;
                 $arGene->save();
-                echo $arAge->name_phylo . PHP_EOL;
+                echo $arPhylum->name_phylo . PHP_EOL;
             } else {
                 echo 'no age info' . PHP_EOL;
             }

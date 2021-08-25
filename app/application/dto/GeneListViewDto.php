@@ -7,6 +7,8 @@ class GeneListViewDto
     public $id;
     /** @var PhylumDto */
     public $origin;
+    /** @var PhylumDto */
+    public $familyOrigin;
     /** @var string */
     public $homologueTaxon;
     /** @var string */

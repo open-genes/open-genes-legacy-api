@@ -72,7 +72,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withCommentCause($this->lang)
             ->withProteinClasses($this->lang)
             ->where(['gene.id' => $geneId])
-            ->withAge()
+            ->withPhylum()
             ->asArray()
             ->groupBy('gene.id')
             ->one();
@@ -92,7 +92,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withCommentCause($this->lang)
             ->withProteinClasses($this->lang)
             ->where(['gene.symbol' => $geneSymbol])
-            ->withAge()
+            ->withPhylum()
             ->asArray()
             ->groupBy('gene.id')
             ->one();
@@ -107,7 +107,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         return Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->andWhere('isHidden != 1')
             ->orderBy('gene.updated_at desc')
             ->limit($count)
@@ -120,12 +120,12 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withCommentCause($this->lang)
             ->withDiseases($this->lang)
             ->andWhere('isHidden != 1')
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->limit($count)
             ->groupBy('gene.id')
             ->asArray();
@@ -147,13 +147,13 @@ class GeneDataProvider implements GeneDataProviderInterface
 
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withDiseases($this->lang)
             ->withCommentCause($this->lang)
             ->where(['gene.id' => ($genesIdsByFunctionalClusters)])
             ->andWhere('isHidden != 1')
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
         
@@ -172,13 +172,13 @@ class GeneDataProvider implements GeneDataProviderInterface
 
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withDiseases($this->lang)
             ->withCommentCause($this->lang)
             ->andWhere('isHidden != 1')
             ->andWhere(['gene.id' => $genesIdsBySelectionCriteria])
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
 
@@ -190,13 +190,13 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withDiseases($this->lang)
             ->withCommentCause($this->lang)
             ->andWhere('isHidden != 1')
             ->andWhere(['gene.expressionChange' => $expressionChange])
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
         return $genesArrayQuery->all();
@@ -206,14 +206,14 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withDiseases($this->lang)
             ->withCommentCause($this->lang)
             ->withGoTerms($this->lang)
             ->andWhere('isHidden != 1')
             ->andWhere(['like', 'gene_ontology.name_en', '%' . $term . '%', false])
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
         return $genesArrayQuery->all();

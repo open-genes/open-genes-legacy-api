@@ -142,15 +142,21 @@ class GeneQuery extends \yii\db\ActiveQuery
             );
     }
 
-    public function withAge()
+    public function withPhylum()
     {
         return $this
-            ->addSelect('age.name_mya as phylum_age, age.name_phylo as phylum_name, age.order as phylum_order, age.id as phylum_id')
+            ->addSelect('phylum.name_mya as phylum_age, phylum.name_phylo as phylum_name, phylum.order as phylum_order, phylum.id as phylum_id')
+            ->addSelect('family_phylum.name_mya as family_phylum_age, family_phylum.name_phylo as family_phylum_name, family_phylum.order as family_phylum_order, family_phylum.id as family_phylum_id')
             ->addSelect('taxon.name_en as taxon_name')
             ->join(
                 'LEFT JOIN',
-                'age',
-                'gene.age_id = age.id'
+                'phylum as family_phylum',
+                'gene.family_phylum_id = family_phylum.id'
+            )
+            ->join(
+                'LEFT JOIN',
+                'phylum',
+                'gene.phylum_id = phylum.id'
             )
             ->join(
                 'LEFT JOIN',

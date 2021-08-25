@@ -57,7 +57,15 @@ class Phylum extends \yii\db\ActiveRecord
      */
     public function getGenes()
     {
-        return $this->hasMany(Gene::class, ['age_id' => 'id']);
+        return $this->hasMany(Gene::class, ['phylum_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFamilyGenes()
+    {
+        return $this->hasMany(Gene::class, ['family_phylum_id' => 'id']);
     }
 
     /**

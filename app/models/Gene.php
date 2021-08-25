@@ -36,7 +36,8 @@ use Yii;
  * @property int $expressionChange
  * @property int $created_at
  * @property int $updated_at
- * @property int $age_id
+ * @property int|null $family_phylum_id
+ * @property int|null $phylum_id
  * @property string $protein_complex_ru
  * @property string $protein_complex_en
  * @property string $ncbi_summary_ru
@@ -45,7 +46,8 @@ use Yii;
  * @property string $human_protein_atlas
  * @property int|null $methylation_horvath
  *
- * @property Phylum $age
+ * @property Phylum $phylum
+ * @property Phylum $familyPhylum
  * @property AgeRelatedChange[] $ageRelatedChanges
  * @property GeneExpressionInSample[] $geneExpressionInSamples
  * @property GeneInterventionToVitalProcess[] $geneInterventionToVitalProcesses
@@ -76,13 +78,14 @@ class Gene extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ncbi_id', 'locationStart', 'locationEnd', 'orientation', 'rating', 'isHidden', 'expressionChange', 'created_at', 'updated_at', 'age_id', 'taxon_id', 'methylation_horvath'], 'integer'],
+            [['ncbi_id', 'locationStart', 'locationEnd', 'orientation', 'rating', 'isHidden', 'expressionChange', 'created_at', 'updated_at', 'phylum_id', 'family_phylum_id', 'taxon_id', 'methylation_horvath'], 'integer'],
             [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN', 'commentsReferenceLinks', 'protein_complex_ru', 'protein_complex_en', 'human_protein_atlas', 'ncbi_summary_ru', 'ncbi_summary_en', 'og_summary_en', 'og_summary_ru'], 'string'],
             [['symbol', 'aliases', 'name', 'uniprot', 'band', 'accPromoter', 'accOrf', 'accCds'], 'string', 'max' => 120],
             [['why', 'references', 'orthologs'], 'string', 'max' => 1000],
             [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN'], 'string', 'max' => 1500],
             [['commentsReferenceLinks'], 'string', 'max' => 2000],
-            [['age_id'], 'exist', 'skipOnError' => true, 'targetClass' => Phylum::class, 'targetAttribute' => ['age_id' => 'id']],
+            [['phylum_id'], 'exist', 'skipOnError' => true, 'targetClass' => Phylum::className(), 'targetAttribute' => ['phylum_id' => 'id']],
+            [['family_phylum_id'], 'exist', 'skipOnError' => true, 'targetClass' => Phylum::className(), 'targetAttribute' => ['family_phylum_id' => 'id']],
         ];
     }
 
@@ -121,7 +124,8 @@ class Gene extends \yii\db\ActiveRecord
             'expressionChange' => 'Expression Change',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'age_id' => 'Age ID',
+            'family_phylum_id' => 'Family Phylum ID',
+            'phylum_id' => 'Phylum ID',
             'protein_complex_ru' => 'Protein Complex Ru',
             'protein_complex_en' => 'Protein Complex En',
             'ncbi_summary_ru' => 'Summary Ru',
@@ -142,9 +146,9 @@ class Gene extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAge()
+    public function getFamilyPhylum()
     {
-        return $this->hasOne(Phylum::class, ['id' => 'age_id']);
+        return $this->hasOne(Phylum::class, ['id' => 'family_phylum_id']);
     }
 
     /**
