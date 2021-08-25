@@ -125,7 +125,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withCommentCause($this->lang)
             ->withDiseases($this->lang)
             ->andWhere('isHidden != 1')
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->limit($count)
             ->groupBy('gene.id')
             ->asArray();
@@ -153,7 +153,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withCommentCause($this->lang)
             ->where(['gene.id' => ($genesIdsByFunctionalClusters)])
             ->andWhere('isHidden != 1')
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
         
@@ -178,7 +178,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withCommentCause($this->lang)
             ->andWhere('isHidden != 1')
             ->andWhere(['gene.id' => $genesIdsBySelectionCriteria])
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
 
@@ -196,7 +196,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withCommentCause($this->lang)
             ->andWhere('isHidden != 1')
             ->andWhere(['gene.expressionChange' => $expressionChange])
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
         return $genesArrayQuery->all();
@@ -213,7 +213,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withGoTerms($this->lang)
             ->andWhere('isHidden != 1')
             ->andWhere(['like', 'gene_ontology.name_en', '%' . $term . '%', false])
-            ->orderBy('age.order DESC')
+            ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
         return $genesArrayQuery->all();
