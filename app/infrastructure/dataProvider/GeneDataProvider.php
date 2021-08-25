@@ -72,7 +72,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withCommentCause($this->lang)
             ->withProteinClasses($this->lang)
             ->where(['gene.id' => $geneId])
-            ->withAge()
+            ->withPhylum()
             ->asArray()
             ->groupBy('gene.id')
             ->one();
@@ -92,7 +92,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withCommentCause($this->lang)
             ->withProteinClasses($this->lang)
             ->where(['gene.symbol' => $geneSymbol])
-            ->withAge()
+            ->withPhylum()
             ->asArray()
             ->groupBy('gene.id')
             ->one();
@@ -107,7 +107,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         return Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->andWhere('isHidden != 1')
             ->orderBy('gene.updated_at desc')
             ->limit($count)
@@ -120,7 +120,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withCommentCause($this->lang)
             ->withDiseases($this->lang)
@@ -147,7 +147,7 @@ class GeneDataProvider implements GeneDataProviderInterface
 
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withDiseases($this->lang)
             ->withCommentCause($this->lang)
@@ -172,7 +172,7 @@ class GeneDataProvider implements GeneDataProviderInterface
 
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withDiseases($this->lang)
             ->withCommentCause($this->lang)
@@ -190,7 +190,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withDiseases($this->lang)
             ->withCommentCause($this->lang)
@@ -206,7 +206,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withAge()
+            ->withPhylum()
             ->withFunctionalClusters($this->lang)
             ->withDiseases($this->lang)
             ->withCommentCause($this->lang)
