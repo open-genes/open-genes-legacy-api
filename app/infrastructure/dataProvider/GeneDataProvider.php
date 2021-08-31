@@ -41,7 +41,7 @@ class GeneDataProvider implements GeneDataProviderInterface
 
     private $fieldsEn = [
         'gene.commentEvolutionEN comment_evolution',
-        'gene.commentFunctionEN comment_function',
+        'gene.uniprot_summary_en comment_function',
         'gene.commentAgingEN comment_aging',
         'gene.ncbi_summary_en description_ncbi',
         'gene.og_summary_en description_og',
@@ -49,7 +49,7 @@ class GeneDataProvider implements GeneDataProviderInterface
 
     private $fieldsRu = [
         'gene.commentEvolution comment_evolution',
-        'gene.commentFunction comment_function',
+        'gene.uniprot_summary_ru comment_function',
         'gene.commentAging comment_aging',
         'gene.ncbi_summary_ru description_ncbi',
         'gene.og_summary_ru description_og',
