@@ -11,7 +11,7 @@ jobs:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: test-CI
+          workflow: "test.yml"
           workflow_conclusion: success
       - name: Build project
         run: docker run --rm -v $PWD/app:/app composer@sha256:d374b2e1f715621e9d9929575d6b35b11cf4a6dc237d4a08f2e6d1611f534675 install
