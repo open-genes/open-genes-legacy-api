@@ -8,24 +8,13 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
-      - name: Cache docker
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-docker
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
         with:
-          path: app/vendor/
-          key: ${CI_COMMIT_REF_SLUG}-${CI_JOB_NAME}
-      - name: Download project artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: project
+          workflow: test-CI
+          workflow_conclusion: success
       - name: Build project
         run: docker run --rm -v $PWD/app:/app composer@sha256:d374b2e1f715621e9d9929575d6b35b11cf4a6dc237d4a08f2e6d1611f534675 install
-      - name: Upload project artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: project
-          path: app/vendor/
 
 
   deploy-test:
