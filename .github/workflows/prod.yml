@@ -5,10 +5,16 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
+      - name: Cache docker
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-docker
+        with:
+          path: app/vendor/
+          key: ${CI_COMMIT_REF_SLUG}-${CI_JOB_NAME}
       - name: Build project
         run: docker run --rm -v $PWD/app:/app composer@sha256:d374b2e1f715621e9d9929575d6b35b11cf4a6dc237d4a08f2e6d1611f534675 install
       - name: Upload project artifacts
