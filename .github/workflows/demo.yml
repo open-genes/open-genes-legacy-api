@@ -1,6 +1,11 @@
 name: demo-CI
 
-on: push
+on:
+  workflow_run:
+    workflows: ["test-CI"]
+    types:
+      - completed
+      - requested
 
 jobs:
   build:
