@@ -24,14 +24,12 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->proteinClasses = $geneArray['protein_class'] ? explode('||', $geneArray['protein_class']) : []; // todo одинаковый сепаратор для всех group_concat
         $geneDto->commentEvolution = $geneArray['comment_evolution'];
         $geneDto->commentFunction = (string)$geneArray['comment_function'];
+        $geneDto->proteinDescriptionUniProt = (string)$geneArray['comment_function'];
         $geneDto->descriptionNCBI = (string)$geneArray['description_ncbi'];
         $geneDto->descriptionOG = (string)$geneArray['description_og'];
-        $geneDto->commentAging = (string)$geneArray['comment_aging'];
-        $geneDto->commentsReferenceLinks = $this->prepareLinks($geneArray);
-        $geneDto->rating = $geneArray['rating'];
+        $geneDto->proteinDescriptionOpenGenes = (string)$geneArray['description_og'];
         $geneDto->functionalClusters = $this->mapFunctionalClusterDtos($geneArray['functional_clusters']);
         $geneDto->expressionChange = (int)$geneArray['expressionChange'];
-        $geneDto->why = explode(',', $geneArray['why']);
         $geneDto->band = (string)$geneArray['band'];
         $geneDto->locationStart = (string)$geneArray['locationStart'];
         $geneDto->locationEnd = (string)$geneArray['locationEnd'];
@@ -220,23 +218,6 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         ];
         return isset($geneArray['methylation_horvath']) && isset($methylationCorrelation[$geneArray['methylation_horvath']])
             ? $methylationCorrelation[$geneArray['methylation_horvath']] : '';
-    }
-
-    private function prepareLinks($geneArray): array
-    {
-        $geneCommentsReferenceLinks = [];
-        $geneCommentsReferenceLinksSource = $geneArray['commentsReferenceLinks'] ? explode(',', $geneArray['commentsReferenceLinks']) : [];
-        foreach ($geneCommentsReferenceLinksSource as $commentsRef) {
-            if (preg_match('/\[(\d+)]/', $commentsRef, $commentsRefLinkIdMatch)) {
-                $commentsRefLinkId = $commentsRefLinkIdMatch[1];
-                $commentsRefLinkText = str_replace('<br>', '', trim(explode(']', $commentsRef)[1]));
-                $geneCommentsReferenceLinks[$commentsRefLinkId] = $commentsRefLinkText;
-            } else {
-                $geneCommentsReferenceLinks[1] = $commentsRef;
-            }
-        }
-
-        return $geneCommentsReferenceLinks;
     }
 
     private function prepareCommentCauses($geneArray): array

@@ -30,17 +30,15 @@ class GeneFullViewDto
     /** @var string */
     public $commentFunction;
     /** @var string */
+    public $proteinDescriptionUniProt;
+    /** @var string */
     public $descriptionNCBI;
     /** @var string */
     public $descriptionOG;
+    /** @var string */
+    public $proteinDescriptionOpenGenes;
     /** @var array */
     public $commentCause;
-    /** @var string */
-    public $commentAging;
-    /** @var array */
-    public $commentsReferenceLinks;
-    /** @var string */
-    public $rating;
     /** @var FunctionalClusterDto[] */
     public $functionalClusters;
     /** @var ResearchDto[] */
@@ -75,8 +73,6 @@ class GeneFullViewDto
 //    public $references;
     /** @var array */
     public $orthologs;
-    /** @var array */
-    public $why;
     /** @var int */
     public $timestamp;
     /** @var array */

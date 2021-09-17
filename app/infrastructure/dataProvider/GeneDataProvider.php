@@ -33,7 +33,6 @@ class GeneDataProvider implements GeneDataProviderInterface
         'gene.expressionChange',
         'gene.created_at',
         'gene.updated_at',
-        'gene.rating',
         'gene.ensembl',
         'gene.human_protein_atlas',
         'gene.methylation_horvath',
@@ -42,7 +41,6 @@ class GeneDataProvider implements GeneDataProviderInterface
     private $fieldsEn = [
         'gene.commentEvolutionEN comment_evolution',
         'gene.uniprot_summary_en comment_function',
-        'gene.commentAgingEN comment_aging',
         'gene.ncbi_summary_en description_ncbi',
         'gene.og_summary_en description_og',
     ];
@@ -50,7 +48,6 @@ class GeneDataProvider implements GeneDataProviderInterface
     private $fieldsRu = [
         'gene.commentEvolution comment_evolution',
         'gene.uniprot_summary_ru comment_function',
-        'gene.commentAging comment_aging',
         'gene.ncbi_summary_ru description_ncbi',
         'gene.og_summary_ru description_og',
     ];
