@@ -13,7 +13,6 @@ use Yii;
  * @property string $name
  * @property int $ncbi_id
  * @property string $uniprot
- * @property string $why
  * @property string $band
  * @property int $locationStart
  * @property int $locationEnd
@@ -26,11 +25,8 @@ use Yii;
  * @property string $commentEvolution
  * @property string $commentFunction
  * @property string $commentCause
- * @property string $commentAging
  * @property string $commentEvolutionEN
  * @property string $commentFunctionEN
- * @property string $commentAgingEN
- * @property string $commentsReferenceLinks
  * @property int $rating
  * @property int $isHidden
  * @property int $expressionChange

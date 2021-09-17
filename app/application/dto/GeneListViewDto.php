@@ -17,10 +17,14 @@ class GeneListViewDto
     public $aliases;
     /** @var array */
     public $diseases;
+    /** @var array */
+    public $diseaseCategories;
     /** @var string */
     public $name;
     /** @var string */
     public $ncbiId;
+    /** @var string */
+    public $commentCause;
     /** @var string */
     public $uniprot;
     /** @var FunctionalClusterDto[] */
