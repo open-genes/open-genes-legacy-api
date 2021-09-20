@@ -13,7 +13,7 @@ class DiseaseDataProvider implements DiseaseDataProviderInterface
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         $icdNameField = $lang == 'en-US' ? 'icd_name_en' : 'icd_name_ru';
         return Disease::find()
-            ->select(['id', 'icd_code', $nameField . ' name', $icdNameField . ' icd_name'])
+            ->select(['id', 'icd_code icdCode', $nameField . ' name', $icdNameField . ' icdName'])
             ->where('omim_id is not null')
             ->asArray()
             ->all();
@@ -23,7 +23,7 @@ class DiseaseDataProvider implements DiseaseDataProviderInterface
     {
         $icdNameField = $lang == 'en-US' ? 'icd_name_en' : 'icd_name_ru';
         $rootCategories = Disease::find()
-            ->select(['disease_category.icd_code icdCode', 'disease_category.' . $icdNameField . ' icdCategoryName'])
+            ->select(['min(disease_category.id) id', 'disease_category.icd_code icdCode', 'min(disease_category.' . $icdNameField . ') icdCategoryName'])
             ->distinct()
             ->innerJoin('gene_to_disease', 'gene_to_disease.disease_id=disease.id')
             ->join(
@@ -32,6 +32,7 @@ class DiseaseDataProvider implements DiseaseDataProviderInterface
                 'disease.icd_code_visible = disease_category.icd_code'
             )
             ->where('disease_category.icd_name_en is not null')
+            ->groupBy('disease_category.icd_code')
             ->asArray()
             ->all();
 

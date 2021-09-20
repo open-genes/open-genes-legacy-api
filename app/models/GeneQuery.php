@@ -63,11 +63,13 @@ class GeneQuery extends \yii\db\ActiveQuery
                 "group_concat(distinct concat(
                 disease.id,'|',
                 coalesce(disease.icd_code, ''),'|',
-                coalesce(nullif(disease.{$nameField}, ''), nullif(disease.name_en, ''), '')
+                coalesce(nullif(disease.{$nameField}, ''), nullif(disease.name_en, ''), ''),'|',
+                coalesce(nullif(disease.{$icdNameField}, ''), nullif(disease.icd_name_en, ''), '')
                 )  separator '##') as diseases"
             ])
             ->addSelect([
                 "group_concat(distinct concat(
+                disease_category.id,'|',
                 coalesce(disease_category.icd_code, ''),'|',
                 coalesce(nullif(disease_category.{$icdNameField}, ''), nullif(disease_category.icd_name_en, ''), '')
                 )  separator '##') as disease_categories"

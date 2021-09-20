@@ -132,9 +132,10 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         if ($diseasesString) {
             $diseasesArray = explode('##', $diseasesString);
             foreach ($diseasesArray as $diseaseString) {
-                list($id, $icdId, $name) = explode('|', $diseaseString);
+                list($id, $icdId, $name, $icdName) = explode('|', $diseaseString);
                 $diseases[$id] = [
-                    'icd_id' => $icdId,
+                    'icdCode' => $icdId,
+                    'icdName' => $icdName,
                     'name' => $name
                 ];
             }
@@ -149,10 +150,11 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         if ($diseaseCategoriesString) {
             $diseaseCategoriesArray = explode('##', $diseaseCategoriesString);
             foreach ($diseaseCategoriesArray as $diseaseCategoryString) {
-                list($icdId, $categoryName) = explode('|', $diseaseCategoryString);
-                if ($icdId) {
-                    $diseaseCategories[$icdId] = [
-                        'icd_category_name' => $categoryName
+                list($id, $icdCode, $categoryName) = explode('|', $diseaseCategoryString);
+                if ($icdCode) {
+                    $diseaseCategories[$id] = [
+                        'icdCode' => $icdCode,
+                        'icdCategoryName' => $categoryName,
                     ];
                 }
             }
