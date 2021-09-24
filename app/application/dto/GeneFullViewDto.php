@@ -46,8 +46,6 @@ class GeneFullViewDto
     /** @var array [$geneName => $geneExpression[]] */
     public $expression;
     /** @var array */
-    public $functions;
-    /** @var array */
     public $proteinClasses;
     /** @var int */
     public $expressionChange;
