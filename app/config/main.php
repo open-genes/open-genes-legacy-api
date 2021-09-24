@@ -81,7 +81,6 @@ $config = [
             },
             app\infrastructure\dataProvider\GeneExpressionDataProviderInterface::class => app\infrastructure\dataProvider\GeneExpressionDataProvider::class,
             app\infrastructure\dataProvider\DiseaseDataProviderInterface::class => app\infrastructure\dataProvider\DiseaseDataProvider::class,
-            app\infrastructure\dataProvider\GeneFunctionsDataProviderInterface::class => app\infrastructure\dataProvider\GeneFunctionsDataProvider::class,
             app\infrastructure\dataProvider\GeneResearchesDataProviderInterface::class => app\infrastructure\dataProvider\GeneResearchesDataProvider::class,
             app\infrastructure\dataProvider\PhylumDataProviderInterface::class => app\infrastructure\dataProvider\PhylumDataProvider::class,
             app\application\service\GeneOntologyServiceInterface::class => app\application\service\GeneOntologyService::class

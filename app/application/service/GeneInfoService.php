@@ -6,7 +6,6 @@ use app\application\dto\GeneFullViewDto;
 use app\application\dto\ResearchDtoAssemblerInterface;
 use app\infrastructure\dataProvider\GeneDataProviderInterface;
 use app\infrastructure\dataProvider\GeneExpressionDataProviderInterface;
-use app\infrastructure\dataProvider\GeneFunctionsDataProviderInterface;
 use app\infrastructure\dataProvider\GeneResearchesDataProviderInterface;
 use yii\base\Exception;
 
@@ -17,9 +16,6 @@ class GeneInfoService implements GeneInfoServiceInterface
 
     /** @var GeneExpressionDataProviderInterface */
     private $geneExpressionDataProvider;
-
-    /** @var GeneFunctionsDataProviderInterface  */
-    private $geneFunctionsDataProvider;
 
     /** @var GeneResearchesDataProviderInterface  */
     private $geneResearchesDataProvider;
@@ -33,7 +29,6 @@ class GeneInfoService implements GeneInfoServiceInterface
     public function __construct(
         GeneDataProviderInterface $geneRepository,
         GeneExpressionDataProviderInterface $geneExpressionDataProvider,
-        GeneFunctionsDataProviderInterface $geneFunctionsDataProvider,
         GeneResearchesDataProviderInterface $geneResearchesDataProvider,
         GeneDtoAssemblerInterface $geneDtoAssembler,
         ResearchDtoAssemblerInterface $researchDtoAssembler
@@ -41,7 +36,6 @@ class GeneInfoService implements GeneInfoServiceInterface
     {
         $this->geneDataProvider = $geneRepository;
         $this->geneExpressionDataProvider = $geneExpressionDataProvider;
-        $this->geneFunctionsDataProvider = $geneFunctionsDataProvider;
         $this->geneResearchesDataProvider = $geneResearchesDataProvider;
         $this->geneDtoAssembler = $geneDtoAssembler;
         $this->researchDtoAssembler = $researchDtoAssembler;
@@ -60,7 +54,6 @@ class GeneInfoService implements GeneInfoServiceInterface
 
         $geneDto = $this->geneDtoAssembler->mapViewDto($geneArray, $lang);
         $geneDto->expression = $this->geneExpressionDataProvider->getByGeneId($geneArray['id'], $lang);
-        $geneDto->functions = $this->geneFunctionsDataProvider->getByGeneId($geneArray['id'], $lang);
         $geneDto->researches = $this->getGeneResearches($geneArray['id'], $lang);
         
         //todo: создать дата провайдер вместо прямого вызова сервиса. Или лучше вызывать сервис, но внутри него отслоить датапровайдер
