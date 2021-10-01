@@ -21,6 +21,7 @@ class DiseaseInfoService implements DiseaseInfoServiceInterface
         $diseases = $this->diseaseDataProvider->getAllDiseases($lang);
         $result = [];
         foreach ($diseases as $disease) {
+            $disease['isRare'] = null; // todo for OG-343
             $result[$disease['id']] = $disease;
             unset($result[$disease['id']]['id']);
         }

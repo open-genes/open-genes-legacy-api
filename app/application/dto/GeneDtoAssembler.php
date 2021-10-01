@@ -136,7 +136,8 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
                 $diseases[$id] = [
                     'icdCode' => $icdId,
                     'icdName' => $icdName,
-                    'name' => $name
+                    'name' => $name,
+                    'isRare' => null // todo for OG-343
                 ];
             }
         }
