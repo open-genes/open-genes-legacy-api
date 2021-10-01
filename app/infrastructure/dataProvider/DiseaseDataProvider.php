@@ -59,6 +59,7 @@ class DiseaseDataProvider implements DiseaseDataProviderInterface
             $categoryId = $category['id'];
             unset($category['id']);
             $category['genesSymbols'] = explode(',', $category['genesSymbols']);
+            $category['isRare'] = null; // todo for OG-343
             $diseases[$categoryId] = $category;
         }
         return $diseases;

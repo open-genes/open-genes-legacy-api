@@ -79,6 +79,8 @@ class GeneFullViewDto
     public $ensembl;
     /** @var string */
     public $methylationCorrelation;
+    /** @var array */
+    public $agingMechanisms = [];
 
 //    public $isHidden;
 //    public $userEdited;
