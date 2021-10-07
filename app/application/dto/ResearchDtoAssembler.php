@@ -26,6 +26,12 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
             $this->preparePercentChange($lifespanExperiment);
+            if (!isset($lifespanExperiment['age']) && isset($lifespanExperiment['treatment_start'])) {
+                $lifespanExperiment['age'] = $lifespanExperiment['treatment_start'];
+            }
+            if (!isset($lifespanExperiment['ageUnit']) && isset($lifespanExperiment['startTimeUnit'])) {
+                $lifespanExperiment['ageUnit'] = $lifespanExperiment['startTimeUnit'];
+            }
             $this->prepareAge($lifespanExperiment, $lang);
             $this->prepareEmpty($lifespanExperiment);
             $this->prepareGenotype($lifespanExperiment);
@@ -65,10 +71,10 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
 
         return $researchesDto;
     }
-    
+
     private function prepareEmpty(&$data)
     {
-        foreach($data as $key => $field) {
+        foreach ($data as $key => $field) {
             if (empty($data[$key])) {
                 $data[$key] = '';
             }
@@ -115,6 +121,8 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
             if (isset($data[$ageField])) {
                 if (isset($data['ageUnit']) && isset($ageUnits[$data['ageUnit']])) {
                     $data[$ageField] = $data[$ageField] . ' ' . $ageUnits[$data['ageUnit']];
+                } elseif (is_string($data['ageUnit'])) {
+                    $data[$ageField] = $data[$ageField] . ' ' . $data['ageUnit'];
                 }
             }
         }
