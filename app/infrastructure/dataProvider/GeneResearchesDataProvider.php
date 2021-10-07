@@ -25,25 +25,32 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         $commentField = $lang == 'en-US' ? 'comment_en' : 'comment_ru';
         return LifespanExperiment::find()
             ->select([
-                "gene_intervention.{$nameField} as interventionType",
+                "gene_intervention_method.{$nameField} as interventionType",
                 "intervention_result_for_longevity.{$nameField} as interventionResult",
                 "model_organism.{$nameField} as modelOrganism",
                 "organism_line.{$nameField} as organismLine",
-                "lifespan_experiment.age",
+                "organism_sex.{$nameField} as sex",
+                "general_lifespan_experiment_id",
+                "general_lifespan_experiment.age",
+                "lifespan_experiment.treatment_start",
+                "start_time_unit.{$nameField} as startTimeUnit",
                 "lifespan_experiment.genotype",
-                "lifespan_experiment.age_unit as ageUnit",
-                "lifespan_experiment.lifespan_change_percent_male as valueForMale",
-                "lifespan_experiment.lifespan_change_percent_female as valueForFemale",
-                "lifespan_experiment.lifespan_change_percent_common as valueForAll",
-                "lifespan_experiment.reference as doi",
-                "lifespan_experiment.pmid",
-                "lifespan_experiment.{$commentField} as comment",
+                "general_lifespan_experiment.age_unit as ageUnit",
+                "general_lifespan_experiment.lifespan_change_percent_male as valueForMale",
+                "general_lifespan_experiment.lifespan_change_percent_female as valueForFemale",
+                "general_lifespan_experiment.lifespan_change_percent_common as valueForAll",
+                "general_lifespan_experiment.reference as doi",
+                "general_lifespan_experiment.pmid",
+                "general_lifespan_experiment.{$commentField} as comment",
             ])
             ->distinct()
-            ->innerJoin('gene_intervention', 'lifespan_experiment.gene_intervention_id=gene_intervention.id')
-            ->innerJoin('intervention_result_for_longevity', 'lifespan_experiment.intervention_result_id=intervention_result_for_longevity.id')
-            ->leftJoin('model_organism', 'lifespan_experiment.model_organism_id=model_organism.id')
-            ->leftJoin('organism_line', 'lifespan_experiment.organism_line_id=organism_line.id')
+            ->innerJoin('gene_intervention_method', 'lifespan_experiment.gene_intervention_method_id=gene_intervention_method.id')
+            ->innerJoin('general_lifespan_experiment', 'lifespan_experiment.general_lifespan_experiment_id=general_lifespan_experiment.id')
+            ->innerJoin('intervention_result_for_longevity', 'general_lifespan_experiment.intervention_result_id=intervention_result_for_longevity.id')
+            ->leftJoin('treatment_time_unit start_time_unit', 'lifespan_experiment.treatment_start_time_unit_id=start_time_unit.id')
+            ->leftJoin('model_organism', 'general_lifespan_experiment.model_organism_id=model_organism.id')
+            ->leftJoin('organism_line', 'general_lifespan_experiment.organism_line_id=organism_line.id')
+            ->leftJoin('organism_sex', 'general_lifespan_experiment.organism_sex_id=organism_sex.id')
             ->where(['gene_id' => $geneId])
             ->asArray()
             ->all();
@@ -86,7 +93,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         $commentField = $lang == 'en-US' ? 'comment_en' : 'comment_ru';
         return GeneInterventionToVitalProcess::find()
             ->select([
-                "gene_intervention.{$nameField} as geneIntervention",
+                "gene_intervention_method.{$nameField} as geneIntervention",
                 "vital_process.{$nameField} as vitalProcess",
                 "model_organism.{$nameField} as modelOrganism",
                 "organism_line.{$nameField} as organismLine",
@@ -100,7 +107,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "gene_intervention_to_vital_process.{$commentField} as comment",
             ])
             ->distinct()
-            ->innerJoin('gene_intervention', 'gene_intervention_to_vital_process.gene_intervention_id=gene_intervention.id')
+            ->innerJoin('gene_intervention_method', 'gene_intervention_to_vital_process.gene_intervention_method_id=gene_intervention_method.id')
             ->innerJoin('vital_process', 'gene_intervention_to_vital_process.vital_process_id=vital_process.id')
             ->leftJoin('model_organism', 'gene_intervention_to_vital_process.model_organism_id=model_organism.id')
             ->leftJoin('organism_line', 'gene_intervention_to_vital_process.organism_line_id=organism_line.id')
