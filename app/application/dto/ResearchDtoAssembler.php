@@ -26,10 +26,10 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
             $this->preparePercentChange($lifespanExperiment);
-            if (!isset($lifespanExperiment['age']) && isset($lifespanExperiment['treatment_start'])) {
+            if (isset($lifespanExperiment['treatment_start'])) {
                 $lifespanExperiment['age'] = $lifespanExperiment['treatment_start'];
             }
-            if (!isset($lifespanExperiment['ageUnit']) && isset($lifespanExperiment['startTimeUnit'])) {
+            if (isset($lifespanExperiment['startTimeUnit'])) {
                 $lifespanExperiment['ageUnit'] = $lifespanExperiment['startTimeUnit'];
             }
             $this->prepareAge($lifespanExperiment, $lang);

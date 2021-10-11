@@ -1,0 +1,30 @@
+name: release
+
+on: workflow_dispatch
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build.yml
+          workflow_conclusion: success
+          name: project
+      - name: UnTar project files
+        run: tar -xzvf project.tar.gz
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DROPLET_KEY }}
+          known_hosts: ${{ secrets.DROPLET_HOST }}
+      - name: Deploy with rsync
+        run: |
+          echo $DROPLET_ENV | base64 -d > app/.env
+          rsync -zhrl -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' app/ $SSH_USER@$SSH_HOST:$PROJECT_PATH/app/
+        env:
+          SSH_USER: ${{ secrets.DROPLET_USER }}
+          SSH_HOST: ${{ secrets.DROPLET_HOST }}
+          PROJECT_PATH: ${{ secrets.DROPLET_API_PROD_PATH }}
+          DROPLET_ENV: ${{ secrets.DROPLET_API_PROD_DOTENV_BASE64 }}
