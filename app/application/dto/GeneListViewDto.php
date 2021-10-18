@@ -41,6 +41,8 @@ class GeneListViewDto
     public $methylationCorrelation;
     /** @var array */
     public $agingMechanisms = [];
+    /** @var array */
+    public $source = [];
 
 }
 
