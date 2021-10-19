@@ -157,6 +157,26 @@ class GeneDataProvider implements GeneDataProviderInterface
     }
 
     /** @inheritDoc */
+    public function getAllGenesDiet(int $count = null): array
+    {
+        $genesArrayQuery = Gene::find()
+            ->select($this->fields)
+            ->withPhylum()
+            ->withFunctionalClusters($this->lang)
+            ->withCommentCause($this->lang)
+            ->withSources()
+            ->withDiseases($this->lang)
+            ->orderBy('family_phylum.order DESC')
+            ->limit($count)
+            ->groupBy('gene.id')
+            ->asArray();
+        if($count) {
+            $genesArrayQuery->limit($count);
+        }
+        return $genesArrayQuery->all();
+    }
+
+    /** @inheritDoc */
     public function getByFunctionalClustersIds(array $functionalClustersIds): array
     {
         $genesIdsByFunctionalClusters = GeneToFunctionalCluster::find()

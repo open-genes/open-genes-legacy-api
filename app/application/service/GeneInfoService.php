@@ -93,6 +93,18 @@ class GeneInfoService implements GeneInfoServiceInterface
         return $this->getGeneDtos($this->geneDataProvider->getAllGenesMethylation($count), $lang);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getAllGenesDiet(int $count = null, string $lang = 'en-US'): array
+    {
+        $geneDtos = $this->getGeneDtos($this->geneDataProvider->getAllGenesDiet($count), $lang);
+        foreach ($geneDtos as $geneDto) {
+            $geneDto->researches = $this->getGeneResearches($geneDto->id, $lang)->increaseLifespan;
+        }
+        return $geneDtos;
+    }
+
     public function getByFunctionalClustersIds(array $functionalClustersIds, string $lang = 'en-US'): array
     {
         $genesArray = $this->geneDataProvider->getByFunctionalClustersIds($functionalClustersIds);
