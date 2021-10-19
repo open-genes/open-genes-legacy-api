@@ -21,6 +21,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->commentCause = $this->prepareCommentCauses($geneArray);
+        $geneDto->source = $this->prepareSource($geneArray['source']);
         $geneDto->proteinClasses = $geneArray['protein_class'] ? explode('||', $geneArray['protein_class']) : []; // todo одинаковый сепаратор для всех group_concat
         $geneDto->commentEvolution = $geneArray['comment_evolution'];
         $geneDto->commentFunction = (string)$geneArray['comment_function'];
@@ -76,6 +77,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->expressionChange = (int)$geneArray['expressionChange'];
         $geneDto->commentCause = $this->prepareCommentCauses($geneArray);
         $geneDto->aliases = $geneArray['aliases'] ? explode(' ', str_replace(',', '', $geneArray['aliases'])) : [];
+        $geneDto->source = $this->prepareSource($geneArray['source']);
         $geneDto->functionalClusters = $this->mapFunctionalClusterDtos($geneArray['functional_clusters']);
         $geneDto->timestamp = $this->prepareTimestamp($geneArray);
         $geneDto->ensembl = (string)$geneArray['ensembl'];
@@ -233,5 +235,10 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         }
 
         return $commentCauses;
+    }
+
+    private function prepareSource($geneArray): array
+    {
+        return $geneArray ? explode('||', $geneArray) : [];
     }
 }
