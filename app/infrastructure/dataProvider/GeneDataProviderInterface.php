@@ -18,6 +18,8 @@ interface GeneDataProviderInterface
 
     public function getAllGenes(int $count = null): array;
 
+    public function getAllGenesMethylation(int $count = null): array;
+
     /**
      * @param int[] $functionalClustersIds
      * @return array

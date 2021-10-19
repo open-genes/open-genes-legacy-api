@@ -143,9 +143,9 @@ class GeneQuery extends \yii\db\ActiveQuery
                 'gene_to_protein_class.protein_class_id = protein_class.id'
             );
     }
-    public function withSources()
+    public function withSources(int $sourceId = 0)
     {
-        return $this
+        $geneQuery = $this
             ->addSelect([
                 'group_concat(distinct source.name separator "||") as source'
             ])
@@ -159,6 +159,11 @@ class GeneQuery extends \yii\db\ActiveQuery
                 'source',
                 'gene_to_source.source_id = source.id'
             );
+
+        if ($sourceId !== 0) {
+            $geneQuery->where('source.id = ' . $sourceId);
+        }
+        return $geneQuery;
     }
 
     public function withPhylum()
