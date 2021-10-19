@@ -143,6 +143,23 @@ class GeneQuery extends \yii\db\ActiveQuery
                 'gene_to_protein_class.protein_class_id = protein_class.id'
             );
     }
+    public function withSources()
+    {
+        return $this
+            ->addSelect([
+                'group_concat(distinct source.name separator "||") as source'
+            ])
+            ->join(
+                'LEFT JOIN',
+                'gene_to_source',
+                'gene_to_source.gene_id = gene.id'
+            )
+            ->join(
+                'LEFT JOIN',
+                'source',
+                'gene_to_source.source_id = source.id'
+            );
+    }
 
     public function withPhylum()
     {
