@@ -68,11 +68,11 @@ class ApiController extends Controller
         return $geneInfoService->getAllGenesMethylation(null, $this->language);
     }
 
-    public function actionDiet(): array
+    public function actionIncreaseLifespan(): array
     {
         /** @var GeneInfoServiceInterface $geneInfoService */
         $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
-        return $geneInfoService->getAllGenesDiet(null, $this->language);
+        return $geneInfoService->getAllGenesIncreaseLifespan(null, $this->language);
     }
 
     /**

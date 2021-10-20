@@ -96,9 +96,9 @@ class GeneInfoService implements GeneInfoServiceInterface
     /**
      * @inheritDoc
      */
-    public function getAllGenesDiet(int $count = null, string $lang = 'en-US'): array
+    public function getAllGenesIncreaseLifespan(int $count = null, string $lang = 'en-US'): array
     {
-        $geneDtos = $this->getGeneDtos($this->geneDataProvider->getAllGenesDiet($count), $lang);
+        $geneDtos = $this->getGeneDtos($this->geneDataProvider->getAllGenesIncreaseLifespan($count), $lang);
         foreach ($geneDtos as $geneDto) {
             $geneDto->researches = $this->getGeneResearches($geneDto->id, $lang)->increaseLifespan;
         }

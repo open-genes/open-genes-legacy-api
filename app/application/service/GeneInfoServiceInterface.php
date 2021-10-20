@@ -37,7 +37,7 @@ interface GeneInfoServiceInterface
      * @param string $lang
      * @return GeneListViewDto[]
      */
-    public function getAllGenesDiet(int $count = null, string $lang = 'en-US'): array;
+    public function getAllGenesIncreaseLifespan(int $count = null, string $lang = 'en-US'): array;
 
     /**
      * @param array $functionalClustersIds
