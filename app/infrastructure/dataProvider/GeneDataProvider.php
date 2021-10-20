@@ -156,7 +156,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     }
 
     /** @inheritDoc */
-    public function getAllGenesDiet(int $count = null): array
+    public function getAllGenesIncreaseLifespan(int $count = null): array
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
