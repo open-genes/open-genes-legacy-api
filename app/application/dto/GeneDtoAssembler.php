@@ -207,9 +207,9 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         return $phylum;
     }
 
-    private function prepareTimestamp($geneArray): int
+    private function prepareTimestamp($geneArray): array
     {
-        return (int)($geneArray['updated_at'] ?? $geneArray['created_at']);
+        return ['changed' => $geneArray['updated_at'], 'created' => $geneArray['created_at']];
     }
 
     private function prepareMethylation($geneArray, $lang): string
