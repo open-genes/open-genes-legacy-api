@@ -20,7 +20,7 @@ interface GeneDataProviderInterface
 
     public function getAllGenesMethylation(int $count = null): array;
 
-    public function getAllGenesIncreaseLifespan(int $count = null): array;
+    public function getIncreaseLifespan(int $count = null): array;
 
     /**
      * @param int[] $functionalClustersIds
