@@ -137,16 +137,11 @@ class GeneDataProvider implements GeneDataProviderInterface
     }
 
     /** @inheritDoc */
-    public function getAllGenesMethylation(int $count = null): array
+    public function getGenesMethylation(int $count = null): array
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withPhylum()
-            ->withFunctionalClusters($this->lang)
-            ->withCommentCause($this->lang)
             ->withSources(Source::HORVATH)
-            ->withDiseases($this->lang)
-            ->orderBy('family_phylum.order DESC')
             ->limit($count)
             ->groupBy('gene.id')
             ->asArray();

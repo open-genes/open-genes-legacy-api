@@ -82,15 +82,25 @@ class GeneInfoService implements GeneInfoServiceInterface
      */
     public function getAllGenes(int $count = null, string $lang = 'en-US'): array
     {
-        return $this->getGeneDtos($this->geneDataProvider->getAllGenes($count), $lang);
+        $genesArray = $this->geneDataProvider->getAllGenes($count);
+        $geneDtos = [];
+        foreach ($genesArray as $gene) {
+            $geneDtos[] = $this->geneDtoAssembler->mapListViewDto($gene, $lang);
+        }
+        return $geneDtos;
     }
 
     /**
      * @inheritDoc
      */
-    public function getAllGenesMethylation(int $count = null, string $lang = 'en-US'): array
+    public function getGenesMethylation(int $count = null, string $lang = 'en-US'): array
     {
-        return $this->getGeneDtos($this->geneDataProvider->getAllGenesMethylation($count), $lang);
+        $genesArray = $this->geneDataProvider->getGenesMethylation($count);
+        $geneDtos = [];
+        foreach ($genesArray as $gene) {
+            $geneDtos[] = $this->geneDtoAssembler->mapShortListViewDto($gene, $lang);
+        }
+        return $geneDtos;
     }
 
     /**
@@ -173,16 +183,6 @@ class GeneInfoService implements GeneInfoServiceInterface
             $additionalEvidences,
             $lang
         );
-    }
-
-    private function getGeneDtos(array $genesArray, string $lang = 'en-US'): array
-    {
-        $geneDtos = [];
-        foreach ($genesArray as $gene) {
-            $geneDtos[] = $this->geneDtoAssembler->mapListViewDto($gene, $lang);
-        }
-
-        return $geneDtos;
     }
 
 }
