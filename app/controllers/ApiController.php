@@ -65,7 +65,14 @@ class ApiController extends Controller
     {
         /** @var GeneInfoServiceInterface $geneInfoService */
         $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
-        return $geneInfoService->getAllGenesMethylation(null, $this->language);
+        return $geneInfoService->getGenesMethylation(null, $this->language);
+    }
+
+    public function actionIncreaseLifespan(): array
+    {
+        /** @var GeneInfoServiceInterface $geneInfoService */
+        $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
+        return $geneInfoService->getIncreaseLifespan(null, $this->language);
     }
 
     /**

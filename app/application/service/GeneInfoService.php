@@ -82,15 +82,43 @@ class GeneInfoService implements GeneInfoServiceInterface
      */
     public function getAllGenes(int $count = null, string $lang = 'en-US'): array
     {
-        return $this->getGeneDtos($this->geneDataProvider->getAllGenes($count), $lang);
+        $genesArray = $this->geneDataProvider->getAllGenes($count);
+        $geneDtos = [];
+        foreach ($genesArray as $gene) {
+            $geneDtos[] = $this->geneDtoAssembler->mapListViewDto($gene, $lang);
+        }
+        return $geneDtos;
     }
 
     /**
      * @inheritDoc
      */
-    public function getAllGenesMethylation(int $count = null, string $lang = 'en-US'): array
+    public function getGenesMethylation(int $count = null, string $lang = 'en-US'): array
     {
-        return $this->getGeneDtos($this->geneDataProvider->getAllGenesMethylation($count), $lang);
+        $genesArray = $this->geneDataProvider->getGenesMethylation($count);
+        $geneDtos = [];
+        foreach ($genesArray as $gene) {
+            $geneDto = $this->geneDtoAssembler->mapShortListViewDto($gene, $lang);
+            unset($geneDto->researches);
+            $geneDtos[] = $geneDto;
+        }
+        return $geneDtos;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIncreaseLifespan(int $count = null, string $lang = 'en-US'): array
+    {
+        $genesArray = $this->geneDataProvider->getIncreaseLifespan($count);
+        $geneDtos = [];
+        foreach ($genesArray as $gene) {
+            $geneDto = $this->geneDtoAssembler->mapShortListViewDto($gene, $lang);
+            $geneDto->researches = ['increaseLifespan' => $this->getGeneResearches($geneDto->id, $lang)->increaseLifespan];
+            $geneDtos[] = $geneDto;
+        }
+
+        return $geneDtos;
     }
 
     public function getByFunctionalClustersIds(array $functionalClustersIds, string $lang = 'en-US'): array
@@ -157,16 +185,6 @@ class GeneInfoService implements GeneInfoServiceInterface
             $additionalEvidences,
             $lang
         );
-    }
-
-    private function getGeneDtos(array $genesArray, string $lang = 'en-US'): array
-    {
-        $geneDtos = [];
-        foreach ($genesArray as $gene) {
-            $geneDtos[] = $this->geneDtoAssembler->mapListViewDto($gene, $lang);
-        }
-
-        return $geneDtos;
     }
 
 }
