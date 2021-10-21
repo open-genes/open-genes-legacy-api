@@ -106,7 +106,18 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->terms = $geneTerms;
         return $geneDto;
     }
-
+    public function mapShortListViewDto(array $geneArray, string $lang): GeneShortListViewDto
+    {
+        $geneDto = new GeneShortListViewDto();
+        $geneDto->id = (int)$geneArray['id'];
+        $geneDto->symbol = (string)$geneArray['symbol'];
+        $geneDto->name = (string)$geneArray['name'];
+        $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
+        $geneDto->uniprot = (string)$geneArray['uniprot'];
+        $geneDto->ensembl = (string)$geneArray['ensembl'];
+        $geneDto->methylationCorrelation = $this->prepareMethylation($geneArray, $lang);
+        return $geneDto;
+    }
     /**
      * @param string $geneFunctionalClustersString
      * @return FunctionalClusterDto[]
@@ -207,9 +218,9 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         return $phylum;
     }
 
-    private function prepareTimestamp($geneArray): int
+    private function prepareTimestamp($geneArray): array
     {
-        return (int)($geneArray['updated_at'] ?? $geneArray['created_at']);
+        return ['changed' => $geneArray['updated_at'], 'created' => $geneArray['created_at']];
     }
 
     private function prepareMethylation($geneArray, $lang): string

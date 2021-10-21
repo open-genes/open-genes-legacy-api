@@ -5,6 +5,7 @@ use app\models\Gene;
 use app\models\GeneQuery;
 use app\models\GeneToCommentCause;
 use app\models\GeneToFunctionalCluster;
+use app\models\Source;
 use yii\web\NotFoundHttpException;
 
 class GeneDataProvider implements GeneDataProviderInterface
@@ -132,6 +133,36 @@ class GeneDataProvider implements GeneDataProviderInterface
          if($count) {
              $genesArrayQuery->limit($count);
          }
+        return $genesArrayQuery->all();
+    }
+
+    /** @inheritDoc */
+    public function getGenesMethylation(int $count = null): array
+    {
+        $genesArrayQuery = Gene::find()
+            ->select($this->fields)
+            ->withSources(Source::HORVATH)
+            ->limit($count)
+            ->groupBy('gene.id')
+            ->asArray();
+        if($count) {
+            $genesArrayQuery->limit($count);
+        }
+        return $genesArrayQuery->all();
+    }
+
+    /** @inheritDoc */
+    public function getIncreaseLifespan(int $count = null): array
+    {
+        $genesArrayQuery = Gene::find()
+            ->select($this->fields)
+            ->limit($count)
+            ->innerJoin('lifespan_experiment', 'gene.id=lifespan_experiment.gene_id')
+            ->groupBy('gene.id')
+            ->asArray();
+        if($count) {
+            $genesArrayQuery->limit($count);
+        }
         return $genesArrayQuery->all();
     }
 
