@@ -98,7 +98,9 @@ class GeneInfoService implements GeneInfoServiceInterface
         $genesArray = $this->geneDataProvider->getGenesMethylation($count);
         $geneDtos = [];
         foreach ($genesArray as $gene) {
-            $geneDtos[] = $this->geneDtoAssembler->mapShortListViewDto($gene, $lang);
+            $geneDto = $this->geneDtoAssembler->mapShortListViewDto($gene, $lang);
+            unset($geneDto->researches);
+            $geneDtos[] = $geneDto;
         }
         return $geneDtos;
     }
@@ -111,7 +113,7 @@ class GeneInfoService implements GeneInfoServiceInterface
         $genesArray = $this->geneDataProvider->getIncreaseLifespan($count);
         $geneDtos = [];
         foreach ($genesArray as $gene) {
-            $geneDto = $this->geneDtoAssembler->mapShortListViewDto($gene);
+            $geneDto = $this->geneDtoAssembler->mapShortListViewDto($gene, $lang);
             $geneDto->researches = ['increaseLifespan' => $this->getGeneResearches($geneDto->id, $lang)->increaseLifespan];
             $geneDtos[] = $geneDto;
         }

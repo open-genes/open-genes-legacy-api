@@ -106,7 +106,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->terms = $geneTerms;
         return $geneDto;
     }
-    public function mapShortListViewDto(array $geneArray): GeneShortListViewDto
+    public function mapShortListViewDto(array $geneArray, string $lang): GeneShortListViewDto
     {
         $geneDto = new GeneShortListViewDto();
         $geneDto->id = (int)$geneArray['id'];
@@ -115,6 +115,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->ensembl = (string)$geneArray['ensembl'];
+        $geneDto->methylationCorrelation = $this->prepareMethylation($geneArray, $lang);
         return $geneDto;
     }
     /**

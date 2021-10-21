@@ -16,4 +16,8 @@ class GeneShortListViewDto
     public $uniprot;
     /** @var string */
     public $ensembl;
+    /** @var string */
+    public $methylationCorrelation;
+    /** @var array */
+    public $researches;
 }

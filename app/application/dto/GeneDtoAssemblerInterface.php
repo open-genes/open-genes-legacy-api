@@ -12,7 +12,7 @@ interface GeneDtoAssemblerInterface
 
     public function mapListViewDto(array $geneArray, string $lang): GeneListViewDto;
 
-    public function mapShortListViewDto(array $geneArray): GeneShortListViewDto;
+    public function mapShortListViewDto(array $geneArray, string $lang): GeneShortListViewDto;
 
     public function mapListViewWithTermsDto(array $geneArray, string $lang): GeneListViewDto;
 }
