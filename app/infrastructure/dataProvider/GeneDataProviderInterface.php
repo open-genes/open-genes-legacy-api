@@ -18,7 +18,9 @@ interface GeneDataProviderInterface
 
     public function getAllGenes(int $count = null): array;
 
-    public function getAllGenesMethylation(int $count = null): array;
+    public function getGenesMethylation(int $count = null): array;
+
+    public function getIncreaseLifespan(int $count = null): array;
 
     public function getIncreaseLifespan(int $count = null): array;
 
