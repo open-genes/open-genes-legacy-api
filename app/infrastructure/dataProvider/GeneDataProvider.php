@@ -156,17 +156,12 @@ class GeneDataProvider implements GeneDataProviderInterface
     }
 
     /** @inheritDoc */
-    public function getAllGenesIncreaseLifespan(int $count = null): array
+    public function getIncreaseLifespan(int $count = null): array
     {
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
-            ->withPhylum()
-            ->withFunctionalClusters($this->lang)
-            ->withCommentCause($this->lang)
-            ->withSources()
-            ->withDiseases($this->lang)
-            ->orderBy('family_phylum.order DESC')
             ->limit($count)
+            ->innerJoin('lifespan_experiment', 'gene.id=lifespan_experiment.gene_id')
             ->groupBy('gene.id')
             ->asArray();
         if($count) {

@@ -106,7 +106,17 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->terms = $geneTerms;
         return $geneDto;
     }
-
+    public function mapShortListViewDto(array $geneArray): GeneShortListViewDto
+    {
+        $geneDto = new GeneShortListViewDto();
+        $geneDto->id = (int)$geneArray['id'];
+        $geneDto->symbol = (string)$geneArray['symbol'];
+        $geneDto->name = (string)$geneArray['name'];
+        $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
+        $geneDto->uniprot = (string)$geneArray['uniprot'];
+        $geneDto->ensembl = (string)$geneArray['ensembl'];
+        return $geneDto;
+    }
     /**
      * @param string $geneFunctionalClustersString
      * @return FunctionalClusterDto[]
