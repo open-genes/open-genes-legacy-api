@@ -21,6 +21,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->commentCause = $this->prepareCommentCauses($geneArray);
+        $geneDto->agingMechanisms = $this->prepareAgingMechanisms($geneArray);
         $geneDto->source = $this->prepareSource($geneArray['source']);
         $geneDto->proteinClasses = $geneArray['protein_class'] ? explode('||', $geneArray['protein_class']) : []; // todo одинаковый сепаратор для всех group_concat
         $geneDto->commentEvolution = $geneArray['comment_evolution'];
@@ -72,6 +73,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->symbol = (string)$geneArray['symbol'];
         $geneDto->diseases = $this->mapDiseases($geneArray['diseases']);
         $geneDto->diseaseCategories = $this->mapDiseaseCategories($geneArray['disease_categories']);
+        $geneDto->agingMechanisms = $this->prepareAgingMechanisms($geneArray);
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->expressionChange = (int)$geneArray['expressionChange'];
@@ -246,6 +248,18 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         }
 
         return $commentCauses;
+    }
+    
+    private function prepareAgingMechanisms($geneArray): array
+    {
+        $agingMechanisms = [];
+        $geneAgingMechanismsStrings = $geneArray['aging_mechanisms'] ? explode('||', $geneArray['aging_mechanisms']) : [];
+        foreach ($geneAgingMechanismsStrings as $geneAgingMechanismString) {
+            list($id, $name) = explode('|', $geneAgingMechanismString);
+            $agingMechanisms[] = ['id' => (int)$id, 'name' => trim($name)];
+        }
+
+        return $agingMechanisms;
     }
 
     private function prepareSource($geneArray): array
