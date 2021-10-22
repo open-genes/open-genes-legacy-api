@@ -43,38 +43,30 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-            [
-                'class' => notamedia\sentry\SentryTarget::class,
-                'dsn' => getenv('SENTRY_DSN'),
-                'levels' => ['error', 'warning'],
-                'context' => true,
-                // Additional options for `Sentry\init`:
-//                    'clientOptions' => ['release' => 'my-project-name@2.3.12']
-            ],
         ],
-    ],
-    'assetManager' => [
-        'basePath' => __DIR__ . '/../runtime/assets',
-        'baseUrl' => '/runtime/assets',
-    ],
-    'errorHandler' => [
-        'errorAction' => 'site/error',
-    ],
-    'urlManager' => [
-        'enablePrettyUrl' => true,
-        'showScriptName' => false,
-        'rules' => [
-            'about' => 'site/about',
-            'api/gene/?' => 'api/index',
-            'api/gene/by-functional-cluster/<ids>' => 'api/by-functional-cluster',
-            'api/by-functional-cluster/<ids>' => 'api/by-functional-cluster', // todo 
-            'api/gene/by-expression-change/<expressionChange>' => 'api/by-expression-change',
-            'api/by-expression-change/<expressionChange>' => 'api/by-expression-change', // todo 
-            'api/gene/by-selection-criteria/<ids>' => 'api/by-selection-criteria',
-            'api/gene/by-go-term/<term>' => 'api/by-go-term',
-            'api/gene/by-latest' => 'api/latest',
-            'api/gene/<symbol:[\w-]+>' => 'api/gene',
-            'api/disease/?' => 'api/disease',
+        'assetManager' => [
+            'basePath' => __DIR__ . '/../runtime/assets',
+            'baseUrl' => '/runtime/assets',
+        ],
+        'errorHandler' => [
+            'errorAction' => 'site/error',
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                'about' => 'site/about',
+                'api/gene/?' => 'api/index',
+                'api/gene/by-functional-cluster/<ids>' => 'api/by-functional-cluster',
+                'api/by-functional-cluster/<ids>' => 'api/by-functional-cluster', // todo 
+                'api/gene/by-expression-change/<expressionChange>' => 'api/by-expression-change',
+                'api/by-expression-change/<expressionChange>' => 'api/by-expression-change', // todo 
+                'api/gene/by-selection-criteria/<ids>' => 'api/by-selection-criteria',
+                'api/gene/by-go-term/<term>' => 'api/by-go-term',
+                'api/gene/by-latest' => 'api/latest',
+                'api/gene/<symbol:[\w-]+>' => 'api/gene',
+                'api/disease/?' => 'api/disease',
+            ],
         ],
     ],
     'container' => [
