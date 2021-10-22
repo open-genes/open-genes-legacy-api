@@ -30,7 +30,7 @@ class SiteController extends Controller
         }
         Yii::$app->getResponse()->setStatusCodeByException($exception);
 
-        return $this->render('error');
+        return json_encode($exception->getMessage());
     }
 
 }

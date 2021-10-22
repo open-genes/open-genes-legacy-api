@@ -43,30 +43,38 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-        ],
-        'assetManager' => [
-            'basePath' => __DIR__ . '/../runtime/assets',
-            'baseUrl' => '/runtime/assets',
-        ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
-        ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                'about' => 'site/about',
-                'api/gene/?' => 'api/index',
-                'api/gene/by-functional-cluster/<ids>' => 'api/by-functional-cluster',
-                'api/by-functional-cluster/<ids>' => 'api/by-functional-cluster', // todo 
-                'api/gene/by-expression-change/<expressionChange>' => 'api/by-expression-change',
-                'api/by-expression-change/<expressionChange>' => 'api/by-expression-change', // todo 
-                'api/gene/by-selection-criteria/<ids>' => 'api/by-selection-criteria',
-                'api/gene/by-go-term/<term>' => 'api/by-go-term',
-                'api/gene/by-latest' => 'api/latest',
-                'api/gene/<symbol:[\w-]+>' => 'api/gene',
-                'api/disease/?' => 'api/disease',
+            [
+                'class' => notamedia\sentry\SentryTarget::class,
+                'dsn' => getenv('SENTRY_DSN'),
+                'levels' => ['error', 'warning'],
+                'context' => true,
+                // Additional options for `Sentry\init`:
+//                    'clientOptions' => ['release' => 'my-project-name@2.3.12']
             ],
+        ],
+    ],
+    'assetManager' => [
+        'basePath' => __DIR__ . '/../runtime/assets',
+        'baseUrl' => '/runtime/assets',
+    ],
+    'errorHandler' => [
+        'errorAction' => 'site/error',
+    ],
+    'urlManager' => [
+        'enablePrettyUrl' => true,
+        'showScriptName' => false,
+        'rules' => [
+            'about' => 'site/about',
+            'api/gene/?' => 'api/index',
+            'api/gene/by-functional-cluster/<ids>' => 'api/by-functional-cluster',
+            'api/by-functional-cluster/<ids>' => 'api/by-functional-cluster', // todo 
+            'api/gene/by-expression-change/<expressionChange>' => 'api/by-expression-change',
+            'api/by-expression-change/<expressionChange>' => 'api/by-expression-change', // todo 
+            'api/gene/by-selection-criteria/<ids>' => 'api/by-selection-criteria',
+            'api/gene/by-go-term/<term>' => 'api/by-go-term',
+            'api/gene/by-latest' => 'api/latest',
+            'api/gene/<symbol:[\w-]+>' => 'api/gene',
+            'api/disease/?' => 'api/disease',
         ],
     ],
     'container' => [
@@ -76,7 +84,7 @@ $config = [
             app\application\service\DiseaseInfoServiceInterface::class => \app\application\service\DiseaseInfoService::class,
             app\application\dto\GeneDtoAssemblerInterface::class => app\application\dto\GeneDtoAssembler::class,
             app\application\dto\ResearchDtoAssemblerInterface::class => app\application\dto\ResearchDtoAssembler::class,
-            app\infrastructure\dataProvider\GeneDataProviderInterface::class => function(\yii\di\Container $container){
+            app\infrastructure\dataProvider\GeneDataProviderInterface::class => function (\yii\di\Container $container) {
                 return new app\infrastructure\dataProvider\GeneDataProvider(Yii::$app->language);
             },
             app\infrastructure\dataProvider\GeneExpressionDataProviderInterface::class => app\infrastructure\dataProvider\GeneExpressionDataProvider::class,
@@ -93,10 +101,10 @@ $config = [
     'on beforeAction' => function ($event) { // todo привести язык на фронте к стандарту ln-LN
         $language = $_GET['lang'] ?? $_COOKIE['lang'] ?? Yii::$app->language;
         $language = (new app\helpers\LanguageMapHelper())->getMappedLanguage($language);
-        if(Yii::$app->language != $language) {
+        if (Yii::$app->language != $language) {
             Yii::$app->language = $language;
         }
-        if(!isset($_COOKIE['lang']) || $_COOKIE['lang'] != $language) {
+        if (!isset($_COOKIE['lang']) || $_COOKIE['lang'] != $language) {
             setcookie('lang', $language, $expire = 0, $path = "/");
         }
     },
