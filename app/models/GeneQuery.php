@@ -202,11 +202,17 @@ class GeneQuery extends \yii\db\ActiveQuery
     public function withAgingMechanisms($lang)
     {
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
-        return $this
-            ->addSelect(new Expression("
-                group_concat(distinct concat(`aging_mechanism`.`id`,'|',`aging_mechanism`.`{$nameField}`) separator  '||') as `aging_mechanisms`"))
-            ->innerJoin('gene_to_ontology', 'gene_to_ontology.gene_id=gene.id')
-            ->innerJoin('gene_ontology_to_aging_mechanism_visible', 'gene_to_ontology.gene_ontology_id = gene_ontology_to_aging_mechanism_visible.gene_ontology_id')
-            ->innerJoin('aging_mechanism', 'gene_ontology_to_aging_mechanism_visible.aging_mechanism_id = aging_mechanism.id');
+        return $this->addSelect('aging_mechanisms')
+            ->innerJoin("
+                (SELECT gene.id,
+                group_concat(distinct concat(`aging_mechanism`.`id`, '|', `aging_mechanism`.`{$nameField}`) separator
+                    '||') as `aging_mechanisms`
+                FROM gene
+                LEFT JOIN `gene_to_ontology` ON gene_to_ontology.gene_id = gene.id
+                LEFT JOIN `gene_ontology_to_aging_mechanism_visible`
+                        ON gene_to_ontology.gene_ontology_id = gene_ontology_to_aging_mechanism_visible.gene_ontology_id
+                LEFT JOIN `aging_mechanism` 
+                ON gene_ontology_to_aging_mechanism_visible.aging_mechanism_id = aging_mechanism.id
+                group by gene.id) mechanisms", 'gene.id=mechanisms.id');
     }
 }

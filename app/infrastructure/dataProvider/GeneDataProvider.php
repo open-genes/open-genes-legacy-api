@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 
 class GeneDataProvider implements GeneDataProviderInterface
 {
-    /** @var string  */
+    /** @var string */
     private $lang;
 
     private $fields = [
@@ -76,12 +76,12 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->asArray()
             ->groupBy('gene.id')
             ->one();
-        if(!$geneArray) {
+        if (!$geneArray) {
             throw new NotFoundHttpException("Gene {$geneId} not found");
         }
         return $geneArray;
     }
-    
+
     /** @inheritDoc */
     public function getGeneBySymbol($geneSymbol): array
     {
@@ -98,7 +98,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->asArray()
             ->groupBy('gene.id')
             ->one();
-        if(!$geneArray) {
+        if (!$geneArray) {
             throw new NotFoundHttpException("Gene {$geneSymbol} not found");
         }
         return $geneArray;
@@ -120,23 +120,22 @@ class GeneDataProvider implements GeneDataProviderInterface
     /** @inheritDoc */
     public function getAllGenes(int $count = null): array
     {
-        $genesArrayQuery = Gene::find()
-            ->select($this->fields)
-            ->withPhylum()
-            ->withFunctionalClusters($this->lang)
-            ->withCommentCause($this->lang)
-            ->withSources()
-            ->withDiseases($this->lang)
-            ->withAgingMechanisms($this->lang)
-            ->andWhere('isHidden != 1')
-            ->orderBy('family_phylum.order DESC')
-            ->limit($count)
-            ->groupBy('gene.id')
-            ->asArray();
-         if($count) {
-             $genesArrayQuery->limit($count);
-         }
-        return $genesArrayQuery->all();
+        return \Yii::$app->cache->getOrSet(['all_genes_list', 'count' => $count], // todo temp
+            function ($cache) use ($count) { 
+            return Gene::find()
+                ->select($this->fields)
+                ->withPhylum()
+                ->withFunctionalClusters($this->lang)
+                ->withCommentCause($this->lang)
+                ->withSources()
+                ->withDiseases($this->lang)
+                ->withAgingMechanisms($this->lang)
+                ->andWhere('isHidden != 1')
+                ->orderBy('family_phylum.order DESC')
+                ->limit($count)
+                ->groupBy('gene.id')
+                ->asArray()->all();
+        }, 3600);
     }
 
     /** @inheritDoc */
@@ -148,7 +147,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->limit($count)
             ->groupBy('gene.id')
             ->asArray();
-        if($count) {
+        if ($count) {
             $genesArrayQuery->limit($count);
         }
         return $genesArrayQuery->all();
@@ -163,7 +162,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->innerJoin('lifespan_experiment', 'gene.id=lifespan_experiment.gene_id')
             ->groupBy('gene.id')
             ->asArray();
-        if($count) {
+        if ($count) {
             $genesArrayQuery->limit($count);
         }
         return $genesArrayQuery->all();
@@ -191,7 +190,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
-        
+
         return $genesArrayQuery->all();
     }
 
