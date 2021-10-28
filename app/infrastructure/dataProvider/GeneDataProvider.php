@@ -120,7 +120,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     /** @inheritDoc */
     public function getAllGenes(int $count = null): array
     {
-        return \Yii::$app->cache->getOrSet(['all_genes_list', 'count' => $count], // todo temp
+        return \Yii::$app->cache->getOrSet(['all_genes_list', 'count' => $count, 'lang' => $this->lang], // todo temp
             function ($cache) use ($count) { 
             return Gene::find()
                 ->select($this->fields)
