@@ -5,6 +5,7 @@ use app\models\AgeRelatedChange;
 use app\models\GeneToAdditionalEvidence;
 use app\models\GeneToLongevityEffect;
 use app\models\GeneToProgeria;
+use app\models\InterventionResultForVitalProcess;
 use app\models\LifespanExperiment;
 use app\models\ProteinToGene;
 use yii\db\Query;
@@ -236,11 +237,11 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                     'comment' => $process['comment'],
                 ];
             }
-            if ($process['resultCode'] == 1) {
-                $result[$process['id']]['interventionImproves'][$process['vitalProcessId']] = $process['vitalProcess'];
+            if ($process['resultCode'] == InterventionResultForVitalProcess::IMPROVE) {
+                $result[$process['id']]['interventionImproves'][] = ['id' => $process['vitalProcessId'], 'name' => $process['vitalProcess']];
             }
-            elseif ($process['resultCode'] == 2) {
-                $result[$process['id']]['interventionDeteriorates'][$process['vitalProcessId']] = $process['vitalProcess'];
+            elseif ($process['resultCode'] == InterventionResultForVitalProcess::DETERIOR) {
+                $result[$process['id']]['interventionDeteriorates'][] = ['id' => $process['vitalProcessId'], 'name' => $process['vitalProcess']];
             }
             else {
                 throw new \Exception('Unknown process result code ' . $process['resultCode']);
