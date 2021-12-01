@@ -101,6 +101,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "intervention_result_for_vital_process.{$nameField} as result",
                 "intervention_result_for_vital_process.id as resultCode",
                 "vital_process.{$nameField} as vitalProcess",
+                "vital_process.id as vitalProcessId",
                 "model_organism.{$nameField} as modelOrganism",
                 "organism_line.{$nameField} as organismLine",
                 "gene_intervention_to_vital_process.age",
@@ -236,10 +237,10 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 ];
             }
             if ($process['resultCode'] == 1) {
-                $result[$process['id']]['interventionImproves'][] = $process['vitalProcess'];
+                $result[$process['id']]['interventionImproves'][$process['vitalProcessId']] = $process['vitalProcess'];
             }
             elseif ($process['resultCode'] == 2) {
-                $result[$process['id']]['interventionDeteriorates'][] = $process['vitalProcess'];
+                $result[$process['id']]['interventionDeteriorates'][$process['vitalProcessId']] = $process['vitalProcess'];
             }
             else {
                 throw new \Exception('Unknown process result code ' . $process['resultCode']);
