@@ -108,7 +108,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "gene_intervention_to_vital_process.age",
                 "gene_intervention_to_vital_process.genotype",
                 "gene_intervention_to_vital_process.age_unit as ageUnit",
-                "gene_intervention_to_vital_process.sex_of_organism as sex",
+                "organism_sex.{$nameField} as sex",
                 "gene_intervention_to_vital_process.reference as doi",
                 "gene_intervention_to_vital_process.pmid",
                 "gene_intervention_to_vital_process.{$commentField} as comment",
@@ -125,6 +125,10 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->innerJoin(
                 'gene_intervention_method',
                 'gene_intervention_to_vital_process.gene_intervention_method_id=gene_intervention_method.id'
+            )
+            ->leftJoin(
+                'organism_sex',
+                'organism_sex.id=gene_intervention_to_vital_process.sex_of_organism'
             )
             ->leftJoin('model_organism', 'gene_intervention_to_vital_process.model_organism_id=model_organism.id')
             ->leftJoin('organism_line', 'gene_intervention_to_vital_process.organism_line_id=organism_line.id')
