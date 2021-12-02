@@ -75,7 +75,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
     private function prepareEmpty(&$data)
     {
         foreach ($data as $key => $field) {
-            if (empty($data[$key])) {
+            if (empty($data[$key]) && !is_array($field)) {
                 $data[$key] = '';
             }
         }

@@ -10,7 +10,6 @@ use Yii;
  * @property int $id
  * @property int $gene_id
  * @property int $gene_intervention_id
- * @property int $intervention_result_for_vital_process_id
  * @property int $vital_process_id
  * @property int $model_organism_id
  * @property int $organism_line_id
@@ -27,7 +26,6 @@ use Yii;
  * @property GeneIntervention $geneIntervention
  * @property ModelOrganism $modelOrganism
  * @property OrganismLine $organismLine
- * @property VitalProcess $vitalProcess
  */
 class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
 {
@@ -45,16 +43,14 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['gene_id', 'gene_intervention_id', 'intervention_result_for_vital_process_id', 'vital_process_id', 'model_organism_id', 'organism_line_id', 'sex_of_organism', 'age_unit', 'genotype'], 'integer'],
+            [['gene_id', 'gene_intervention_id', 'model_organism_id', 'organism_line_id', 'sex_of_organism', 'age_unit', 'genotype'], 'integer'],
             [['age'], 'number'],
             [['comment_en', 'comment_ru'], 'string'],
             [['reference'], 'string', 'max' => 255],
             [['gene_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gene::class, 'targetAttribute' => ['gene_id' => 'id']],
-            [['intervention_result_for_vital_process_id'], 'exist', 'skipOnError' => true, 'targetClass' => InterventionResultForVitalProcess::class, 'targetAttribute' => ['intervention_result_for_vital_process_id' => 'id']],
             [['gene_intervention_id'], 'exist', 'skipOnError' => true, 'targetClass' => GeneIntervention::class, 'targetAttribute' => ['gene_intervention_id' => 'id']],
             [['model_organism_id'], 'exist', 'skipOnError' => true, 'targetClass' => ModelOrganism::class, 'targetAttribute' => ['model_organism_id' => 'id']],
             [['organism_line_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganismLine::class, 'targetAttribute' => ['organism_line_id' => 'id']],
-            [['vital_process_id'], 'exist', 'skipOnError' => true, 'targetClass' => VitalProcess::class, 'targetAttribute' => ['vital_process_id' => 'id']],
         ];
     }
 
@@ -67,8 +63,6 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
             'id' => 'ID',
             'gene_id' => 'Gene ID',
             'gene_intervention_id' => 'Gene Intervention ID',
-            'intervention_result_for_vital_process_id' => 'Intervention Result For Vital Process ID',
-            'vital_process_id' => 'Vital Process ID',
             'model_organism_id' => 'Model Organism ID',
             'organism_line_id' => 'Organism Line ID',
             'age' => 'Age',
@@ -89,11 +83,14 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * Gets query for [[InterventionResultForVitalProcess]].
+     *
+     * @return \yii\db\ActiveQuery|InterventionResultForVitalProcessQuery
      */
     public function getInterventionResultForVitalProcess()
     {
-        return $this->hasOne(InterventionResultForVitalProcess::class, ['id' => 'intervention_result_for_vital_process_id']);
+        return $this->hasMany(InterventionResultForVitalProcess::class, ['id' => 'intervention_result_for_vital_process_id'])
+            ->viaTable('gene_intervention_result_to_vital_process', ['gene_intervention_to_vital_process_id' => 'id']);
     }
 
     /**
@@ -125,7 +122,8 @@ class GeneInterventionToVitalProcess extends \yii\db\ActiveRecord
      */
     public function getVitalProcess()
     {
-        return $this->hasOne(VitalProcess::class, ['id' => 'vital_process_id']);
+        return $this->hasMany(VitalProcess::class, ['id' => 'vital_process_id'])
+            ->viaTable('gene_intervention_result_to_vital_process', ['gene_intervention_to_vital_process_id' => 'id']);
     }
 
     /**

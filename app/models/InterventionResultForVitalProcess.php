@@ -17,6 +17,8 @@ use Yii;
  */
 class InterventionResultForVitalProcess extends \yii\db\ActiveRecord
 {
+    public const IMPROVE = 1;
+    public const DETERIOR = 2;
     /**
      * {@inheritdoc}
      */
