@@ -2,12 +2,13 @@
 namespace app\infrastructure\dataProvider;
 
 use app\models\AgeRelatedChange;
-use app\models\GeneInterventionToVitalProcess;
 use app\models\GeneToAdditionalEvidence;
 use app\models\GeneToLongevityEffect;
 use app\models\GeneToProgeria;
+use app\models\InterventionResultForVitalProcess;
 use app\models\LifespanExperiment;
 use app\models\ProteinToGene;
+use yii\db\Query;
 
 class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
 {
@@ -87,34 +88,54 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->all();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getGeneInterventionToVitalProcessByGeneId(int $geneId, string $lang): array
     {
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         $commentField = $lang == 'en-US' ? 'comment_en' : 'comment_ru';
-        return GeneInterventionToVitalProcess::find()
+        $processList = (new Query())->from('gene_intervention_to_vital_process')
             ->select([
+                "gene_intervention_to_vital_process.id as id",
                 "gene_intervention_method.{$nameField} as geneIntervention",
+                "intervention_result_for_vital_process.{$nameField} as result",
+                "intervention_result_for_vital_process.id as resultCode",
                 "vital_process.{$nameField} as vitalProcess",
+                "vital_process.id as vitalProcessId",
                 "model_organism.{$nameField} as modelOrganism",
                 "organism_line.{$nameField} as organismLine",
-                "intervention_result_for_vital_process.{$nameField} as interventionResult",
                 "gene_intervention_to_vital_process.age",
                 "gene_intervention_to_vital_process.genotype",
                 "gene_intervention_to_vital_process.age_unit as ageUnit",
-                "gene_intervention_to_vital_process.sex_of_organism as sex",
+                "organism_sex.{$nameField} as sex",
                 "gene_intervention_to_vital_process.reference as doi",
                 "gene_intervention_to_vital_process.pmid",
                 "gene_intervention_to_vital_process.{$commentField} as comment",
             ])
-            ->distinct()
-            ->innerJoin('gene_intervention_method', 'gene_intervention_to_vital_process.gene_intervention_method_id=gene_intervention_method.id')
-            ->innerJoin('vital_process', 'gene_intervention_to_vital_process.vital_process_id=vital_process.id')
+            ->innerJoin(
+                'gene_intervention_result_to_vital_process',
+                'gene_intervention_result_to_vital_process.gene_intervention_to_vital_process_id=gene_intervention_to_vital_process.id'
+            )
+            ->innerJoin('vital_process', 'vital_process.id=gene_intervention_result_to_vital_process.vital_process_id')
+            ->innerJoin(
+                'intervention_result_for_vital_process',
+                'intervention_result_for_vital_process.id=gene_intervention_result_to_vital_process.intervention_result_for_vital_process_id'
+            )
+            ->innerJoin(
+                'gene_intervention_method',
+                'gene_intervention_to_vital_process.gene_intervention_method_id=gene_intervention_method.id'
+            )
+            ->leftJoin(
+                'organism_sex',
+                'organism_sex.id=gene_intervention_to_vital_process.sex_of_organism'
+            )
             ->leftJoin('model_organism', 'gene_intervention_to_vital_process.model_organism_id=model_organism.id')
             ->leftJoin('organism_line', 'gene_intervention_to_vital_process.organism_line_id=organism_line.id')
-            ->leftJoin('intervention_result_for_vital_process', 'gene_intervention_to_vital_process.intervention_result_for_vital_process_id=intervention_result_for_vital_process.id')
             ->where(['gene_id' => $geneId])
-            ->asArray()
             ->all();
+
+        return $this->prepareGeneInterventionToVitalProcessByGeneId($processList);
     }
 
     public function getProteinToGenesByGeneId(int $geneId, string $lang): array
@@ -202,5 +223,35 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->all();
     }
 
+    private function prepareGeneInterventionToVitalProcessByGeneId (array $processList): array {
+        $result = [];
+        foreach ($processList as $process) {
+            if (!isset($result[$process['id']])) {
+                $result[$process['id']] = [
+                    'geneIntervention' => $process['geneIntervention'],
+                    'modelOrganism' => $process['modelOrganism'],
+                    'organismLine' => $process['organismLine'],
+                    'interventionImproves' => [],
+                    'interventionDeteriorates' => [],
+                    'age' => $process['age'],
+                    'genotype' => $process['genotype'],
+                    'sex' => $process['sex'],
+                    'doi' => $process['doi'],
+                    'pmid' => $process['pmid'],
+                    'comment' => $process['comment'],
+                ];
+            }
+            if ($process['resultCode'] == InterventionResultForVitalProcess::IMPROVE) {
+                $result[$process['id']]['interventionImproves'][] = ['id' => $process['vitalProcessId'], 'name' => $process['vitalProcess']];
+            }
+            elseif ($process['resultCode'] == InterventionResultForVitalProcess::DETERIOR) {
+                $result[$process['id']]['interventionDeteriorates'][] = ['id' => $process['vitalProcessId'], 'name' => $process['vitalProcess']];
+            }
+            else {
+                throw new \Exception('Unknown process result code ' . $process['resultCode']);
+            }
+        }
+        return array_values($result);
+    }
 
 }
