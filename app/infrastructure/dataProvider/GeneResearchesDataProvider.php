@@ -188,7 +188,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         return GeneToLongevityEffect::find()
             ->select([
                 "longevity_effect.{$nameField} as longevityEffect",
-                "genotype.{$nameField} as allelicPolymorphism",
+                "polymorphism.{$nameField} as allelicPolymorphism",
                 "gene_to_longevity_effect.sex_of_organism as sex",
                 "gene_to_longevity_effect.allele_variant as allelicVariant",
                 "model_organism.{$nameField} as modelOrganism",
@@ -200,7 +200,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ])
             ->distinct()
             ->innerJoin('longevity_effect', 'gene_to_longevity_effect.longevity_effect_id=longevity_effect.id')
-            ->leftJoin('genotype', 'gene_to_longevity_effect.genotype_id=genotype.id')
+            ->leftJoin('polymorphism', 'gene_to_longevity_effect.polymorphism_id=polymorphism.id')
             ->leftJoin('age_related_change_type', 'gene_to_longevity_effect.age_related_change_type_id=age_related_change_type.id')
             ->leftJoin('model_organism', 'gene_to_longevity_effect.model_organism_id=model_organism.id')
             ->where(['gene_id' => $geneId])
