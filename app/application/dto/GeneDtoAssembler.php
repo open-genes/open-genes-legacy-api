@@ -23,7 +23,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->commentCause = $this->prepareCommentCauses($geneArray);
         $geneDto->agingMechanisms = $this->prepareAgingMechanisms($geneArray);
         $geneDto->source = $this->prepareSource($geneArray['source']);
-        $geneDto->proteinClasses = $geneArray['protein_class'] ? explode('||', $geneArray['protein_class']) : []; // todo одинаковый сепаратор для всех group_concat
+        $geneDto->proteinClasses = $this->prepareProteinClasses($geneArray);
         $geneDto->commentEvolution = $geneArray['comment_evolution'];
         $geneDto->commentFunction = (string)$geneArray['comment_function'];
         $geneDto->proteinDescriptionUniProt = (string)$geneArray['comment_function'];
@@ -260,6 +260,18 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         }
 
         return $agingMechanisms;
+    }
+    
+    private function prepareProteinClasses($geneArray): array
+    {
+        $proteinClasses = [];
+        $proteinClassesStrings = $geneArray['aging_mechanisms'] ? explode('||', $geneArray['protein_class']) : [];
+        foreach ($proteinClassesStrings as $proteinClassesString) {
+            list($id, $name) = explode('|', $proteinClassesString);
+            $proteinClasses[] = ['id' => (int)$id, 'name' => trim($name)];
+        }
+
+        return $proteinClasses;
     }
 
     private function prepareSource($geneArray): array
