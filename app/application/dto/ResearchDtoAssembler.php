@@ -25,16 +25,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->proteinRegulatesOtherGenes = [];
         $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
-            $this->preparePercentChange($lifespanExperiment);
-            if (isset($lifespanExperiment['treatment_start'])) {
-                $lifespanExperiment['age'] = $lifespanExperiment['treatment_start'];
-            }
-            if (isset($lifespanExperiment['startTimeUnit'])) {
-                $lifespanExperiment['ageUnit'] = $lifespanExperiment['startTimeUnit'];
-            }
-            $this->prepareAge($lifespanExperiment, $lang);
             $this->prepareEmpty($lifespanExperiment);
-            $this->prepareGenotype($lifespanExperiment);
             $researchesDto->increaseLifespan[] = $lifespanExperiment;
         }
         foreach ($geneToProgerias as $geneToProgeria) {
