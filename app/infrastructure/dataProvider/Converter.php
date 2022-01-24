@@ -28,38 +28,6 @@ class Converter
         }
     }
 
-    public static function fixGeneralLifespan(&$generalList) {
-        foreach ($generalList as &$general) {
-            foreach ($general['controlAndExperiment'] as &$control) {
-                $control['gene'] = [];
-                $control['gene']['id'] = $control['geneId'];
-                $control['gene']['symbol'] = $control['geneSymbol'];
-                $control['gene']['name'] = $control['geneName'];
-                $control['gene']['ncbiId'] = $control['geneNcbiId'];
-
-                unset($control['geneId']);
-                unset($control['geneSymbol']);
-                unset($control['geneName']);
-                unset($control['geneNcbiId']);
-            }
-
-            foreach ($general['experiment'] as &$experiment) {
-                unset($experiment['geneId']);
-                unset($experiment['geneSymbol']);
-                unset($experiment['geneName']);
-                unset($experiment['geneNcbiId']);
-            }
-
-            $general['interventions'] = [];
-            $general['interventions']['controlAndExperiment'] = $general['controlAndExperiment'];
-            $general['interventions']['experiment'] = $general['experiment'];
-            unset($general['controlAndExperiment']);
-            unset($general['experiment']);
-            unset($general['id']);
-        }
-        return $generalList;
-    }
-
     public static function fixVitalProcess(&$general, $processes) {
         if (!isset($general['interventionImproves'])) {
             $general['interventionImproves'] = [];

@@ -35,9 +35,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             $lifespanExperiments = $this->getLifespanListByGeneral($general['id'], $nameField, $therapyField);
             Converter::fixLifespan($general, $lifespanExperiments);
         }
-
-        return Converter::fixGeneralLifespan($generalLifespanExperiments);
-
+        return $generalLifespanExperiments;
     }
 
     public function getAgeRelatedChangesByGeneId(int $geneId, string $lang): array

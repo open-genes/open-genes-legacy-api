@@ -26,6 +26,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
             $this->prepareEmpty($lifespanExperiment);
+            $this->prepareGeneAndEnterventions($lifespanExperiment);
             $researchesDto->increaseLifespan[] = $lifespanExperiment;
         }
         foreach ($geneToProgerias as $geneToProgeria) {
@@ -176,5 +177,36 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         if (isset($data['dataType']) && isset($types[$data['dataType']])) {
             $data['dataType'] = $types[$data['dataType']];
         }
+    }
+
+    private function prepareGeneAndEnterventions(&$lifespanExperiment) {
+        foreach ($lifespanExperiment['controlAndExperiment'] as &$control) {
+            $control['gene'] = [];
+            $control['gene']['id'] = $control['geneId'];
+            $control['gene']['symbol'] = $control['geneSymbol'];
+            $control['gene']['name'] = $control['geneName'];
+            $control['gene']['ncbiId'] = $control['geneNcbiId'];
+
+            unset($control['geneId']);
+            unset($control['geneSymbol']);
+            unset($control['geneName']);
+            unset($control['geneNcbiId']);
+        }
+
+        foreach ($lifespanExperiment['experiment'] as &$experiment) {
+            unset($experiment['geneId']);
+            unset($experiment['geneSymbol']);
+            unset($experiment['geneName']);
+            unset($experiment['geneNcbiId']);
+        }
+
+        $lifespanExperiment['interventions'] = [];
+        $lifespanExperiment['interventions']['controlAndExperiment'] = $lifespanExperiment['controlAndExperiment'];
+        $lifespanExperiment['interventions']['experiment'] = $lifespanExperiment['experiment'];
+        unset($lifespanExperiment['controlAndExperiment']);
+        unset($lifespanExperiment['experiment']);
+        unset($lifespanExperiment['id']);
+
+        return $lifespanExperiment;
     }
 }
