@@ -33,7 +33,10 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
 
         foreach ($generalLifespanExperiments as &$general) {
             $lifespanExperiments = $this->getLifespanListByGeneral($general['id'], $nameField, $therapyField);
-            Converter::fixLifespan($general, $lifespanExperiments);
+            if (!isset($general['interventions'])) {
+                $general['interventions'] = [];
+            }
+            $general['interventions'] = $lifespanExperiments;
         }
         return $generalLifespanExperiments;
     }
@@ -116,7 +119,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->where(['gene_id' => $geneId])
             ->all();
 
-        return Converter::fixGeneInterventionToVitalProcessByGeneId($processList);
+        return $processList;
     }
 
     public function getProteinToGenesByGeneId(int $geneId, string $lang): array
@@ -289,7 +292,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
 
         foreach ($generalList as &$general) {
             $processes = $this->getVitalProcessByGeneral($general['id'], $nameField);
-            Converter::fixVitalProcess($general, $processes);
+            $general['vital_process'] = $processes;
         }
         return $generalList;
     }

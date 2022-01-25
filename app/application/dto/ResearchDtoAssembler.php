@@ -2,6 +2,9 @@
 
 namespace app\application\dto;
 
+use app\models\InterventionResultForVitalProcess;
+use app\models\LifespanExperiment;
+
 class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
 {
 
@@ -26,7 +29,9 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
             $this->prepareEmpty($lifespanExperiment);
-            $this->prepareGeneAndEnterventions($lifespanExperiment);
+            $this->prepareInterventions($lifespanExperiment);
+            $this->prepareGroupByGene($lifespanExperiment);
+            $this->prepareVitalProcessToLifespan($lifespanExperiment);
             $researchesDto->increaseLifespan[] = $lifespanExperiment;
         }
         foreach ($geneToProgerias as $geneToProgeria) {
@@ -47,6 +52,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
             $researchesDto->ageRelatedChangesOfGene[] = $ageRelatedChange;
         }
         foreach ($interventionResultForVitalProcesses as $interventionResultForVitalProcess) {
+            $this->prepareVitalProcess($interventionResultForVitalProcess);
             $this->prepareAge($interventionResultForVitalProcess, $lang);
             $this->prepareSex($interventionResultForVitalProcess, $lang);
             $this->prepareEmpty($interventionResultForVitalProcess);
@@ -179,7 +185,29 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         }
     }
 
-    private function prepareGeneAndEnterventions(&$lifespanExperiment) {
+    private function prepareInterventions(&$lifespanExperiment) {
+        if (!isset($lifespanExperiment['controlAndExperiment'])) {
+            $lifespanExperiment['controlAndExperiment'] = [];
+        }
+        if (!isset($lifespanExperiment['experiment'])) {
+            $lifespanExperiment['experiment'] = [];
+        }
+        foreach ($lifespanExperiment['interventions'] as &$lifespan) {
+            if ($lifespan['type'] == LifespanExperiment::TYPE_CONTROL) {
+                unset($lifespan['type']);
+                unset($lifespan['id']);
+                $lifespanExperiment['controlAndExperiment'][] = $lifespan;
+            }
+            elseif ($lifespan['type'] == LifespanExperiment::TYPE_EXPERIMENT) {
+                unset($lifespan['type']);
+                unset($lifespan['id']);
+                $lifespanExperiment['experiment'][] = $lifespan;
+            }
+        }
+        unset ($lifespanExperiment['interventions']);
+    }
+
+    private function prepareGroupByGene(&$lifespanExperiment) {
         foreach ($lifespanExperiment['controlAndExperiment'] as &$control) {
             $control['gene'] = [];
             $control['gene']['id'] = $control['geneId'];
@@ -208,5 +236,41 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         unset($lifespanExperiment['id']);
 
         return $lifespanExperiment;
+    }
+
+    private function prepareVitalProcessToLifespan(&$lifespanExperiment)
+    {
+        if (!isset($lifespanExperiment['interventionImproves'])) {
+            $lifespanExperiment['interventionImproves'] = [];
+        }
+
+        if (!isset($lifespanExperiment['interventionDeteriorates'])) {
+            $lifespanExperiment['interventionDeteriorates'] = [];
+        }
+        foreach ($lifespanExperiment['vital_process'] as $process) {
+            if ($process['intervention_result_for_vital_process_id'] == InterventionResultForVitalProcess::IMPROVE) {
+                unset($process['intervention_result_for_vital_process_id']);
+                $lifespanExperiment['interventionImproves'][] = $process;
+            }
+            elseif ($process['intervention_result_for_vital_process_id'] == InterventionResultForVitalProcess::DETERIOR) {
+                unset($process['intervention_result_for_vital_process_id']);
+                $lifespanExperiment['interventionDeteriorates'][] = $process;
+            }
+        }
+        unset($lifespanExperiment['vital_process']);
+    }
+
+    private function prepareVitalProcess(&$data)
+    {
+        $data['interventionImproves'] = [];
+        $data['interventionDeteriorates'] = [];
+
+        if ($data['resultCode'] == InterventionResultForVitalProcess::IMPROVE) {
+            $data['interventionImproves'][] = ['id' => $data['vitalProcessId'], 'name' => $data['vitalProcess']];
+        } elseif ($data['resultCode'] == InterventionResultForVitalProcess::DETERIOR) {
+            $data['interventionDeteriorates'][] = ['id' => $data['vitalProcessId'], 'name' => $data['vitalProcess']];
+        } else {
+            throw new \Exception('Unknown process result code ' . $data['resultCode']);
+        }
     }
 }
