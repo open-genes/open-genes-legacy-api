@@ -2,12 +2,15 @@
 namespace app\infrastructure\dataProvider;
 
 use app\models\AgeRelatedChange;
+use app\models\GeneralLifespanExperiment;
 use app\models\GeneToAdditionalEvidence;
 use app\models\GeneToLongevityEffect;
 use app\models\GeneToProgeria;
 use app\models\InterventionResultForVitalProcess;
 use app\models\LifespanExperiment;
 use app\models\ProteinToGene;
+use app\models\Sample;
+use app\models\VitalProcess;
 use yii\db\Query;
 
 class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
@@ -20,41 +23,22 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
     //// gene-to-progerias
     //// gene-to-longevity-effects
 
-    public function getLifespanExperimentsByGeneId(int $geneId, string $lang): array
+    public function getGeneralLifespanExperimentsByGeneId(int $geneId, string $lang): array
     {
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         $commentField = $lang == 'en-US' ? 'comment_en' : 'comment_ru';
-        return LifespanExperiment::find()
-            ->select([
-                "gene_intervention_method.{$nameField} as interventionType",
-                "intervention_result_for_longevity.{$nameField} as interventionResult",
-                "model_organism.{$nameField} as modelOrganism",
-                "organism_line.{$nameField} as organismLine",
-                "organism_sex.{$nameField} as sex",
-                "general_lifespan_experiment_id",
-                "general_lifespan_experiment.age",
-                "lifespan_experiment.treatment_start",
-                "start_time_unit.{$nameField} as startTimeUnit",
-                "lifespan_experiment.genotype",
-                "general_lifespan_experiment.age_unit as ageUnit",
-                "general_lifespan_experiment.lifespan_change_percent_male as valueForMale",
-                "general_lifespan_experiment.lifespan_change_percent_female as valueForFemale",
-                "general_lifespan_experiment.lifespan_change_percent_common as valueForAll",
-                "general_lifespan_experiment.reference as doi",
-                "general_lifespan_experiment.pmid",
-                "general_lifespan_experiment.{$commentField} as comment",
-            ])
-            ->distinct()
-            ->innerJoin('gene_intervention_method', 'lifespan_experiment.gene_intervention_method_id=gene_intervention_method.id')
-            ->innerJoin('general_lifespan_experiment', 'lifespan_experiment.general_lifespan_experiment_id=general_lifespan_experiment.id')
-            ->innerJoin('intervention_result_for_longevity', 'general_lifespan_experiment.intervention_result_id=intervention_result_for_longevity.id')
-            ->leftJoin('treatment_time_unit start_time_unit', 'lifespan_experiment.treatment_start_time_unit_id=start_time_unit.id')
-            ->leftJoin('model_organism', 'general_lifespan_experiment.model_organism_id=model_organism.id')
-            ->leftJoin('organism_line', 'general_lifespan_experiment.organism_line_id=organism_line.id')
-            ->leftJoin('organism_sex', 'general_lifespan_experiment.organism_sex_id=organism_sex.id')
-            ->where(['gene_id' => $geneId])
-            ->asArray()
-            ->all();
+        $therapyField = $lang == 'en-US' ? 'description_of_therapy_en' : 'description_of_therapy_ru';
+
+        $generalLifespanExperiments = $this->getGeneralListByGeneId($geneId, $nameField, $commentField);
+
+        foreach ($generalLifespanExperiments as &$general) {
+            $lifespanExperiments = $this->getLifespanListByGeneral($general['id'], $nameField, $therapyField);
+            if (!isset($general['interventions'])) {
+                $general['interventions'] = [];
+            }
+            $general['interventions'] = $lifespanExperiments;
+        }
+        return $generalLifespanExperiments;
     }
 
     public function getAgeRelatedChangesByGeneId(int $geneId, string $lang): array
@@ -135,7 +119,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->where(['gene_id' => $geneId])
             ->all();
 
-        return $this->prepareGeneInterventionToVitalProcessByGeneId($processList);
+        return $processList;
     }
 
     public function getProteinToGenesByGeneId(int $geneId, string $lang): array
@@ -223,35 +207,152 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->all();
     }
 
-    private function prepareGeneInterventionToVitalProcessByGeneId (array $processList): array {
-        $result = [];
-        foreach ($processList as $process) {
-            if (!isset($result[$process['id']])) {
-                $result[$process['id']] = [
-                    'geneIntervention' => $process['geneIntervention'],
-                    'modelOrganism' => $process['modelOrganism'],
-                    'organismLine' => $process['organismLine'],
-                    'interventionImproves' => [],
-                    'interventionDeteriorates' => [],
-                    'age' => $process['age'],
-                    'genotype' => $process['genotype'],
-                    'sex' => $process['sex'],
-                    'doi' => $process['doi'],
-                    'pmid' => $process['pmid'],
-                    'comment' => $process['comment'],
-                ];
-            }
-            if ($process['resultCode'] == InterventionResultForVitalProcess::IMPROVE) {
-                $result[$process['id']]['interventionImproves'][] = ['id' => $process['vitalProcessId'], 'name' => $process['vitalProcess']];
-            }
-            elseif ($process['resultCode'] == InterventionResultForVitalProcess::DETERIOR) {
-                $result[$process['id']]['interventionDeteriorates'][] = ['id' => $process['vitalProcessId'], 'name' => $process['vitalProcess']];
-            }
-            else {
-                throw new \Exception('Unknown process result code ' . $process['resultCode']);
-            }
-        }
-        return array_values($result);
+    private function getTissueByLifespan (int $lifespanId, string $nameField): array {
+        return Sample::find()
+            ->select([
+                "sample.id as id",
+                "sample.{$nameField} as name",
+            ])
+            ->innerJoin('lifespan_experiment_to_tissue', 'lifespan_experiment_to_tissue.tissue_id=sample.id')
+            ->innerJoin('lifespan_experiment', 'lifespan_experiment_to_tissue.lifespan_experiment_id=lifespan_experiment.id')
+            ->where(['lifespan_experiment.id' => $lifespanId])
+            ->asArray()
+            ->all();
     }
 
+    private function getVitalProcessByGeneral(int $generalId, string $nameField): array {
+        return VitalProcess::find()
+            ->select([
+                "general_lifespan_experiment_to_vital_process.intervention_result_for_vital_process_id as intervention_result_for_vital_process_id",
+                "vital_process.id as id",
+                "vital_process.{$nameField} as name"
+            ])
+            ->innerJoin('general_lifespan_experiment_to_vital_process', 'general_lifespan_experiment_to_vital_process.vital_process_id=vital_process.id')
+            ->where(['general_lifespan_experiment_to_vital_process.general_lifespan_experiment_id' => $generalId])
+            ->asArray()
+            ->all();
+    }
+
+    private function getGeneralListByGeneId(int $geneId, string $nameField, string $commentField): array {
+        $generalList = GeneralLifespanExperiment::find()
+            ->select([
+                "general_lifespan_experiment.id as id",
+                "model_organism.{$nameField} as modelOrganism",
+                "organism_line.{$nameField} as organismLine",
+                "organism_sex.{$nameField} as sex",
+                "general_lifespan_experiment.temperature_from as temperatureFrom",
+                "general_lifespan_experiment.temperature_to as temperatureTo",
+                "diet.{$nameField} as diet",
+                "sample.{$nameField} as expressionChangeTissue",
+                "time_unit.{$nameField} as lifespanTimeUnit",
+                "intervention_result_for_longevity.{$nameField} as interventionResultForLifespan",
+                "measurement_type.{$nameField} as expressionMeasurementType",
+                "general_lifespan_experiment.control_number as controlCohortSize",
+                "general_lifespan_experiment.experiment_number as experimentCohortSize",
+                "general_lifespan_experiment.expression_change as expressionChangePercent",
+                "general_lifespan_experiment.control_lifespan_min as lifespanMinControl",
+                "general_lifespan_experiment.control_lifespan_mean as lifespanMeanControl",
+                "general_lifespan_experiment.control_lifespan_median as lifespanMedianControl",
+                "general_lifespan_experiment.control_lifespan_max as lifespanMaxControl",
+                "general_lifespan_experiment.experiment_lifespan_min as lifespanMinExperiment",
+                "general_lifespan_experiment.experiment_lifespan_mean as lifespanMeanExperiment",
+                "general_lifespan_experiment.experiment_lifespan_median as lifespanMedianExperiment",
+                "general_lifespan_experiment.experiment_lifespan_max as lifespanMaxExperiment",
+                "general_lifespan_experiment.lifespan_min_change as lifespanMinChangePercent",
+                "general_lifespan_experiment.lifespan_mean_change as lifespanMeanChangePercent",
+                "general_lifespan_experiment.lifespan_median_change as lifespanMedianChangePercent",
+                "general_lifespan_experiment.lifespan_max_change as lifespanMaxChangePercent",
+                "ssmin.{$nameField} as lMinChangeStatSignificance",
+                "ssmean.{$nameField} as lMeanChangeStatSignificance",
+                "ssmedian.{$nameField} as lMedianChangeStatSignificance",
+                "ssmax.{$nameField} as lMaxChangeStatSignificance",
+                "general_lifespan_experiment.reference as doi",
+                "general_lifespan_experiment.pmid",
+                "general_lifespan_experiment.{$commentField} as comment",
+                "general_lifespan_experiment.organism_number_in_cage as populationDensity",
+
+            ])
+            ->distinct()
+            ->innerJoin('lifespan_experiment', 'lifespan_experiment.general_lifespan_experiment_id=general_lifespan_experiment.id')
+            ->leftJoin('intervention_result_for_longevity', 'general_lifespan_experiment.intervention_result_id=intervention_result_for_longevity.id')
+            ->leftJoin('model_organism', 'general_lifespan_experiment.model_organism_id=model_organism.id')
+            ->leftJoin('organism_line', 'general_lifespan_experiment.organism_line_id=organism_line.id')
+            ->leftJoin('organism_sex', 'general_lifespan_experiment.organism_sex_id=organism_sex.id')
+            ->leftJoin('diet', 'general_lifespan_experiment.diet_id=diet.id')
+            ->leftJoin('sample', 'general_lifespan_experiment.changed_expression_tissue_id=sample.id')
+            ->leftJoin('time_unit', 'general_lifespan_experiment.age_unit_id=time_unit.id')
+            ->leftJoin('measurement_type', 'general_lifespan_experiment.measurement_type=measurement_type.id')
+            ->leftJoin('statistical_significance ssmin', 'general_lifespan_experiment.lifespan_min_change_stat_sign_id=ssmin.id')
+            ->leftJoin('statistical_significance ssmean', 'general_lifespan_experiment.lifespan_mean_change_stat_sign_id=ssmean.id')
+            ->leftJoin('statistical_significance ssmedian', 'general_lifespan_experiment.lifespan_median_change_stat_sign_id=ssmedian.id')
+            ->leftJoin('statistical_significance ssmax', 'general_lifespan_experiment.lifespan_max_change_stat_sign_id=ssmax.id')
+            ->where(['lifespan_experiment.gene_id' => $geneId])
+            ->asArray()
+            ->all();
+
+        foreach ($generalList as &$general) {
+            $processes = $this->getVitalProcessByGeneral($general['id'], $nameField);
+            $general['vital_process'] = $processes;
+        }
+        return $generalList;
+    }
+
+    private function addTissueToLifespan(array &$lifespanList, string $nameField) {
+        foreach ($lifespanList as &$lifespan) {
+            if(!isset($lifespan['tissues'])) {
+                $lifespan['tissues'] = [];
+            }
+            $tissues = $this->getTissueByLifespan($lifespan['id'], $nameField);
+            foreach ($tissues as $tissue) {
+                $lifespan['tissues'][] = $tissue;
+            }
+        }
+    }
+
+    private function getLifespanListByGeneral(int $generalId, string $nameField, string $therapyField): array {
+        $lifespanList = LifespanExperiment::find()
+            ->select([
+                "lifespan_experiment.id as id",
+                "gene.id as geneId",
+                "gene.symbol as geneSymbol",
+                "gene.name as geneName",
+                "gene.ncbi_id as geneNcbiId",
+                "gene_intervention_method.{$nameField} as interventionMethod",
+                "gene_intervention_way.{$nameField} as interventionWay",
+                "lifespan_experiment.tissue_specificity as tissueSpecific",
+                "lifespan_experiment.tissue_specific_promoter as tissueSpecificPromoter",
+                "lifespan_experiment.treatment_start as treatmentStart",
+                "lifespan_experiment.treatment_end as treatmentEnd",
+                "lifespan_experiment.mutation_induction as inductionByDrugWithdrawal",
+                "lifespan_experiment.type as type",
+                "lifespan_experiment.{$therapyField} as treatmentDescription",
+                "start_time_unit.{$nameField} as startTimeUnit",
+                "end_time_unit.{$nameField} as endTimeUnit",
+                "genotype.{$nameField} as genotype",
+                "active_substance_delivery_way.{$nameField} as drugDeliveryWay",
+                "active_substance.{$nameField} as drug",
+                "ts.{$nameField} as startStageOfDevelopment",
+                "te.{$nameField} as endStageOfDevelopment",
+                "experiment_treatment_period.{$nameField} as treatmentPeriod",
+
+            ])
+            ->distinct()
+            ->innerJoin('gene', 'lifespan_experiment.gene_id=gene.id')
+            ->leftJoin('gene_intervention_method', 'lifespan_experiment.gene_intervention_method_id=gene_intervention_method.id')
+            ->leftJoin('gene_intervention_way', 'lifespan_experiment.gene_intervention_way_id=gene_intervention_way.id')
+            ->leftJoin('time_unit start_time_unit', 'lifespan_experiment.treatment_start_time_unit_id=start_time_unit.id')
+            ->leftJoin('time_unit end_time_unit', 'lifespan_experiment.treatment_end_time_unit_id=end_time_unit.id')
+            ->leftJoin('genotype', 'lifespan_experiment.genotype=genotype.id')
+            ->leftJoin('active_substance_delivery_way', 'lifespan_experiment.active_substance_delivery_way_id=active_substance_delivery_way.id')
+            ->leftJoin('treatment_stage_of_development ts', 'lifespan_experiment.treatment_start_stage_of_development_id=ts.id')
+            ->leftJoin('treatment_stage_of_development te', 'lifespan_experiment.treatment_end_stage_of_development_id=te.id')
+            ->leftJoin('experiment_treatment_period', 'lifespan_experiment.treatment_period_id=experiment_treatment_period.id')
+            ->leftJoin('active_substance', 'lifespan_experiment.active_substance_id=active_substance.id')
+            ->where(['lifespan_experiment.general_lifespan_experiment_id' => $generalId])
+            ->asArray()
+            ->all();
+
+        $this->addTissueToLifespan($lifespanList, $nameField);
+        return $lifespanList;
+    }
 }

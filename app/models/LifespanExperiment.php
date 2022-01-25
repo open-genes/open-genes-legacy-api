@@ -32,6 +32,8 @@ use Yii;
  */
 class LifespanExperiment extends \yii\db\ActiveRecord
 {
+    public const TYPE_EXPERIMENT = 'experiment';
+    public const TYPE_CONTROL = 'control';
     /**
      * {@inheritdoc}
      */
