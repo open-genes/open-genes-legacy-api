@@ -2,6 +2,9 @@
 
 namespace app\application\dto;
 
+use app\models\InterventionResultForVitalProcess;
+use app\models\LifespanExperiment;
+
 class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
 {
 
@@ -25,16 +28,10 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->proteinRegulatesOtherGenes = [];
         $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
-            $this->preparePercentChange($lifespanExperiment);
-            if (isset($lifespanExperiment['treatment_start'])) {
-                $lifespanExperiment['age'] = $lifespanExperiment['treatment_start'];
-            }
-            if (isset($lifespanExperiment['startTimeUnit'])) {
-                $lifespanExperiment['ageUnit'] = $lifespanExperiment['startTimeUnit'];
-            }
-            $this->prepareAge($lifespanExperiment, $lang);
             $this->prepareEmpty($lifespanExperiment);
-            $this->prepareGenotype($lifespanExperiment);
+            $this->prepareInterventions($lifespanExperiment);
+            $this->prepareGroupByGene($lifespanExperiment);
+            $this->prepareVitalProcessToLifespan($lifespanExperiment);
             $researchesDto->increaseLifespan[] = $lifespanExperiment;
         }
         foreach ($geneToProgerias as $geneToProgeria) {
@@ -55,6 +52,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
             $researchesDto->ageRelatedChangesOfGene[] = $ageRelatedChange;
         }
         foreach ($interventionResultForVitalProcesses as $interventionResultForVitalProcess) {
+            $this->prepareVitalProcess($interventionResultForVitalProcess);
             $this->prepareAge($interventionResultForVitalProcess, $lang);
             $this->prepareSex($interventionResultForVitalProcess, $lang);
             $this->prepareEmpty($interventionResultForVitalProcess);
@@ -184,6 +182,95 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         ];
         if (isset($data['dataType']) && isset($types[$data['dataType']])) {
             $data['dataType'] = $types[$data['dataType']];
+        }
+    }
+
+    private function prepareInterventions(&$lifespanExperiment) {
+        if (!isset($lifespanExperiment['controlAndExperiment'])) {
+            $lifespanExperiment['controlAndExperiment'] = [];
+        }
+        if (!isset($lifespanExperiment['experiment'])) {
+            $lifespanExperiment['experiment'] = [];
+        }
+        foreach ($lifespanExperiment['interventions'] as &$lifespan) {
+            if ($lifespan['type'] == LifespanExperiment::TYPE_CONTROL) {
+                unset($lifespan['type']);
+                unset($lifespan['id']);
+                $lifespanExperiment['controlAndExperiment'][] = $lifespan;
+            }
+            elseif ($lifespan['type'] == LifespanExperiment::TYPE_EXPERIMENT) {
+                unset($lifespan['type']);
+                unset($lifespan['id']);
+                $lifespanExperiment['experiment'][] = $lifespan;
+            }
+        }
+        unset ($lifespanExperiment['interventions']);
+    }
+
+    private function prepareGroupByGene(&$lifespanExperiment) {
+        foreach ($lifespanExperiment['controlAndExperiment'] as &$control) {
+            $control['gene'] = [];
+            $control['gene']['id'] = $control['geneId'];
+            $control['gene']['symbol'] = $control['geneSymbol'];
+            $control['gene']['name'] = $control['geneName'];
+            $control['gene']['ncbiId'] = $control['geneNcbiId'];
+
+            unset($control['geneId']);
+            unset($control['geneSymbol']);
+            unset($control['geneName']);
+            unset($control['geneNcbiId']);
+        }
+
+        foreach ($lifespanExperiment['experiment'] as &$experiment) {
+            unset($experiment['geneId']);
+            unset($experiment['geneSymbol']);
+            unset($experiment['geneName']);
+            unset($experiment['geneNcbiId']);
+        }
+
+        $lifespanExperiment['interventions'] = [];
+        $lifespanExperiment['interventions']['controlAndExperiment'] = $lifespanExperiment['controlAndExperiment'];
+        $lifespanExperiment['interventions']['experiment'] = $lifespanExperiment['experiment'];
+        unset($lifespanExperiment['controlAndExperiment']);
+        unset($lifespanExperiment['experiment']);
+        unset($lifespanExperiment['id']);
+
+        return $lifespanExperiment;
+    }
+
+    private function prepareVitalProcessToLifespan(&$lifespanExperiment)
+    {
+        if (!isset($lifespanExperiment['interventionImproves'])) {
+            $lifespanExperiment['interventionImproves'] = [];
+        }
+
+        if (!isset($lifespanExperiment['interventionDeteriorates'])) {
+            $lifespanExperiment['interventionDeteriorates'] = [];
+        }
+        foreach ($lifespanExperiment['vital_process'] as $process) {
+            if ($process['intervention_result_for_vital_process_id'] == InterventionResultForVitalProcess::IMPROVE) {
+                unset($process['intervention_result_for_vital_process_id']);
+                $lifespanExperiment['interventionImproves'][] = $process;
+            }
+            elseif ($process['intervention_result_for_vital_process_id'] == InterventionResultForVitalProcess::DETERIOR) {
+                unset($process['intervention_result_for_vital_process_id']);
+                $lifespanExperiment['interventionDeteriorates'][] = $process;
+            }
+        }
+        unset($lifespanExperiment['vital_process']);
+    }
+
+    private function prepareVitalProcess(&$data)
+    {
+        $data['interventionImproves'] = [];
+        $data['interventionDeteriorates'] = [];
+
+        if ($data['resultCode'] == InterventionResultForVitalProcess::IMPROVE) {
+            $data['interventionImproves'][] = ['id' => $data['vitalProcessId'], 'name' => $data['vitalProcess']];
+        } elseif ($data['resultCode'] == InterventionResultForVitalProcess::DETERIOR) {
+            $data['interventionDeteriorates'][] = ['id' => $data['vitalProcessId'], 'name' => $data['vitalProcess']];
+        } else {
+            throw new \Exception('Unknown process result code ' . $data['resultCode']);
         }
     }
 }

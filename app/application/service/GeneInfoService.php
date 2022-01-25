@@ -167,7 +167,7 @@ class GeneInfoService implements GeneInfoServiceInterface
 
     private function getGeneResearches($geneId, $lang)
     {
-        $lifespanExperiments = $this->geneResearchesDataProvider->getLifespanExperimentsByGeneId($geneId, $lang);
+        $lifespanExperiments = $this->geneResearchesDataProvider->getGeneralLifespanExperimentsByGeneId($geneId, $lang);
         $geneToProgerias = $this->geneResearchesDataProvider->getGeneToProgeriasByGeneId($geneId, $lang);
         $geneToLongevityEffects = $this->geneResearchesDataProvider->getGeneToLongevityEffectsByGeneId($geneId, $lang);
         $ageRelatedChanges = $this->geneResearchesDataProvider->getAgeRelatedChangesByGeneId($geneId, $lang);

@@ -8,8 +8,7 @@ interface GeneResearchesDataProviderInterface
      * @param string $lang
      * @return array
      */
-    public function getLifespanExperimentsByGeneId(int $geneId, string $lang): array;
-
+    public function getGeneralLifespanExperimentsByGeneId(int $geneId, string $lang): array;
     /**
      * @param int $geneId
      * @param string $lang
