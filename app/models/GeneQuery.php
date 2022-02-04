@@ -166,6 +166,35 @@ class GeneQuery extends \yii\db\ActiveQuery
         return $geneQuery;
     }
 
+    public function withOrthologs($lang, int $orthologId = 0)
+    {
+        $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
+        $geneQuery = $this
+            ->addSelect([
+                'group_concat(distinct concat_ws("|", ortholog.id, ortholog.symbol, IFNULL (ortholog.external_base_name, " "), IFNULL (ortholog.external_base_id, " "), IFNULL (model_organism.' . $nameField . ', " ")) separator "||") as ortholog'
+            ])
+            ->join(
+                'LEFT JOIN',
+                'gene_to_ortholog',
+                'gene_to_ortholog.gene_id = gene.id'
+            )
+            ->join(
+                'INNER JOIN',
+                'ortholog',
+                'gene_to_ortholog.ortholog_id = ortholog.id'
+            )
+            ->join(
+                'LEFT JOIN',
+                'model_organism',
+                'ortholog.model_organism_id = model_organism.id'
+            );
+
+        if ($orthologId !== 0) {
+            $geneQuery->where('ortholog.id = ' . $orthologId);
+        }
+        return $geneQuery;
+    }
+
     public function withPhylum()
     {
         return $this
