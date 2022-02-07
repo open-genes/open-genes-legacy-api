@@ -74,7 +74,7 @@ class GeneFullViewDto
     /** @var int */
     public $timestamp;
     /** @var array */
-    public $human_protein_atlas;
+    public $humanProteinAtlas;
     /** @var string */
     public $ensembl;
     /** @var string */
