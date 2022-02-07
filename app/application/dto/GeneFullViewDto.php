@@ -71,6 +71,8 @@ class GeneFullViewDto
 //    public $references;
     /** @var array */
     public $orthologs;
+    /** @var array */
+    public $ortholog;
     /** @var int */
     public $timestamp;
     /** @var array */
