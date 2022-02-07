@@ -46,7 +46,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->methylationCorrelation = $this->prepareMethylation($geneArray, $lang);
 
         $geneDto->ensembl = $geneArray['ensembl'] ?? '';
-        $geneDto->human_protein_atlas = !empty($geneArray['human_protein_atlas']) ? json_decode($geneArray['human_protein_atlas']) : '';
+        $geneDto->humanProteinAtlas = !empty($geneArray['human_protein_atlas']) ? json_decode($geneArray['human_protein_atlas']) : '';
 
         return $geneDto;
     }
