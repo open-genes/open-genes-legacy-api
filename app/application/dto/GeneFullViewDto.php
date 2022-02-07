@@ -71,10 +71,12 @@ class GeneFullViewDto
 //    public $references;
     /** @var array */
     public $orthologs;
+    /** @var array */
+    public $ortholog;
     /** @var int */
     public $timestamp;
     /** @var array */
-    public $human_protein_atlas;
+    public $humanProteinAtlas;
     /** @var string */
     public $ensembl;
     /** @var string */

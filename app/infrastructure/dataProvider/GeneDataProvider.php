@@ -6,6 +6,7 @@ use app\models\GeneQuery;
 use app\models\GeneToCommentCause;
 use app\models\GeneToFunctionalCluster;
 use app\models\Source;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 class GeneDataProvider implements GeneDataProviderInterface
@@ -93,6 +94,7 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->withProteinClasses($this->lang)
             ->withAgingMechanisms($this->lang)
             ->withSources()
+            ->withOrthologs($this->lang)
             ->where(['gene.symbol' => $geneSymbol])
             ->withPhylum()
             ->asArray()

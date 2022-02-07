@@ -39,12 +39,14 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->accPromoter = (string)$geneArray['accPromoter'];
         $geneDto->accOrf = (string)$geneArray['accOrf'];
         $geneDto->accCds = (string)$geneArray['accCds'];
+        $geneDto->ortholog = $this->prepareOrtholog($geneArray['ortholog']);
+        //TODO:удалить, как получим данные по всем ортологам
         $geneDto->orthologs = $this->prepareOrthologs($geneArray['orthologs']);
         $geneDto->timestamp = $this->prepareTimestamp($geneArray);
         $geneDto->methylationCorrelation = $this->prepareMethylation($geneArray, $lang);
 
         $geneDto->ensembl = $geneArray['ensembl'] ?? '';
-        $geneDto->human_protein_atlas = !empty($geneArray['human_protein_atlas']) ? json_decode($geneArray['human_protein_atlas']) : '';
+        $geneDto->humanProteinAtlas = !empty($geneArray['human_protein_atlas']) ? json_decode($geneArray['human_protein_atlas']) : '';
 
         return $geneDto;
     }
@@ -179,6 +181,32 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         return $diseaseCategories;
     }
 
+    private function prepareOrtholog($orthologString): array {
+        $result = [];
+        $orthologs = explode('||', $orthologString);
+        foreach ($orthologs as $ortholog) {
+            if (strpos($ortholog, '|')) {
+                $orthologParts = explode('|', $ortholog);
+                foreach ($orthologParts as &$part) {
+                    if ($part == " ") {
+                        $part = null;
+                    }
+                }
+                list($id, $symbol, $externalBaseName, $externalBaseId, $organism) = $orthologParts;
+                $result[] = [
+                    'id' => $id,
+                    'symbol' => $symbol,
+                    'species' => $organism,
+                    'externalBaseName' => $externalBaseName,
+                    'externalBaseId' => $externalBaseId
+                ];
+            } else {
+                $result[$ortholog] = '';
+            }
+        }
+        return $result;
+    }
+    //TODO:удалить, как получим данные по всем ортологам
     private function prepareOrthologs($orthologsString): array
     {
         $result = [];
