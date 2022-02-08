@@ -29,6 +29,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
             $this->prepareEmpty($lifespanExperiment);
+            $this->prepareTypes($lifespanExperiment);
             $this->prepareInterventions($lifespanExperiment);
             $this->prepareGroupByGene($lifespanExperiment);
             $this->prepareVitalProcessToLifespan($lifespanExperiment);
@@ -271,6 +272,71 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
             $data['interventionDeteriorates'][] = ['id' => $data['vitalProcessId'], 'name' => $data['vitalProcess']];
         } else {
             throw new \Exception('Unknown process result code ' . $data['resultCode']);
+        }
+    }
+
+    private function prepareTypes(&$data) {
+        $yesNoKeys = [
+            'lMinChangeStatSignificance',
+            'lMeanChangeStatSignificance',
+            'lMedianChangeStatSignificance',
+            'lMaxChangeStatSignificance'
+        ];
+
+        foreach ($yesNoKeys as $key) {
+            $data[$key] = $this->prepareSignificance($key);
+        }
+
+        $floatKeys = [
+            'lifespanMaxChangePercent',
+            'lifespanMaxControl',
+            'lifespanMaxExperiment',
+            'lifespanMeanChangePercent',
+            'lifespanMeanControl',
+            'lifespanMeanExperiment',
+            'lifespanMedianChangePercent',
+            'lifespanMedianControl',
+            'lifespanMedianExperiment',
+            'lifespanMinChangePercent',
+            'lifespanMinControl',
+            'lifespanMinExperiment',
+            'temperatureFrom',
+            'temperatureTo',
+            'expressionChangePercent'
+        ];
+
+        foreach ($floatKeys as $key) {
+            $data[$key] = (float)$data[$key];
+        }
+
+        $intKeys = [
+            'experimentCohortSize',
+            'populationDensity',
+            'inductionByDrugWithdrawal',
+            'controlCohortSize'
+        ];
+
+        foreach ($intKeys as $key) {
+            $data[$key] = (int)$data[$key];
+        }
+
+        foreach ($data['interventions'] as &$intervention) {
+            $intervention['tissueSpecific'] = (bool)$intervention['tissueSpecific'];
+            if ($intervention['tissueSpecific'] == false) {
+                $intervention['tissueSpecificPromoter'] = null;
+            }
+        }
+    }
+
+    private function prepareSignificance($dataSignificance) {
+        if ($dataSignificance == "yes" || $dataSignificance == "да") {
+            return true;
+        }
+        elseif ($dataSignificance == "no" || $dataSignificance == "нет") {
+            return false;
+        }
+        else {
+            return null;
         }
     }
 }

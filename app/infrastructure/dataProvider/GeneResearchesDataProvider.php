@@ -334,6 +334,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "ts.{$nameField} as startStageOfDevelopment",
                 "te.{$nameField} as endStageOfDevelopment",
                 "experiment_treatment_period.{$nameField} as treatmentPeriod",
+                "experiment_main_effect.{$nameField} as experimentMainEffect",
 
             ])
             ->distinct()
@@ -348,6 +349,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->leftJoin('treatment_stage_of_development te', 'lifespan_experiment.treatment_end_stage_of_development_id=te.id')
             ->leftJoin('experiment_treatment_period', 'lifespan_experiment.treatment_period_id=experiment_treatment_period.id')
             ->leftJoin('active_substance', 'lifespan_experiment.active_substance_id=active_substance.id')
+            ->leftJoin('experiment_main_effect', 'lifespan_experiment.experiment_main_effect_id=experiment_main_effect.id')
             ->where(['lifespan_experiment.general_lifespan_experiment_id' => $generalId])
             ->asArray()
             ->all();
