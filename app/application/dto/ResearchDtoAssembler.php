@@ -276,18 +276,18 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
     }
 
     private function prepareTypes(&$data) {
-        $yesNoKeys = [
+        $booleanFields = [
             'lMinChangeStatSignificance',
             'lMeanChangeStatSignificance',
             'lMedianChangeStatSignificance',
             'lMaxChangeStatSignificance'
         ];
 
-        foreach ($yesNoKeys as $key) {
-            $data[$key] = $this->prepareSignificance($key);
+        foreach ($booleanFields as $field) {
+            $data[$field] = $this->prepareSignificance($data[$field]);
         }
 
-        $floatKeys = [
+        $floatFields = [
             'lifespanMaxChangePercent',
             'lifespanMaxControl',
             'lifespanMaxExperiment',
@@ -305,19 +305,19 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
             'expressionChangePercent'
         ];
 
-        foreach ($floatKeys as $key) {
-            $data[$key] = (float)$data[$key];
+        foreach ($floatFields as $field) {
+            $data[$field] = (float)$data[$field];
         }
 
-        $intKeys = [
+        $intFields = [
             'experimentCohortSize',
             'populationDensity',
             'inductionByDrugWithdrawal',
             'controlCohortSize'
         ];
 
-        foreach ($intKeys as $key) {
-            $data[$key] = (int)$data[$key];
+        foreach ($intFields as $field) {
+            $data[$field] = (int)$data[$field];
         }
 
         foreach ($data['interventions'] as &$intervention) {
