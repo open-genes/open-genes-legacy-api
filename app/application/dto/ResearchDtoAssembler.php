@@ -29,6 +29,7 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
         $researchesDto->additionalEvidences = [];
         foreach ($lifespanExperiments as $lifespanExperiment) {
             $this->prepareEmpty($lifespanExperiment);
+            $this->prepareTypes($lifespanExperiment);
             $this->prepareInterventions($lifespanExperiment);
             $this->prepareGroupByGene($lifespanExperiment);
             $this->prepareVitalProcessToLifespan($lifespanExperiment);
@@ -271,6 +272,71 @@ class ResearchDtoAssembler implements ResearchDtoAssemblerInterface
             $data['interventionDeteriorates'][] = ['id' => $data['vitalProcessId'], 'name' => $data['vitalProcess']];
         } else {
             throw new \Exception('Unknown process result code ' . $data['resultCode']);
+        }
+    }
+
+    private function prepareTypes(&$data) {
+        $booleanFields = [
+            'lMinChangeStatSignificance',
+            'lMeanChangeStatSignificance',
+            'lMedianChangeStatSignificance',
+            'lMaxChangeStatSignificance'
+        ];
+
+        foreach ($booleanFields as $field) {
+            $data[$field] = $this->prepareSignificance($data[$field]);
+        }
+
+        $floatFields = [
+            'lifespanMaxChangePercent',
+            'lifespanMaxControl',
+            'lifespanMaxExperiment',
+            'lifespanMeanChangePercent',
+            'lifespanMeanControl',
+            'lifespanMeanExperiment',
+            'lifespanMedianChangePercent',
+            'lifespanMedianControl',
+            'lifespanMedianExperiment',
+            'lifespanMinChangePercent',
+            'lifespanMinControl',
+            'lifespanMinExperiment',
+            'temperatureFrom',
+            'temperatureTo',
+            'expressionChangePercent'
+        ];
+
+        foreach ($floatFields as $field) {
+            $data[$field] = (float)$data[$field];
+        }
+
+        $intFields = [
+            'experimentCohortSize',
+            'populationDensity',
+            'inductionByDrugWithdrawal',
+            'controlCohortSize'
+        ];
+
+        foreach ($intFields as $field) {
+            $data[$field] = (int)$data[$field];
+        }
+
+        foreach ($data['interventions'] as &$intervention) {
+            $intervention['tissueSpecific'] = (bool)$intervention['tissueSpecific'];
+            if ($intervention['tissueSpecific'] == false) {
+                $intervention['tissueSpecificPromoter'] = null;
+            }
+        }
+    }
+
+    private function prepareSignificance($dataSignificance) {
+        if ($dataSignificance == "yes" || $dataSignificance == "да") {
+            return true;
+        }
+        elseif ($dataSignificance == "no" || $dataSignificance == "нет") {
+            return false;
+        }
+        else {
+            return null;
         }
     }
 }
