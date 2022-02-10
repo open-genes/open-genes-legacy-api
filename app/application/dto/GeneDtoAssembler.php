@@ -192,11 +192,14 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
                         $part = null;
                     }
                 }
-                list($id, $symbol, $externalBaseName, $externalBaseId, $organism) = $orthologParts;
+                list($id, $symbol, $externalBaseName, $externalBaseId, $organismLatName, $organismCommonName) = $orthologParts;
                 $result[] = [
                     'id' => $id,
                     'symbol' => $symbol,
-                    'species' => $organism,
+                    'species' => [
+                        'latinName' => $organismLatName,
+                        'commonName' => $organismCommonName,
+                    ],
                     'externalBaseName' => $externalBaseName,
                     'externalBaseId' => $externalBaseId
                 ];

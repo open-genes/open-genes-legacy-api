@@ -171,7 +171,14 @@ class GeneQuery extends \yii\db\ActiveQuery
         $nameField = $lang == 'en-US' ? 'name_en' : 'name_ru';
         $geneQuery = $this
             ->addSelect([
-                'group_concat(distinct concat_ws("|", ortholog.id, ortholog.symbol, IFNULL (ortholog.external_base_name, " "), IFNULL (ortholog.external_base_id, " "), IFNULL (model_organism.' . $nameField . ', " ")) separator "||") as ortholog'
+                'group_concat(distinct concat_ws("|",
+                ortholog.id,
+                ortholog.symbol,
+                IFNULL (ortholog.external_base_name, " "),
+                IFNULL (ortholog.external_base_id, " "),
+                IFNULL (model_organism.name_lat, " "),
+                IFNULL (model_organism.' . $nameField . ', " ")
+                ) separator "||") as ortholog'
             ])
             ->join(
                 'LEFT JOIN',
