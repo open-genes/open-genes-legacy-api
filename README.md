@@ -1,4 +1,4 @@
-# Open Longevity Genes API
+# Open Genes API
 
 ## Dev environment
 _Note: to run this project you should checkout and run https://gitlab.com/open-genes/cms project first due to shared DB_
