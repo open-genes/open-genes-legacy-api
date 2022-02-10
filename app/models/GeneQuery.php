@@ -186,7 +186,7 @@ class GeneQuery extends \yii\db\ActiveQuery
                 'gene_to_ortholog.gene_id = gene.id'
             )
             ->join(
-                'INNER JOIN',
+                'LEFT JOIN',
                 'ortholog',
                 'gene_to_ortholog.ortholog_id = ortholog.id'
             )

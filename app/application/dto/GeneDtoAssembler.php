@@ -2,6 +2,8 @@
 
 namespace app\application\dto;
 
+use app\infrastructure\dataProvider\GeneDataProvider;
+
 class GeneDtoAssembler implements GeneDtoAssemblerInterface
 {
 
@@ -183,6 +185,9 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
 
     private function prepareOrtholog($orthologString): array {
         $result = [];
+        if ($orthologString < GeneDataProvider::STRING_LENGTH_EMPTY_ORTHOLOG) {
+            return [];
+        }
         $orthologs = explode('||', $orthologString);
         foreach ($orthologs as $ortholog) {
             if (strpos($ortholog, '|')) {
