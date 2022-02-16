@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
 
 class GeneDataProvider implements GeneDataProviderInterface
 {
-    public const STRING_LENGTH_EMPTY_ORTHOLOG = 6;
+    public const STRING_EMPTY_ORTHOLOG = ' | | | ';
     /** @var string */
     private $lang;
 
