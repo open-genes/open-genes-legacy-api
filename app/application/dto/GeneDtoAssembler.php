@@ -184,36 +184,47 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
     }
 
     private function prepareOrtholog($orthologString): array {
-        $result = [];
-        if ($orthologString < GeneDataProvider::STRING_LENGTH_EMPTY_ORTHOLOG) {
+        if ($orthologString == GeneDataProvider::STRING_EMPTY_ORTHOLOG) {
             return [];
         }
         $orthologs = explode('||', $orthologString);
+        $results = [
+            'Mus musculus' => [],
+            'Drosophila melanogaster' => [],
+            'Caenorhabditis elegans' => [],
+            'other' => [],
+        ];
         foreach ($orthologs as $ortholog) {
-            if (strpos($ortholog, '|')) {
-                $orthologParts = explode('|', $ortholog);
-                foreach ($orthologParts as &$part) {
-                    if ($part == " ") {
-                        $part = null;
-                    }
+            $orthologParts = explode('|', $ortholog);
+            foreach ($orthologParts as &$part) {
+                if ($part == " ") {
+                    $part = null;
                 }
-                list($id, $symbol, $externalBaseName, $externalBaseId, $organismLatName, $organismCommonName) = $orthologParts;
-                $result[] = [
-                    'id' => $id,
-                    'symbol' => $symbol,
-                    'species' => [
-                        'latinName' => $organismLatName,
-                        'commonName' => $organismCommonName,
-                    ],
-                    'externalBaseName' => $externalBaseName,
-                    'externalBaseId' => $externalBaseId
-                ];
-            } else {
-                $result[$ortholog] = '';
             }
+            list($id, $symbol, $externalBaseName, $externalBaseId, $organismLatName, $organismCommonName) = $orthologParts;
+            $orthologPart = [
+                'id' => $id,
+                'symbol' => $symbol,
+                'species' => [
+                    'latinName' => $organismLatName,
+                    'commonName' => $organismCommonName,
+                ],
+                'externalBaseName' => $externalBaseName,
+                'externalBaseId' => $externalBaseId
+            ];
+            if (isset($results[$organismLatName])) {
+                $results[$organismLatName][] = $orthologPart;
+            } else {
+                $results['other'][] = $orthologPart;
+            }
+        }
+        $result = [];
+        foreach ($results as $res) {
+            $result = array_merge($result, $res);
         }
         return $result;
     }
+
     //TODO:удалить, как получим данные по всем ортологам
     private function prepareOrthologs($orthologsString): array
     {
