@@ -32,7 +32,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         $generalLifespanExperiments = $this->getGeneralListByGeneId($geneId, $nameField, $commentField);
 
         foreach ($generalLifespanExperiments as &$general) {
-            $lifespanExperiments = $this->getLifespanListByGeneral($general['id'], $nameField, $therapyField);
+            $lifespanExperiments = $this->getLifespanListByGeneral($general['id'], $nameField, $therapyField, $geneId);
             if (!isset($general['interventions'])) {
                 $general['interventions'] = [];
             }
@@ -309,7 +309,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
         }
     }
 
-    private function getLifespanListByGeneral(int $generalId, string $nameField, string $therapyField): array {
+    private function getLifespanListByGeneral(int $generalId, string $nameField, string $therapyField, $currentGeneId): array {
         $lifespanList = LifespanExperiment::find()
             ->select([
                 "lifespan_experiment.id as id",
@@ -351,6 +351,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->leftJoin('active_substance', 'lifespan_experiment.active_substance_id=active_substance.id')
             ->leftJoin('experiment_main_effect', 'lifespan_experiment.experiment_main_effect_id=experiment_main_effect.id')
             ->where(['lifespan_experiment.general_lifespan_experiment_id' => $generalId])
+            ->andWhere(['or', ['<>', 'gene.id', $currentGeneId], ['lifespan_experiment.type' => LifespanExperiment::TYPE_EXPERIMENT]])
             ->asArray()
             ->all();
 
