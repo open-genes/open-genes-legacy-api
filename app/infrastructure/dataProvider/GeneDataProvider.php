@@ -55,6 +55,10 @@ class GeneDataProvider implements GeneDataProviderInterface
         'gene.og_summary_ru description_og',
     ];
 
+    private $fieldsIsHidden = [
+        'gene.isHidden isHidden'
+    ];
+
     public function __construct($lang = 'en-US')
     {
         $this->lang = $lang;
@@ -144,6 +148,7 @@ class GeneDataProvider implements GeneDataProviderInterface
     /** @inheritDoc */
     public function getGenesMethylation(int $count = null): array
     {
+        $this->fields = array_merge($this->fields, $this->fieldsIsHidden);
         $genesArrayQuery = Gene::find()
             ->select($this->fields)
             ->withSources(Source::HORVATH)

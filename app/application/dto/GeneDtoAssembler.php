@@ -121,6 +121,9 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->ncbiId = (string)$geneArray['ncbi_id'];
         $geneDto->uniprot = (string)$geneArray['uniprot'];
         $geneDto->ensembl = (string)$geneArray['ensembl'];
+        if (isset($geneArray['isHidden'])) {
+            $geneDto->isHidden = (bool)$geneArray['isHidden'];
+        }
         $geneDto->methylationCorrelation = $this->prepareMethylation($geneArray, $lang);
         return $geneDto;
     }

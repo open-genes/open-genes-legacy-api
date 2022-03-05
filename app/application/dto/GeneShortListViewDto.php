@@ -20,4 +20,5 @@ class GeneShortListViewDto
     public $methylationCorrelation;
     /** @var array */
     public $researches;
+    public $isHidden;
 }
