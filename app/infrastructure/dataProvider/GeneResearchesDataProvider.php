@@ -280,7 +280,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->leftJoin('organism_sex', 'general_lifespan_experiment.organism_sex_id=organism_sex.id')
             ->leftJoin('diet', 'general_lifespan_experiment.diet_id=diet.id')
             ->leftJoin('sample', 'general_lifespan_experiment.changed_expression_tissue_id=sample.id')
-            ->leftJoin('time_unit', 'general_lifespan_experiment.age_unit_id=time_unit.id')
+            ->leftJoin('time_unit', 'general_lifespan_experiment.lifespan_change_time_unit_id=time_unit.id')
             ->leftJoin('measurement_type', 'general_lifespan_experiment.measurement_type=measurement_type.id')
             ->leftJoin('statistical_significance ssmin', 'general_lifespan_experiment.lifespan_min_change_stat_sign_id=ssmin.id')
             ->leftJoin('statistical_significance ssmean', 'general_lifespan_experiment.lifespan_mean_change_stat_sign_id=ssmean.id')
