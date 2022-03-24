@@ -287,6 +287,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->leftJoin('statistical_significance ssmedian', 'general_lifespan_experiment.lifespan_median_change_stat_sign_id=ssmedian.id')
             ->leftJoin('statistical_significance ssmax', 'general_lifespan_experiment.lifespan_max_change_stat_sign_id=ssmax.id')
             ->where(['lifespan_experiment.gene_id' => $geneId])
+            ->andWhere(['not', ['general_lifespan_experiment.model_organism_id' => null]])
             ->asArray()
             ->all();
 
