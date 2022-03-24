@@ -155,7 +155,8 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
             $diseasesArray = explode('##', $diseasesString);
             foreach ($diseasesArray as $diseaseString) {
                 list($id, $icdId, $name, $icdName) = explode('|', $diseaseString);
-                $diseases[$id] = [
+                $diseases[] = [
+                    'id' => $id,
                     'icdCode' => $icdId,
                     'icdName' => $icdName,
                     'name' => $name,
@@ -175,7 +176,8 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
             foreach ($diseaseCategoriesArray as $diseaseCategoryString) {
                 list($id, $icdCode, $categoryName) = explode('|', $diseaseCategoryString);
                 if ($icdCode) {
-                    $diseaseCategories[$id] = [
+                    $diseaseCategories[] = [
+                        'id' => $id,
                         'icdCode' => $icdCode,
                         'icdCategoryName' => $categoryName,
                     ];
