@@ -53,7 +53,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
                 "organism_line.{$nameField} as organismLine",
                 "age_related_change.age_from as ageFrom",
                 "age_related_change.age_to as ageTo",
-                "age_related_change.age_unit as ageUnit",
+                "time_unit.{$nameField} as ageUnit",
                 "age_related_change.change_value_male as valueForMale",
                 "age_related_change.change_value_female as valueForFemale",
                 "age_related_change.change_value_common as valueForAll",
@@ -67,6 +67,7 @@ class GeneResearchesDataProvider implements GeneResearchesDataProviderInterface
             ->leftJoin('sample', 'age_related_change.sample_id=sample.id')
             ->leftJoin('model_organism', 'age_related_change.model_organism_id=model_organism.id')
             ->leftJoin('organism_line', 'age_related_change.organism_line_id=organism_line.id')
+            ->leftJoin('time_unit', 'age_related_change.age_unit_id=time_unit.id')
             ->where(['gene_id' => $geneId])
             ->asArray()
             ->all();
