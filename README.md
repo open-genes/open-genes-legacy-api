@@ -1,7 +1,7 @@
-# Open Genes API
+# Open Genes API (legacy)
 
 ## Dev environment
-_Note: to run this project you should checkout and run https://gitlab.com/open-genes/cms project first due to shared DB_
+_Note: to run this project you should checkout and run [Open Genes CMS](https://github.com/open-genes/open-genes-cms) project first due to shared DB_
 
 Build or rebuild backend
 ```
