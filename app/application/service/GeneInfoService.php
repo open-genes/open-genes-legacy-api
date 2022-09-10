@@ -8,7 +8,8 @@ use app\application\dto\ResearchDtoAssemblerInterface;
 use app\infrastructure\dataProvider\GeneDataProviderInterface;
 use app\infrastructure\dataProvider\GeneExpressionDataProviderInterface;
 use app\infrastructure\dataProvider\GeneResearchesDataProviderInterface;
-use yii\base\Exception;
+use Exception;
+use yii\data\ArrayDataProvider;
 
 class GeneInfoService implements GeneInfoServiceInterface
 {
@@ -154,15 +155,25 @@ class GeneInfoService implements GeneInfoServiceInterface
         return $geneDtos;
     }
 
-    public function getByGoTerm(string $term, string $lang = 'en-US'): array
+    public function getByGoTerm(string $term, string $lang = 'en-US'): ArrayDataProvider
     {
+        /** @see GeneDataProvider::getByGoTerm */
         $genesArray = $this->geneDataProvider->getByGoTerm($term);
         $geneDtos = [];
         foreach ($genesArray as $gene) {
+            /** @see GeneDtoAssembler::mapListViewWithTermsDto */
             $geneDtos[] = $this->geneDtoAssembler->mapListViewWithTermsDto($gene, $lang);
         }
 
-        return $geneDtos;
+        $provider = new ArrayDataProvider([
+            'allModels' => $geneDtos,
+            'pagination' => [
+                'pageSize' => 20,
+                'page' => 0
+            ]
+        ]);
+
+        return $provider;
     }
 
     private function getGeneResearches($geneId, $lang)
