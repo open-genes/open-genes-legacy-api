@@ -1,57 +1,80 @@
 # Open Genes API (legacy)
 
-## Dev environment
-_Note: to run this project you should checkout and run [Open Genes CMS](https://github.com/open-genes/open-genes-cms) project first due to shared DB_
+## Contents
+- Local build
+- Common questions
+- Troubleshooting
 
-Build or rebuild backend
+## Local build
+
+Make sure you have an installed Docker on your system.
+
+### 1. Clone and run CMS project
+Clone [open-genes-cms](https://github.com/open-genes/open-genes-cms) repository, follow the instructions.
+
+### 2. Create local .env file
+In **/app** directory create a new file called **.env**. Copy **/.env.sample** contents into it.
+
+### 3. Build local image
+Run **./open-genes-backend.sh** with one of the following commands:
+
+#### Build or rebuild backend
 ```
 sh open-genes.sh build
 ```
-Build & run backend
+#### Build & run backend
 ```
 sh open-genes.sh up --build
 ```
-Build & run backend, detached mode
+#### Build & run backend, detached mode
 ```
 sh open-genes.sh up -d --build
 ```
-Run backend, detached mode
+#### Run backend, detached mode
 ```
 sh open-genes.sh up
 ```
-Stop backend, detached mode
+#### Stop backend, detached mode
 ```
 sh open-genes.sh down
 ```
-Run backend, foreground mode
+#### Run backend, foreground mode
 ```
 sh open-genes.sh up --no-detach
 ```
-Build composer dependencies
+#### Build composer dependencies
 ```
 docker run --rm -v $PWD/app:/app composer install
 ```
 
-### Add to your /etc/hosts:
+### 4. Add an entry to your hosts:
+
+Add this entry to your **/etc/hosts** (Debian) or an equivalent:
+
 ```
 127.0.0.1 open-genes.develop cms.open-genes.develop
 ```
 
 ### Open http://open-genes.develop:8080/api
 
-DB will be available at localhost:3307, user `root` pass `secret`
+DB will be available on http://localhost:3307 <br>
+user `root` <br>
+password `secret`
 
-Enter php container:
+## Common questions
+
+### How to access PHP container:
+
 ```
 docker ps
 (copy hash of opengenes_php container)
 docker exec -it (container_hash) bash
 ```
-###Note: all the DB migrations should be at the CMS project
+> Note: all the DB migrations should be made at the CMS project
 
-## Use xdebug
+### How to use xdebug
 
-Build & run with xdebug enabled:
+#### 1. Build & run with xdebug enabled:
 ```
 ./open-genes.sh up --build xdebug
 ```
@@ -59,11 +82,17 @@ Build & run with xdebug enabled:
 or ```./open-genes.sh up --build xdebug <your ip address>```
 in case your ip address is not automatically detected by open-genes.sh
 
-setup PHP Storm: https://blog.denisbondar.com/post/phpstorm_docker_xdebug
+#### 2. Setup PHP Storm: https://blog.denisbondar.com/post/phpstorm_docker_xdebug
 
 open-genes.sh detects xdebug ip address as follows:
 ```
     ip -4 -br addr show | grep "$CLIENT_HOST"
 ```
 
-Port 9003 is default one for xdebug v3 and it cannot be changed
+Port **9003** is default for xdebug v3, and it cannot be changed.
+
+## Troubleshooting
+
+### "open-genes.sh: line 2: UID: readonly variable" error
+if your operating system differs from Debian/Ubuntu Linux family, please consider this solution. 
+In **/open-genes.sh** file replace `UID` constant name to `XUID` then run the script again.
