@@ -1,5 +1,5 @@
 #!/bin/sh
-XUID=$(id -u)
+UID=$(id -u)
 GID=$(id -g)
 USAGE="usage: $0 <docker-compose args> [xdebug [client_host]]\nexample: $0 up --build xdebug 192.168.1.100"
 COMPOSE_ARGS=`echo $*|awk '{l=NF;if (NF>1 && $(NF-1)=="xdebug") l=NF-2; if (NF>0 && $NF=="xdebug") l=NF-1; if (l>0) for (i=1; i<=l; i++) printf "%s ",$i}'`
