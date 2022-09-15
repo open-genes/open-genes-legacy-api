@@ -9,6 +9,7 @@ use app\application\service\GeneOntologyServiceInterface;
 use app\application\service\PhylumInfoServiceInterface;
 use app\helpers\LanguageMapHelper;
 use Yii;
+use yii\data\ArrayDataProvider;
 use yii\filters\Cors;
 use yii\web\Controller;
 use yii\web\Response;
@@ -127,14 +128,42 @@ class ApiController extends Controller
     
     public function actionByGoTerm($term)
     {
-        /** @var GeneInfoServiceInterface $geneInfoService */
-        // todo валидация
-        $term = strip_tags(trim($term));
-        if(strlen($term) < 3) {
-            return [];
+        if (Yii::$app->request->isGet) {
+            $params = Yii::$app->request->get();
+            $term = strip_tags(trim($term));
+            if (strlen($term) < 3) {
+                return [];
+            }
+
+            /** @var GeneInfoServiceInterface $geneInfoService */
+            $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
+            /**
+             * @see GeneInfoService::getByGoTerm
+             * @var ArrayDataProvider $provider
+             */
+            $provider = $geneInfoService->getByGoTerm($term, $this->language);
+
+            if (isset($params['page'])) {
+                $provider->pagination->page = $params['page'] == 1 ? 0 : (int)($params['page'] + 1);
+            }
+            if (isset($params['pageSize'])) {
+                $provider->pagination->pageSize = (int)$params['pageSize'];
+            }
+
+            return [
+                'items' => $provider->getModels(),
+                'options' => (object)[
+                    'objTotal' => $provider->getTotalCount(),
+                    'total' => null,
+                    'pagination' => (object)[
+                        'page' => $provider->pagination->getPage() + 1,
+                        'pageSize' => $provider->pagination->getPageSize(),
+                        'pageTotal' => $provider->pagination->getPageCount()
+                    ]
+                ]
+            ];
         }
-        $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
-        return $geneInfoService->getByGoTerm($term, $this->language);
+        return [];
     }
 
     public function actionDisease()
