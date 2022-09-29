@@ -144,7 +144,7 @@ class ApiController extends Controller
             $provider = $geneInfoService->getByGoTerm($term, $this->language);
 
             if (isset($params['page'])) {
-                $provider->pagination->page = $params['page'] == 1 ? 0 : (int)($params['page'] + 1);
+                $provider->pagination->page = $params['page'] == 1 ? 0 : (int)($params['page'] - 1);
             }
             if (isset($params['pageSize'])) {
                 $provider->pagination->pageSize = (int)$params['pageSize'];
@@ -153,8 +153,8 @@ class ApiController extends Controller
             return [
                 'items' => $provider->getModels(),
                 'options' => (object)[
-                    'objTotal' => $provider->getTotalCount(),
-                    'total' => null,
+                    'objTotal' => count($provider->getModels()),
+                    'total' => $provider->getTotalCount(),
                     'pagination' => (object)[
                         'page' => $provider->pagination->getPage() + 1,
                         'pageSize' => $provider->pagination->getPageSize(),
