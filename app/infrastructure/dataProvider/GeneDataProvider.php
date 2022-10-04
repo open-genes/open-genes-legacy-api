@@ -7,6 +7,7 @@ use app\models\GeneToCommentCause;
 use app\models\GeneToFunctionalCluster;
 use app\models\Source;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
 class GeneDataProvider implements GeneDataProviderInterface
@@ -246,9 +247,9 @@ class GeneDataProvider implements GeneDataProviderInterface
         return $genesArrayQuery->all();
     }
 
-    public function getByGoTerm(string $term): array
+    public function getByGoTerm(string $term): GeneQuery
     {
-        $genesArrayQuery = Gene::find()
+        return Gene::find()
             ->select($this->fields)
             ->withPhylum()
             ->withFunctionalClusters($this->lang)
@@ -261,6 +262,5 @@ class GeneDataProvider implements GeneDataProviderInterface
             ->orderBy('family_phylum.order DESC')
             ->groupBy('gene.id')
             ->asArray();
-        return $genesArrayQuery->all();
     }
 }

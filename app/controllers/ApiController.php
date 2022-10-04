@@ -9,6 +9,7 @@ use app\application\service\GeneOntologyServiceInterface;
 use app\application\service\PhylumInfoServiceInterface;
 use app\helpers\LanguageMapHelper;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\filters\Cors;
 use yii\web\Controller;
@@ -135,17 +136,18 @@ class ApiController extends Controller
                 return [];
             }
 
+            if (isset($params['page'])) {
+                $params['page'] = $params['page'] == 1 ? 0 : (int)($params['page'] - 1);
+            }
+
             /** @var GeneInfoServiceInterface $geneInfoService */
             $geneInfoService = Yii::$container->get(GeneInfoServiceInterface::class);
             /**
              * @see GeneInfoService::getByGoTerm
-             * @var ArrayDataProvider $provider
+             * @var ActiveDataProvider $provider
              */
-            $provider = $geneInfoService->getByGoTerm($term, $this->language);
+            $provider = $geneInfoService->getByGoTerm($params, $this->language);
 
-            if (isset($params['page'])) {
-                $provider->pagination->page = $params['page'] == 1 ? 0 : (int)($params['page'] - 1);
-            }
             if (isset($params['pageSize'])) {
                 $provider->pagination->pageSize = (int)$params['pageSize'];
             }
@@ -153,7 +155,7 @@ class ApiController extends Controller
             return [
                 'items' => $provider->getModels(),
                 'options' => (object)[
-                    'objTotal' => count($provider->getModels()),
+                    'objTotal' => null,
                     'total' => $provider->getTotalCount(),
                     'pagination' => (object)[
                         'page' => $provider->pagination->getPage() + 1,

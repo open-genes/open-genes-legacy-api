@@ -9,6 +9,7 @@ use app\infrastructure\dataProvider\GeneDataProviderInterface;
 use app\infrastructure\dataProvider\GeneExpressionDataProviderInterface;
 use app\infrastructure\dataProvider\GeneResearchesDataProviderInterface;
 use Exception;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 
 class GeneInfoService implements GeneInfoServiceInterface
@@ -155,23 +156,32 @@ class GeneInfoService implements GeneInfoServiceInterface
         return $geneDtos;
     }
 
-    public function getByGoTerm(string $term, string $lang = 'en-US'): ArrayDataProvider
+    public function getByGoTerm(array $params, string $lang = 'en-US'): ActiveDataProvider
     {
         /** @see GeneDataProvider::getByGoTerm */
-        $genesArray = $this->geneDataProvider->getByGoTerm($term);
+        $query = $this->geneDataProvider->getByGoTerm($params['term']);
+
+        /** @var ActiveDataProvider $provider */
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => $params['pageSize'] ?? 20,
+                'page' => $params['page']
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                    'id' => SORT_ASC,
+                ]
+            ],
+        ]);
+
         $geneDtos = [];
-        foreach ($genesArray as $gene) {
+        foreach ($provider->getModels() as $gene) {
             /** @see GeneDtoAssembler::mapListViewWithTermsDto */
             $geneDtos[] = $this->geneDtoAssembler->mapListViewWithTermsDto($gene, $lang);
         }
-
-        $provider = new ArrayDataProvider([
-            'allModels' => $geneDtos,
-            'pagination' => [
-                'pageSize' => 20,
-                'page' => 0
-            ]
-        ]);
+        $provider->setModels($geneDtos);
 
         return $provider;
     }

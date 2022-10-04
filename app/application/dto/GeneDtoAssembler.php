@@ -88,6 +88,7 @@ class GeneDtoAssembler implements GeneDtoAssemblerInterface
         $geneDto->timestamp = $this->prepareTimestamp($geneArray);
         $geneDto->ensembl = (string)$geneArray['ensembl'];
         $geneDto->methylationCorrelation = $this->prepareMethylation($geneArray, $lang);
+
         unset($geneDto->terms);
         return $geneDto;
     }
