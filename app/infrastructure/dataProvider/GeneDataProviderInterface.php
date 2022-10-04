@@ -1,6 +1,8 @@
 <?php
 namespace app\infrastructure\dataProvider;
 
+use app\models\GeneQuery;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
 interface GeneDataProviderInterface
@@ -42,7 +44,7 @@ interface GeneDataProviderInterface
     
     /**
      * @param string $term
-     * @return array
+     * @return GeneQuery
      */
-    public function getByGoTerm(string $term): array;
+    public function getByGoTerm(string $term): GeneQuery;
 }
