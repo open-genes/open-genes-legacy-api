@@ -4,7 +4,7 @@ namespace app\application\service;
 use app\application\dto\GeneFullViewDto;
 use app\application\dto\GeneListViewDto;
 use app\application\dto\LatestGeneViewDto;
-use yii\data\ArrayDataProvider;
+use yii\data\ActiveDataProvider;
 
 interface GeneInfoServiceInterface
 {
@@ -60,11 +60,11 @@ interface GeneInfoServiceInterface
      * @return GeneListViewDto[]
      */
     public function getByExpressionChange(int $expressionChange, string $lang = 'en-US'): array;
-    
+
     /**
-     * @param string $term
+     * @param array $params
      * @param string $lang
-     * @return ArrayDataProvider
+     * @return ActiveDataProvider
      */
-    public function getByGoTerm(string $term, string $lang = 'en-US'): ArrayDataProvider;
+    public function getByGoTerm(array $params, string $lang = 'en-US'): ActiveDataProvider;
 }
