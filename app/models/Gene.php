@@ -20,7 +20,6 @@ use Yii;
  * @property string $accPromoter
  * @property string $accOrf
  * @property string $accCds
- * @property string $references
  * @property string $orthologs
  * @property string $commentEvolution
  * @property string $commentFunction
@@ -73,7 +72,7 @@ class Gene extends \yii\db\ActiveRecord
     {
         return [
             [['ncbi_id', 'locationStart', 'locationEnd', 'orientation', 'isHidden', 'expressionChange', 'created_at', 'updated_at', 'phylum_id', 'family_phylum_id', 'taxon_id', 'methylation_horvath'], 'integer'],
-            [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN', 'commentsReferenceLinks', 'protein_complex_ru', 'protein_complex_en', 'human_protein_atlas', 'ncbi_summary_ru', 'ncbi_summary_en', 'og_summary_en', 'og_summary_ru'], 'string'],
+            [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN', 'protein_complex_ru', 'protein_complex_en', 'human_protein_atlas', 'ncbi_summary_ru', 'ncbi_summary_en', 'og_summary_en', 'og_summary_ru'], 'string'],
             [['symbol', 'aliases', 'name', 'uniprot', 'band', 'accPromoter', 'accOrf', 'accCds'], 'string', 'max' => 120],
             [['orthologs'], 'string', 'max' => 1000],
             [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN'], 'string', 'max' => 1500],
