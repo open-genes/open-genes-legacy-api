@@ -68,7 +68,6 @@ class GeneFullViewDto
     public $terms;
 
 //    public $isHidden;
-//    public $references;
     /** @var array */
     public $orthologs;
     /** @var array */
