@@ -27,7 +27,6 @@ use Yii;
  * @property string $commentCause
  * @property string $commentEvolutionEN
  * @property string $commentFunctionEN
- * @property int $rating
  * @property int $isHidden
  * @property int $expressionChange
  * @property int $created_at
@@ -73,12 +72,11 @@ class Gene extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ncbi_id', 'locationStart', 'locationEnd', 'orientation', 'rating', 'isHidden', 'expressionChange', 'created_at', 'updated_at', 'phylum_id', 'family_phylum_id', 'taxon_id', 'methylation_horvath'], 'integer'],
+            [['ncbi_id', 'locationStart', 'locationEnd', 'orientation', 'isHidden', 'expressionChange', 'created_at', 'updated_at', 'phylum_id', 'family_phylum_id', 'taxon_id', 'methylation_horvath'], 'integer'],
             [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN', 'commentsReferenceLinks', 'protein_complex_ru', 'protein_complex_en', 'human_protein_atlas', 'ncbi_summary_ru', 'ncbi_summary_en', 'og_summary_en', 'og_summary_ru'], 'string'],
             [['symbol', 'aliases', 'name', 'uniprot', 'band', 'accPromoter', 'accOrf', 'accCds'], 'string', 'max' => 120],
-            [['why', 'references', 'orthologs'], 'string', 'max' => 1000],
+            [['orthologs'], 'string', 'max' => 1000],
             [['commentEvolution', 'commentFunction', 'commentCause', 'commentAging', 'commentEvolutionEN', 'commentFunctionEN', 'commentAgingEN'], 'string', 'max' => 1500],
-            [['commentsReferenceLinks'], 'string', 'max' => 2000],
             [['phylum_id'], 'exist', 'skipOnError' => true, 'targetClass' => Phylum::className(), 'targetAttribute' => ['phylum_id' => 'id']],
             [['family_phylum_id'], 'exist', 'skipOnError' => true, 'targetClass' => Phylum::className(), 'targetAttribute' => ['family_phylum_id' => 'id']],
         ];
@@ -96,7 +94,6 @@ class Gene extends \yii\db\ActiveRecord
             'name' => 'Name',
             'ncbi_id' => 'Entrez Gene',
             'uniprot' => 'Uniprot',
-            'why' => 'Why',
             'band' => 'Band',
             'locationStart' => 'Location Start',
             'locationEnd' => 'Location End',
@@ -104,7 +101,6 @@ class Gene extends \yii\db\ActiveRecord
             'accPromoter' => 'Acc Promoter',
             'accOrf' => 'Acc Orf',
             'accCds' => 'Acc Cds',
-            'references' => 'References',
             'orthologs' => 'Orthologs',
             'commentEvolution' => 'Comment Evolution',
             'commentFunction' => 'Comment Function',
@@ -113,8 +109,6 @@ class Gene extends \yii\db\ActiveRecord
             'commentEvolutionEN' => 'Comment Evolution En',
             'commentFunctionEN' => 'Comment Function En',
             'commentAgingEN' => 'Comment Aging En',
-            'commentsReferenceLinks' => 'Comments Reference Links',
-            'rating' => 'Rating',
             'isHidden' => 'Is Hidden',
             'expressionChange' => 'Expression Change',
             'created_at' => 'Created At',
