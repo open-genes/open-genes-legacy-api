@@ -1,6 +1,10 @@
-#Release v1.0.0
+#Release v1.1.0
 
 - OG-923. Add a script to generate changelog from commits
+- OG-923. Add CONTRIBUTING.md
+
+#Release v1.0.0
+
 - 110. Remove obsolete database columns from a model
 - 110. Fix gene model and query
 - Updated README.md, added "Troubleshooting" section
