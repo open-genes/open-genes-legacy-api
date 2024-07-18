@@ -11,6 +11,8 @@ use app\infrastructure\dataProvider\GeneResearchesDataProviderInterface;
 use Exception;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\data\Pagination;
+use Yii;
 
 class GeneInfoService implements GeneInfoServiceInterface
 {
@@ -43,31 +45,34 @@ class GeneInfoService implements GeneInfoServiceInterface
         $this->researchDtoAssembler = $researchDtoAssembler;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getGeneViewInfo(string $geneSymbol, string $lang = 'en-US'): GeneFullViewDto
     {
-        if (is_numeric($geneSymbol)) { // todo временно для обратной совместимости
-            $geneArray = $this->geneDataProvider->getGene($geneSymbol);
-        } else {
-            $geneArray = $this->geneDataProvider->getGeneBySymbol($geneSymbol);
+        try {
+            Yii::beginProfile('getGeneViewInfo');
+
+            if (is_numeric($geneSymbol)) {
+                $geneArray = $this->geneDataProvider->getGene($geneSymbol);
+            } else {
+                $geneArray = $this->geneDataProvider->getGeneBySymbol($geneSymbol);
+            }
+
+            $geneDto = $this->geneDtoAssembler->mapViewDto($geneArray, $lang);
+            $geneDto->expression = $this->geneExpressionDataProvider->getByGeneId($geneArray['id'], $lang);
+            $geneDto->researches = $this->getGeneResearches($geneArray['id'], $lang);
+
+            $geneOntologyService = new GeneOntologyService();
+            $pagination = new Pagination(['totalCount' => $geneOntologyService->getCountForGene($geneDto->ncbiId), 'pageSize' => 20]);
+            $geneDto->terms = $geneOntologyService->getFunctionsForGene($geneDto->ncbiId, $pagination->offset, $pagination->limit);
+
+            Yii::endProfile('getGeneViewInfo');
+
+            return $geneDto;
+        } catch (Exception $e) {
+            Yii::error("Error in getGeneViewInfo: " . $e->getMessage(), __METHOD__);
+            throw $e;
         }
-
-        $geneDto = $this->geneDtoAssembler->mapViewDto($geneArray, $lang);
-        $geneDto->expression = $this->geneExpressionDataProvider->getByGeneId($geneArray['id'], $lang);
-        $geneDto->researches = $this->getGeneResearches($geneArray['id'], $lang);
-
-        //todo: создать дата провайдер вместо прямого вызова сервиса. Или лучше вызывать сервис, но внутри него отслоить датапровайдер
-        $geneOntologyService = new GeneOntologyService();
-        $geneDto->terms = $geneOntologyService->getFunctionsForGene($geneDto->ncbiId);
-
-        return $geneDto;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getLatestGenes(int $count, string $lang = 'en-US'): array
     {
         $latestGenesArray = $this->geneDataProvider->getLatestGenes($count);
@@ -79,9 +84,6 @@ class GeneInfoService implements GeneInfoServiceInterface
         return $geneDtos;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAllGenes(int $count = null, string $lang = 'en-US'): array
     {
         $genesArray = $this->geneDataProvider->getAllGenes($count);
@@ -92,9 +94,6 @@ class GeneInfoService implements GeneInfoServiceInterface
         return $geneDtos;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getGenesMethylation(int $count = null, string $lang = 'en-US'): array
     {
         $genesArray = $this->geneDataProvider->getGenesMethylation($count);
@@ -107,9 +106,6 @@ class GeneInfoService implements GeneInfoServiceInterface
         return $geneDtos;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIncreaseLifespan(int $count = null, string $lang = 'en-US'): array
     {
         $genesArray = $this->geneDataProvider->getIncreaseLifespan($count);
@@ -158,10 +154,8 @@ class GeneInfoService implements GeneInfoServiceInterface
 
     public function getByGoTerm(array $params, string $lang = 'en-US'): ActiveDataProvider
     {
-        /** @see GeneDataProvider::getByGoTerm */
         $query = $this->geneDataProvider->getByGoTerm($params['term']);
 
-        /** @var ActiveDataProvider $provider */
         $provider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -178,7 +172,6 @@ class GeneInfoService implements GeneInfoServiceInterface
 
         $geneDtos = [];
         foreach ($provider->getModels() as $gene) {
-            /** @see GeneDtoAssembler::mapListViewWithTermsDto */
             $geneDtos[] = $this->geneDtoAssembler->mapListViewWithTermsDto($gene, $lang);
         }
         $provider->setModels($geneDtos);
@@ -207,5 +200,20 @@ class GeneInfoService implements GeneInfoServiceInterface
             $lang
         );
     }
+}
 
+class GeneOntologyService
+{
+    public function getFunctionsForGene(int $ncbiId, int $offset, int $limit)
+    {
+        $query = GeneFunction::find()->where(['ncbi_id' => $ncbiId]);
+        $query->offset($offset)->limit($limit);
+
+        return $query->all();
+    }
+
+    public function getCountForGene(int $ncbiId)
+    {
+        return GeneFunction::find()->where(['ncbi_id' => $ncbiId])->count();
+    }
 }
